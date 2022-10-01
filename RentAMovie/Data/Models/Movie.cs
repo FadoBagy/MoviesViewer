@@ -22,6 +22,8 @@
 
         //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
+        public DateTime DatePublished { get; set; }
+
         //public int Rating { get; set; }
 
         //public int ContentRanting  { get; set; }

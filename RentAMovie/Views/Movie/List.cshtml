@@ -1,0 +1,11 @@
+﻿@using RentAMovie.Data.Models
+@model List<Movie>
+
+<h1>Movies</h1>
+
+@foreach(var movie in Model){
+	<p>@movie.Title</p>
+	<p>@movie.Description</p>
+	<p>@movie.DateCreated</p>
+	<br />
+}

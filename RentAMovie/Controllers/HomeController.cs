@@ -1,6 +1,7 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using RentAMovie.Data.Models;
     using RentAMovie.Models;
     using System.Diagnostics;
 
@@ -19,11 +20,6 @@
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult Movies()
         {
             return View();
         }

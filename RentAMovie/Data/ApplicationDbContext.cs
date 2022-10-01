@@ -14,6 +14,7 @@
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+
         }
 
         // TODO: change user entity
@@ -36,6 +37,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //base.OnModelCreating(modelBuilder);
+
             //modelBuilder
             //     .Entity<StudentCourse>(e =>
             //     {
