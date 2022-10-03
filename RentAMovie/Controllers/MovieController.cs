@@ -1,10 +1,9 @@
 ﻿namespace RentAMovie.Controllers
 {
-    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using RentAMovie.Data.Models;
-    using RentAMovie.Models;
+    using RentAMovie.Models.MovieModuls;
+    using System.Linq;
 
     public class MovieController : Controller
     {
@@ -16,14 +15,14 @@
             var baseUrl = "https://api.themoviedb.org/3";
             var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
 
-            var movies = new List<Movie2Module>();
+            var movies = new List<PopularMovieResultModule>();
             using (var httpClient = new HttpClient())
             {
                 var endpoint = new Uri(mostPopularRequest);
                 var result = httpClient.GetAsync(endpoint).Result;
                 var json = result.Content.ReadAsStringAsync().Result;
 
-                var movieDto = JsonConvert.DeserializeObject<MovieGetModule>(json);
+                var movieDto = JsonConvert.DeserializeObject<PopularMovieModule>(json);
                 if (movieDto != null && movieDto.Results != null)
                 {
                     foreach (var movie in movieDto.Results)
@@ -33,21 +32,8 @@
                 }
             }
 
-            //var reviews = new List<Movie>()
-            //{
-            //    new Movie{
-            //        Id = 1,
-            //        Title = "The Dark Knight",
-            //        Description = "Story about Bruce Wayne as Batman fighting for justice.",
-            //        DateCreated = DateTime.Now},
-            //    new Movie{
-            //        Id = 2,
-            //        Title = "Joker",
-            //        Description = "Where normal meets subnormal.",
-            //        DateCreated = DateTime.Now}
-            //};
-
-            return View(movies);
+            var moviesTop5 = movies.Take(5);
+            return View(moviesTop5);
         }
 
         public IActionResult Create() => View();

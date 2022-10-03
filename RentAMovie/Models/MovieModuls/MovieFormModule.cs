@@ -1,9 +1,9 @@
-﻿namespace RentAMovie.Models
+﻿namespace RentAMovie.Models.MovieModuls
 {
     using System.ComponentModel.DataAnnotations;
 
     public class MovieFormModule
-	{
+    {
         [MinLength(2)]
         [MaxLength(100)]
         [StringLength(100, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
