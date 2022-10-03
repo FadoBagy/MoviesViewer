@@ -42,8 +42,8 @@
 
         public ICollection<Actor> Actors  { get; set; } = new List<Actor>();
 
-        public bool IsBeingRented { get; set; }
-
-        // Owner?
+        public User? Owner { get; set; }
     }
 }
+
+//public bool IsBeingRented { get; set; }
