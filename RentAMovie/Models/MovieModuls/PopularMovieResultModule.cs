@@ -7,7 +7,7 @@
         public string Title { get; set; }
 
         [JsonProperty("overview")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("release_date")]
         public DateTime ReleaseDate { get; set; }

@@ -8,11 +8,19 @@
 	@foreach (var movie in Model)
 	{
 		var posterPath = "https://image.tmdb.org/t/p/w500" + movie.PosterPath;
-
-		<div class="col">
+		@*<div class="col">
+			<img src="@posterPath" width="200">
 			<p><b>Title:</b> @movie.Title (@movie.ReleaseDate.ToString("dd-MM-yyyy"))</p>
 			<p><b>Description:</b> @movie.Description</p>
-			<img src="@posterPath" width="200">
+		</div>*@
+
+		<div class="card" style="width: 15rem;">
+			<img src="@posterPath" class="card-img-top" alt="@movie.Title poster">
+			<div class="card-body">
+					<h5 class="card-title">@movie.Title</h5>
+					<h6 style="opacity: 85%">@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
+				<p class="card-text">@movie.Description.Substring(0, 80)...</p>
+			</div>
 		</div>
 	}
   </div>
