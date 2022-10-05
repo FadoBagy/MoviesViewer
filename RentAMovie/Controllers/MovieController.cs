@@ -33,7 +33,7 @@
             }
 
             var moviesTop5 = movies.Take(5);
-            return View(moviesTop5);
+            return View(movies);
         }
 
         public IActionResult Create() => View();

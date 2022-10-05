@@ -1,27 +1,58 @@
 ﻿@model IEnumerable<PopularMovieResultModule>
+@{
+	ViewData["Title"] = "Movies";
+	string posterPath = "https://image.tmdb.org/t/p/w500";
+	string ratingColor;
+}
 
 <h1>Movies</h1>
 
 <h3>What's Popular</h3>
-<div class="container text-center">
-  <div class="row">
-	@foreach (var movie in Model)
-	{
-		var posterPath = "https://image.tmdb.org/t/p/w500" + movie.PosterPath;
-		@*<div class="col">
-			<img src="@posterPath" width="200">
-			<p><b>Title:</b> @movie.Title (@movie.ReleaseDate.ToString("dd-MM-yyyy"))</p>
-			<p><b>Description:</b> @movie.Description</p>
-		</div>*@
+@if (true)
+{
+	<div class="container">
+		<div class="row">
+			@foreach (var movie in Model)
+			{
+				if (float.Parse(movie.Rating) >= 8)
+				{
+					ratingColor = "green";
+				}
+				else if (float.Parse(movie.Rating) >= 5)
+				{
+					ratingColor = "orange";
+				}else
+				{
+					ratingColor = "red";
+				}
 
-		<div class="card" style="width: 15rem;">
-			<img src="@posterPath" class="card-img-top" alt="@movie.Title poster">
-			<div class="card-body">
-					<h5 class="card-title">@movie.Title</h5>
-					<h6 style="opacity: 85%">@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
-				<p class="card-text">@movie.Description.Substring(0, 80)...</p>
-			</div>
+				<div class="card">
+					<a href="">
+						<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+					</a>
+					<div class="card-body">
+						<div class="rating @ratingColor">
+							<p>@float.Parse(movie.Rating).ToString("0.0")</p>
+						</div>
+						<h5 class="card-title"><a href="">@movie.Title</a></h5>
+						<h6>@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
+					</div>
+					<img class="info" src="~/images/information.png" alt="info button">
+				</div>
+			}
 		</div>
-	}
-  </div>
-</div>
+	</div>
+}else{
+	<p>Loading...</p>
+}
+
+@section MovieStylesSection {
+	<link rel="stylesheet" href="~/css/movies.css" />
+}
+@section MovieScriptsSection {
+	<script src="~/js/renderMovieInfo.js"></script>
+}
+@*@section MovieInfoSection {
+	<div id="dark"></div>
+	<div class="info-tab"></div>
+}*@

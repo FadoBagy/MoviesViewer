@@ -14,5 +14,8 @@
 
         [JsonProperty("poster_path")]
         public string? PosterPath { get; set; }
+
+        [JsonProperty("vote_average")]
+        public string Rating { get; set; }
     }
 }
