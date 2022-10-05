@@ -1,0 +1,25 @@
+﻿.carousel-item a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.carouselImg {
+    width: 100%;
+    /*height: 500px;*/
+    height: 350px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(3px);
+    filter: brightness(50%);
+}
+
+.small {
+    width: 500px;
+    box-shadow: 5px 10px 8px #888888;
+}
+
+.carousel-item h5:hover {
+    color: #1f7aff;
+}
