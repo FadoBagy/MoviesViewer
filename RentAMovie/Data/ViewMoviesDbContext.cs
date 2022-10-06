@@ -19,25 +19,9 @@
         public DbSet<Writer> Writers { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    base.OnConfiguring(optionsBuilder);
-
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(Configuration.ConnectionString);
-        //    }
-        //}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder
-            //     .Entity<StudentCourse>(e =>
-            //     {
-            //         e.HasKey(sc => new { sc.StudentId, sc.CourseId });
-            //     });
 
             modelBuilder
                 .Entity<Movie>()
@@ -45,6 +29,12 @@
                 .WithMany(m => m.UploadedMovies)
                 .HasForeignKey(m => m.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            //modelBuilder
+            //     .Entity<StudentCourse>(e =>
+            //     {
+            //         e.HasKey(sc => new { sc.StudentId, sc.CourseId });
+            //     });
         }
     }
 }

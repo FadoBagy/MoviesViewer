@@ -1,5 +1,6 @@
 ﻿namespace RentAMovie.Data.Models
 {
+    using RentAMovie.Data.Models.Enums;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -29,7 +30,7 @@
 
         public int? Budget { get; set; }
 
-        //public int ContentRanting  { get; set; }
+        public string? ContentRanting { get; set; }
 
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
@@ -39,23 +40,19 @@
 
         public string? Trailer { get; set; }
 
-        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
-
-        //public ICollection<string> Images { get; set; } = new List<string>();
-
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
         public ICollection<Director> Directors { get; set; } = new List<Director>();
 
         public ICollection<Writer> Writers { get; set; } = new List<Writer>();
 
-        public ICollection<Actor> Actors  { get; set; } = new List<Actor>();
+        public ICollection<Actor> Actors { get; set; } = new List<Actor>();
 
         [ForeignKey(nameof(User))]
         public int? UserId { get; set; }
         public User? User { get; set; }
+
+        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        //public ICollection<string> Images { get; set; } = new List<string>();
     }
 }
-
-//public bool IsBeingRented { get; set; }
-//public decimal Price { get; set; }

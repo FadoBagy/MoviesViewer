@@ -12,7 +12,7 @@ using RentAMovie.Data;
 namespace RentAMovie.Migrations
 {
     [DbContext(typeof(ViewMoviesDbContext))]
-    [Migration("20221006225514_InitialCreate")]
+    [Migration("20221006234607_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -351,6 +351,9 @@ namespace RentAMovie.Migrations
                     b.Property<int?>("Budget")
                         .HasColumnType("int");
 
+                    b.Property<string>("ContentRanting")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -603,7 +606,7 @@ namespace RentAMovie.Migrations
                         .WithMany("WrittenReviews")
                         .HasForeignKey("CreatorId");
 
-                    b.HasOne("RentAMovie.Data.Models.Movie", null)
+                    b.HasOne("RentAMovie.Data.Models.Movie", "Movie")
                         .WithMany("Reviews")
                         .HasForeignKey("MovieId");
 
@@ -612,6 +615,8 @@ namespace RentAMovie.Migrations
                         .HasForeignKey("ReviewId");
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Movie", b =>

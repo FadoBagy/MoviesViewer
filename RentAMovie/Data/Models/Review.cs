@@ -20,6 +20,10 @@
         public int? CreatorId { get; set; }
         public User? Creator { get; set; }
 
+        [ForeignKey(nameof(Movie))]
+        public int? MovieId { get; set; }
+        public Movie? Movie { get; set; }
+
         public ICollection<Review> Comments { get; set; } = new List<Review>();
     }
 }

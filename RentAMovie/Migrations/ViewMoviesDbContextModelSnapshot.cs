@@ -9,7 +9,6 @@ namespace RentAMovie.Migrations
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
     using RentAMovie.Data;
 
-
     [DbContext(typeof(ViewMoviesDbContext))]
     partial class ViewMoviesDbContextModelSnapshot : ModelSnapshot
     {
@@ -349,6 +348,9 @@ namespace RentAMovie.Migrations
                     b.Property<int?>("Budget")
                         .HasColumnType("int");
 
+                    b.Property<string>("ContentRanting")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
@@ -601,7 +603,7 @@ namespace RentAMovie.Migrations
                         .WithMany("WrittenReviews")
                         .HasForeignKey("CreatorId");
 
-                    b.HasOne("RentAMovie.Data.Models.Movie", null)
+                    b.HasOne("RentAMovie.Data.Models.Movie", "Movie")
                         .WithMany("Reviews")
                         .HasForeignKey("MovieId");
 
@@ -610,6 +612,8 @@ namespace RentAMovie.Migrations
                         .HasForeignKey("ReviewId");
 
                     b.Navigation("Creator");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Movie", b =>

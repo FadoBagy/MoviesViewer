@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace RentAMovie.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -236,6 +235,7 @@ namespace RentAMovie.Migrations
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Revenue = table.Column<int>(type: "int", nullable: true),
                     Budget = table.Column<int>(type: "int", nullable: true),
+                    ContentRanting = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DatePublished = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Poster = table.Column<string>(type: "nvarchar(max)", nullable: true),

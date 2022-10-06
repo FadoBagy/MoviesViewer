@@ -22,12 +22,10 @@
 
         public string? Photo { get; set; }
 
-        //public ICollection<Movie> WatchList { get; set; } = new List<Movie>();
-
         public ICollection<Movie> UploadedMovies { get; set; } = new List<Movie>();
 
         public ICollection<Review> WrittenReviews { get; set; } = new List<Review>();
+
+        //public ICollection<Movie> WatchList { get; set; } = new List<Movie>();
     }
 }
-
-//public ICollection<Movie> RentedMovies { get; set; } = new List<Movie>();
