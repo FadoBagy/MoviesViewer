@@ -4,14 +4,14 @@
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data.Models;
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ViewMoviesDbContext : IdentityDbContext
     {
-        public ApplicationDbContext()
+        public ViewMoviesDbContext()
         {
 
         }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ViewMoviesDbContext(DbContextOptions<ViewMoviesDbContext> options)
             : base(options)
         {
 
@@ -37,7 +37,7 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
             //modelBuilder
             //     .Entity<StudentCourse>(e =>

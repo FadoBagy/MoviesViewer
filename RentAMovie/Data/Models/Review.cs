@@ -1,6 +1,9 @@
 ﻿namespace RentAMovie.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using static DataConstants;
 
     public class Review
     {
@@ -8,15 +11,14 @@
         public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
-
-        [Required]
+        [MaxLength(ReviewContentMaxLength)]
         public string Content { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        [Required]
-        public User Creator { get; set; }
+        [ForeignKey(nameof(User))]
+        public int? CreatorId { get; set; }
+        public User? Creator { get; set; }
 
         public ICollection<Review> Comments { get; set; } = new List<Review>();
     }

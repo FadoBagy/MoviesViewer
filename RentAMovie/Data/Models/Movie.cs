@@ -2,6 +2,9 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using static DataConstants;
 
     public class Movie
     {
@@ -9,30 +12,36 @@
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(MovieTitleMaxLength)]
         public string Title { get; set; }
 
-        public decimal Price { get; set; }
-
-        public DateTime DateCreated  { get; set; }
-
         [Required]
-        public string Description { get; set; }
+        [MaxLength(MovieDescriptionMaxLength)]
+        public string? Description { get; set; }
 
-        //public  Length { get; set; }
+        [Range(MovieMinRuntime, MovieMaxRuntime)]
+        public int? Runtime { get; set; }
 
-        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+        [Range(MovieMinRating, MovieMaxRating)]
+        public int Rating { get; set; }
 
-        public DateTime DatePublished { get; set; }
+        public int? Revenue { get; set; }
 
-        //public int Rating { get; set; }
+        public int? Budget { get; set; }
 
         //public int ContentRanting  { get; set; }
 
-        //public int Poster { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        //public int Images { get; set; }
+        public DateTime? DatePublished { get; set; }
 
-        //public int Trailer { get; set; }
+        public string? Poster { get; set; }
+
+        public string? Trailer { get; set; }
+
+        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+
+        //public ICollection<string> Images { get; set; } = new List<string>();
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
@@ -42,8 +51,11 @@
 
         public ICollection<Actor> Actors  { get; set; } = new List<Actor>();
 
-        public User? Owner { get; set; }
+        //[ForeignKey(nameof(User))]
+        //public int OwnerId { get; set; }
+        //public User Owner { get; set; }
     }
 }
 
 //public bool IsBeingRented { get; set; }
+//public decimal Price { get; set; }
