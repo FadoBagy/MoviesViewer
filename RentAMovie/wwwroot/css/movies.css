@@ -119,3 +119,9 @@ main .container {
     background-color: darkslateblue;
     z-index: 101;
 }
+
+.search-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

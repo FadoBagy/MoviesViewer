@@ -36,6 +36,18 @@
             return View(movies);
         }
 
+        //[HttpGet]
+        //public IActionResult List(PopularMovieModule model)
+        //{
+        //    var query = this.Request.Query;
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //    return Ok();
+        //}
+
         public IActionResult Create() => View();
 
         [HttpPost]
