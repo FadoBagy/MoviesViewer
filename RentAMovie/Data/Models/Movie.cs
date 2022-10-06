@@ -51,9 +51,9 @@
 
         public ICollection<Actor> Actors  { get; set; } = new List<Actor>();
 
-        //[ForeignKey(nameof(User))]
-        //public int OwnerId { get; set; }
-        //public User Owner { get; set; }
+        [ForeignKey(nameof(User))]
+        public int? UserId { get; set; }
+        public User? User { get; set; }
     }
 }
 

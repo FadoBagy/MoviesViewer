@@ -22,7 +22,7 @@
 
         public string? Photo { get; set; }
 
-        public ICollection<Movie> WatchList { get; set; } = new List<Movie>();
+        //public ICollection<Movie> WatchList { get; set; } = new List<Movie>();
 
         public ICollection<Movie> UploadedMovies { get; set; } = new List<Movie>();
 

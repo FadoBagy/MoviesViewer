@@ -6,15 +6,9 @@
 
     public class ViewMoviesDbContext : IdentityDbContext
     {
-        public ViewMoviesDbContext()
-        {
-
-        }
-
         public ViewMoviesDbContext(DbContextOptions<ViewMoviesDbContext> options)
             : base(options)
         {
-
         }
 
         // TODO: change user entity
@@ -25,15 +19,15 @@
         public DbSet<Writer> Writers { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
 
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(Configuration.ConnectionString);
-            }
-        }
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +38,13 @@
             //     {
             //         e.HasKey(sc => new { sc.StudentId, sc.CourseId });
             //     });
+
+            modelBuilder
+                .Entity<Movie>()
+                .HasOne(m => m.User)
+                .WithMany(m => m.UploadedMovies)
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

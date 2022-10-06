@@ -16,7 +16,7 @@
 
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        [ForeignKey(nameof(User))]
+        [ForeignKey(nameof(Creator))]
         public int? CreatorId { get; set; }
         public User? Creator { get; set; }
 
