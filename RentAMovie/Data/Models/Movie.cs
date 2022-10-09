@@ -13,12 +13,16 @@
         public int Id { get; set; }
 
         [Required]
+        [MinLength(MovieTitleMinLength)]
         [MaxLength(MovieTitleMaxLength)]
         public string Title { get; set; }
 
         [Required]
+        [MinLength(MovieDescriptionMinLength)]
         [MaxLength(MovieDescriptionMaxLength)]
         public string? Description { get; set; }
+
+        public string? Tagline { get; set; }
 
         [Range(MovieMinRuntime, MovieMaxRuntime)]
         public int? Runtime { get; set; }

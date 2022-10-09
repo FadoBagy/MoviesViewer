@@ -2,17 +2,26 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using RentAMovie.Data;
     using RentAMovie.Models.MovieModuls;
     using System.Linq;
 
     public class MovieController : Controller
     {
+        private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
+        private readonly string baseUrl = "https://api.themoviedb.org/3";
+
+        private readonly ViewMoviesDbContext data;
+
+        public MovieController(ViewMoviesDbContext data)
+        {
+            this.data = data;
+        }
+
         [ActionName("List")]
         [Route("/Movie/List")]
         public IActionResult List()
         {
-            var apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
-            var baseUrl = "https://api.themoviedb.org/3";
             var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
 
             var movies = new List<PopularMovieResultModule>();

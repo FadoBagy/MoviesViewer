@@ -3,7 +3,9 @@
     public class DataConstants
     {
         public const int MovieTitleMaxLength = 210;
+        public const int MovieTitleMinLength = 1;
         public const int MovieDescriptionMaxLength = 800;
+        public const int MovieDescriptionMinLength = 3;
         public const int MovieMaxRuntime = 880;
         public const int MovieMinRuntime = 0;
         public const int MovieMaxRating = 10;
