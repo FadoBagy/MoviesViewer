@@ -8,13 +8,6 @@
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             var apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
@@ -42,11 +35,6 @@
 
             var moviesTop5 = movies.Take(5);
             return View(moviesTop5);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
