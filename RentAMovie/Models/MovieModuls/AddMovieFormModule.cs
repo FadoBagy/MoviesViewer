@@ -25,15 +25,17 @@
 
         public int? Budget { get; init; }
 
-        [Display(Name = "Date Published")]
         [BindProperty, DataType(DataType.Date)]
+        [Display(Name = "Date Published")]
         public DateTime? DatePublished { get; init; }
 
+        [Url]
+        [Display(Name = "Poster URL")]
         public string? Poster { get; init; }
 
+        [Url]
+        [Display(Name = "Trailer URL")]
         public string? Trailer { get; init; }
-
-        public int UserId { get; init; }
 
         //[Display(Name = "Content Ranting")]
         //public string ContentRanting { get; init; }

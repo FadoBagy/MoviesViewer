@@ -16,7 +16,7 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="form-label"></label>
+                <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -67,29 +67,30 @@
             @*
             TODO: Implement Genres
             <div class="form-group">
-            <label asp-for="ContentRanting" class="control-label"></label>
-            <input asp-for="ContentRanting" class="form-control" />
-            <span asp-validation-for="ContentRanting" class="text-danger"></span>
+                <input asp-for="ContentRanting" class="form-control" />
 
-            <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-            </select>
+                <label asp-for="ContentRanting" class="control-label"></label>
+                <select asp-for="ContentRanting" class="form-select">
+                    @foreach
+                    <option value="id">name</option>
 
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <span asp-validation-for="ContentRanting" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <a asp-controller="Movie" asp-action="List">Back to List</a>
     </div>
-</div>
-
-<div>
-    <a asp-controller="Movie" asp-action="List">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/moviesCreate.css" />
 }
