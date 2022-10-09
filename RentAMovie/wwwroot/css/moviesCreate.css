@@ -5,3 +5,7 @@
 form .form-group {
     margin-bottom: 5px;
 }
+
+.form-group span[id*="-error"] {
+    margin-left: 5px;
+}
