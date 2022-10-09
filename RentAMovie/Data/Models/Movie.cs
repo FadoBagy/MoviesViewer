@@ -1,6 +1,5 @@
 ﻿namespace RentAMovie.Data.Models
 {
-    using RentAMovie.Data.Models.Enums;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +10,8 @@
     {
         [Key]
         public int Id { get; set; }
+
+        public int? TmdbId { get; set; }
 
         [Required]
         [MinLength(MovieTitleMinLength)]
@@ -28,7 +29,7 @@
         public int? Runtime { get; set; }
 
         [Range(MovieMinRating, MovieMaxRating)]
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
 
         public int? Revenue { get; set; }
 

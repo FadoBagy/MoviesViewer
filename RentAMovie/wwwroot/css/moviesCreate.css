@@ -9,3 +9,7 @@ form .form-group {
 .form-group span[id*="-error"] {
     margin-left: 5px;
 }
+
+.input-group{
+    margin-bottom: 0 !important;
+}

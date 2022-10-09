@@ -2,8 +2,11 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using NuGet.DependencyResolver;
     using RentAMovie.Data;
+    using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
+    using System.Diagnostics;
     using System.Linq;
 
     public class MovieController : Controller
@@ -70,7 +73,23 @@
                 return View(movie);
             }
 
-            return Ok();
+            var newMovie = new Movie
+            {
+                Title = movie.Title,
+                Description = movie.Description,
+                Tagline = movie.Tagline,
+                Runtime = movie.Runtime,
+                Revenue = movie.Revenue,
+                Budget = movie.Budget,
+                DatePublished = movie.DatePublished,
+                Poster = movie.Poster,
+                Trailer = movie.Trailer
+            };
+
+            data.Movies.Add(newMovie);
+            data.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult SpecificMovie(int id) 

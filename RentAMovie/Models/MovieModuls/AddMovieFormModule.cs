@@ -8,17 +8,17 @@
 
     public class AddMovieFormModule
     {
-        [StringLength(MovieTitleMaxLength, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = MovieTitleMinLength)]
+        [StringLength(MovieTitleMaxLength, MinimumLength = MovieTitleMinLength, ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Title { get; init; }
 
-        [StringLength(MovieDescriptionMaxLength, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = MovieDescriptionMinLength)]
+        [StringLength(MovieDescriptionMaxLength, MinimumLength = MovieDescriptionMinLength, ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Description { get; init; }
 
         public string? Tagline { get; set; }
 
-        [Range(MovieMinRuntime, MovieMaxRuntime)]
+        [Range(MovieMinRuntime, MovieMaxRuntime, ErrorMessage = "{0} length must be between {1} and {2}.")]
         public int? Runtime { get; init; }
 
         public int? Revenue { get; init; }
@@ -29,11 +29,11 @@
         [Display(Name = "Date Published")]
         public DateTime? DatePublished { get; init; }
 
-        [Url]
+        [Url(ErrorMessage = "Invalid URL")]
         [Display(Name = "Poster URL")]
         public string? Poster { get; init; }
 
-        [Url]
+        [Url(ErrorMessage = "Invalid URL")]
         [Display(Name = "Trailer URL")]
         public string? Trailer { get; init; }
 
