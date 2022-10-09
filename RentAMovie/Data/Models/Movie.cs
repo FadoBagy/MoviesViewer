@@ -29,7 +29,7 @@
         public int? Runtime { get; set; }
 
         [Range(MovieMinRating, MovieMaxRating)]
-        public int? Rating { get; set; }
+        public float? Rating { get; set; }
 
         public int? Revenue { get; set; }
 

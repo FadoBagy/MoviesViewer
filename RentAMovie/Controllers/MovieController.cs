@@ -19,7 +19,7 @@
         }
 
         [ActionName("List")]
-        [Route("/Movie/List")]
+        [Route("/Movies")]
         public IActionResult List()
         {
             var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
@@ -36,14 +36,42 @@
                 {
                     foreach (var movie in movieDto.Results)
                     {
+                        // TODO: Change the validation to the TMDB ID
+                        if (!data.Movies.Any(m => m.Title == movie.Title))
+                        {
+                            var newMovie = new Movie
+                            {
+                                Title = movie.Title,
+                                Description = movie.Description,
+                                DatePublished = movie.ReleaseDate,
+                                Poster = movie.PosterPath
+                            };
+
+                            data.Movies.Add(newMovie);
+                            data.SaveChanges();
+                        }
+                        // If alredy in the db update Rating (and other data?)
                         movies.Add(movie);
                     }
                 }
             }
+           
 
             var moviesTop5 = movies.Take(5);
             return View(movies);
         }
+
+        //[HttpPost]
+        //[Route("/Movies")]
+        //public IActionResult List(string searchTerm)
+        //{
+        //    if (searchTerm is null)
+        //    {
+        //        throw new ArgumentNullException(nameof(searchTerm));
+        //    }
+
+        //    return Ok();
+        //}
 
         public IActionResult Create()
         {
