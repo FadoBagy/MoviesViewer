@@ -2,11 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using NuGet.DependencyResolver;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
-    using System.Diagnostics;
     using System.Linq;
 
     public class MovieController : Controller
@@ -15,7 +13,6 @@
         private readonly string baseUrl = "https://api.themoviedb.org/3";
 
         private readonly ViewMoviesDbContext data;
-
         public MovieController(ViewMoviesDbContext data)
         {
             this.data = data;
@@ -47,18 +44,6 @@
             var moviesTop5 = movies.Take(5);
             return View(movies);
         }
-
-        //[HttpGet]
-        //public IActionResult List(PopularMovieModule model)
-        //{
-        //    var query = this.Request.Query;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-
-        //    return Ok();
-        //}
 
         public IActionResult Create()
         {

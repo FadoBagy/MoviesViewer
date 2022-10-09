@@ -8,17 +8,23 @@
 
     public class AddMovieFormModule
     {
-        [StringLength(MovieTitleMaxLength, MinimumLength = MovieTitleMinLength, ErrorMessage = "{0} length must be between {2} and {1}.")]
+        [StringLength(MovieTitleMaxLength, 
+            MinimumLength = MovieTitleMinLength,
+            ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Title { get; init; }
 
-        [StringLength(MovieDescriptionMaxLength, MinimumLength = MovieDescriptionMinLength, ErrorMessage = "{0} length must be between {2} and {1}.")]
+        [StringLength(MovieDescriptionMaxLength,
+            MinimumLength = MovieDescriptionMinLength, 
+            ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Description { get; init; }
 
         public string? Tagline { get; set; }
 
-        [Range(MovieMinRuntime, MovieMaxRuntime, ErrorMessage = "{0} length must be between {1} and {2}.")]
+        [Range(MovieMinRuntime,
+            MovieMaxRuntime,
+            ErrorMessage = "{0} length must be between {1} and {2}.")]
         public int? Runtime { get; init; }
 
         public int? Revenue { get; init; }

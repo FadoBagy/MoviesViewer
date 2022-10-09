@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace RentAMovie.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class UpdatingMovie : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
