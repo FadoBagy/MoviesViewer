@@ -48,14 +48,17 @@
         //    return Ok();
         //}
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public IActionResult Create(MovieFormModule model)
+        public IActionResult Create(AddMovieFormModule movie)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(movie);
             }
 
             return Ok();
