@@ -17,5 +17,11 @@
 
         [JsonProperty("vote_average")]
         public string Rating { get; set; }
+
+        [JsonProperty("id")]
+        public int TmdbId { get; set; }
+
+        //[JsonProperty("genre_ids")]
+        //public ICollection<Genre> GenreIds { get; set; }
     }
 }

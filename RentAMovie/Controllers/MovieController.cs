@@ -36,26 +36,36 @@
                 {
                     foreach (var movie in movieDto.Results)
                     {
-                        // TODO: Change the validation to the TMDB ID
-                        if (!data.Movies.Any(m => m.Title == movie.Title))
+                        if (!data.Movies.Any(m => m.TmdbId == movie.TmdbId))
                         {
-                            var newMovie = new Movie
+                            var newPopularMovie = new Movie
                             {
                                 Title = movie.Title,
                                 Description = movie.Description,
                                 DatePublished = movie.ReleaseDate,
-                                Poster = movie.PosterPath
+                                Poster = movie.PosterPath,
+                                TmdbId = movie.TmdbId
                             };
-
-                            data.Movies.Add(newMovie);
-                            data.SaveChanges();
+                            data.Movies.Add(newPopularMovie);
                         }
-                        // If alredy in the db update Rating (and other data?)
+                        else
+                        {
+                            var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == movie.TmdbId);
+                            if (movieToCheck.DatePublished != movie.ReleaseDate)
+                            {
+                                movieToCheck.DatePublished = movie.ReleaseDate;
+                            }
+                            else if (movieToCheck.Poster != movie.PosterPath)
+                            {
+                                movieToCheck.Poster = movie.PosterPath;
+                            }
+                        }
+
                         movies.Add(movie);
                     }
+                    data.SaveChanges();
                 }
             }
-           
 
             var moviesTop5 = movies.Take(5);
             return View(movies);
