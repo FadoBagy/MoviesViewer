@@ -21,6 +21,9 @@
         [JsonProperty("id")]
         public int TmdbId { get; set; }
 
+        [JsonProperty("vote_count")]
+        public int VoteCount { get; set; }
+
         //[JsonProperty("genre_ids")]
         //public ICollection<Genre> GenreIds { get; set; }
     }

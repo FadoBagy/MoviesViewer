@@ -44,7 +44,8 @@
                                 Description = movie.Description,
                                 DatePublished = movie.ReleaseDate,
                                 Poster = movie.PosterPath,
-                                TmdbId = movie.TmdbId
+                                TmdbId = movie.TmdbId,
+                                VoteCount = movie.VoteCount
                             };
                             data.Movies.Add(newPopularMovie);
                         }
@@ -62,6 +63,10 @@
                             else if (movieToCheck.Rating != float.Parse(movie.Rating))
                             {
                                 movieToCheck.Rating = float.Parse(movie.Rating);
+                            }
+                            else if (movieToCheck.VoteCount != movie.VoteCount)
+                            {
+                                movieToCheck.VoteCount = movie.VoteCount;
                             }
                         }
 

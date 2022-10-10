@@ -31,6 +31,8 @@
         [Range(MovieMinRating, MovieMaxRating)]
         public float? Rating { get; set; }
 
+        public int? VoteCount { get; set; }
+
         public int? Revenue { get; set; }
 
         public int? Budget { get; set; }
