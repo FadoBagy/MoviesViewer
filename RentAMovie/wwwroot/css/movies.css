@@ -125,3 +125,17 @@ main .container {
     justify-content: space-between;
     align-items: center;
 }
+
+.top-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-nav p {
+    margin: 0 10px 0 0; 
+}
+
+.top-nav button {
+    margin: 0 5px 0 0; 
+}
