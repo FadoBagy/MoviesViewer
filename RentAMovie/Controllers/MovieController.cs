@@ -59,6 +59,10 @@
                             {
                                 movieToCheck.Poster = movie.PosterPath;
                             }
+                            else if (movieToCheck.Rating != float.Parse(movie.Rating))
+                            {
+                                movieToCheck.Rating = float.Parse(movie.Rating);
+                            }
                         }
 
                         movies.Add(movie);
