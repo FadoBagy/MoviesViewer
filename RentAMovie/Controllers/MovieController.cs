@@ -80,18 +80,6 @@
             return View(movies);
         }
 
-        //[HttpPost]
-        //[Route("/Movies")]
-        //public IActionResult List(string searchTerm)
-        //{
-        //    if (searchTerm is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(searchTerm));
-        //    }
-
-        //    return Ok();
-        //}
-
         public IActionResult Create()
         {
             return View();

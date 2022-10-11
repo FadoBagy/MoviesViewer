@@ -19,25 +19,25 @@
 </div>
 
 <h3>What's Popular</h3>
-@if (true)
-{
-	<div class="container">
-		<div class="row">
-			@foreach (var movie in Model)
-			{
-				if (float.Parse(movie.Rating) >= 8)
-				{
-					ratingColor = "green";
-				}
-				else if (float.Parse(movie.Rating) >= 5)
-				{
-					ratingColor = "orange";
-				}else
-				{
-					ratingColor = "red";
-				}
 
-				<div class="card">
+<div class="container">
+	<div class="row">
+		@foreach (var movie in Model)
+		{
+			if (float.Parse(movie.Rating) >= 8)
+			{
+				ratingColor = "green";
+			}
+			else if (float.Parse(movie.Rating) >= 5)
+			{
+				ratingColor = "orange";
+			}
+			else
+			{
+				ratingColor = "red";
+			}
+
+			<div class="card">
 					<a href="">
 						<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
 					</a>
@@ -51,11 +51,8 @@
 					<img class="info" src="~/images/information.png" alt="info button">
 				</div>
 			}
-		</div>
 	</div>
-}else{
-	<p>Loading...</p>
-}
+</div>
 
 @section MovieStylesSection {
 	<link rel="stylesheet" href="~/css/movies.css" />
