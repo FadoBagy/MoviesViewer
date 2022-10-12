@@ -23,7 +23,7 @@
                     <div class="carousel-item active">
                     <div class="carouselImg small" style="background-image: url(@(posterPath + movie.PosterPath))"></div>
                         <div class="carousel-caption d-none d-md-block">
-                            <a href="">
+                            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
                                 <h5>@movie.Title (@movie.ReleaseDate.ToString("yyy"))</h5>
                             </a>
                             <p>@movie.Description.Substring(0, movie.Description.Length / 2)...</p>
@@ -35,7 +35,7 @@
                     <div class="carousel-item">
                         <div class="carouselImg small" style="background-image: url(@(posterPath + movie.PosterPath))"></div>
                         <div class="carousel-caption d-none d-md-block">
-                            <a href="">
+                            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
                                 <h5>@movie.Title (@movie.ReleaseDate.ToString("yyy"))</h5>
                             </a>
                             <p>@movie.Description.Substring(0, movie.Description.Length / 2)...</p>

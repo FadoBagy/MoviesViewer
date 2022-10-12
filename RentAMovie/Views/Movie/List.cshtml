@@ -38,19 +38,21 @@
 			}
 
 			<div class="card">
-					<a href="">
-						<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
-					</a>
-					<div class="card-body">
-						<div class="rating @ratingColor">
-							<p>@float.Parse(movie.Rating).ToString("0.0")</p>
-						</div>
-						<h5 class="card-title"><a href="">@movie.Title</a></h5>
-						<h6>@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
+				<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+					<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+				</a>
+				<div class="card-body">
+					<div class="rating @ratingColor">
+						<p>@float.Parse(movie.Rating).ToString("0.0")</p>
 					</div>
-					<img class="info" src="~/images/information.png" alt="info button">
+					<h5 class="card-title">
+						<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
+					</h5>
+					<h6>@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
 				</div>
-			}
+				<img class="info" src="~/images/information.png" alt="info button">
+			</div>
+		}
 	</div>
 </div>
 

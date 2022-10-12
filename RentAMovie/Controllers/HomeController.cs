@@ -2,19 +2,27 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using RentAMovie.Data;
     using RentAMovie.Models;
     using RentAMovie.Models.MovieModuls;
     using System.Diagnostics;
 
     public class HomeController : Controller
     {
+        private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
+        private readonly string baseUrl = "https://api.themoviedb.org/3";
+
+        private readonly ViewMoviesDbContext data;
+        public HomeController(ViewMoviesDbContext data)
+        {
+            this.data = data;
+        }
+
         public IActionResult Index()
         {
-            var apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
-            var baseUrl = "https://api.themoviedb.org/3";
             var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
-            var mostPopular21Request = "http://api.themoviedb.org/3/discover/movie?primary_release_date.gte=2021-01-01&primary_release_date.lte=2021-09-31&api_key=827b5d3636ed4d470d182016543dc5cf";
-            var topRatedActionsRequest = "http://api.themoviedb.org/3/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&api_key=827b5d3636ed4d470d182016543dc5cf";
+            var mostPopular21Request = baseUrl + "/discover/movie?primary_release_date.gte=2021-01-01&primary_release_date.lte=2021-09-31&" + apiKey;
+            var topRatedActionsRequest = baseUrl + "/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&" + apiKey;
 
             var movies = new List<PopularMovieResultModule>();
             using (var httpClient = new HttpClient())

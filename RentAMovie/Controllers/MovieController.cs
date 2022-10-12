@@ -112,9 +112,40 @@
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult SpecificMovie(int id) 
+        //[Route("/Movie/{id}-{tmdbId}")]
+        public IActionResult MovieTmdb(int id) 
         {
-            return Ok(id);
+            var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
+
+            var movie = new TmdbSingleMovieModel();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(movieDataRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
+
+                var newMovie = new TmdbSingleMovieModel()
+                {
+                    Title = movieData.Title,
+                    Description = movieData.Description,
+                    ReleaseDate = movieData.ReleaseDate,
+                    PosterPath = movieData.PosterPath,
+                    Rating = movieData.Rating,
+                    TmdbId = movieData.TmdbId,
+                    VoteCount = movieData.VoteCount,
+                    BackdropPath = movieData.BackdropPath,
+                    Budget = movieData.Budget,
+                    Revenue = movieData.Revenue,
+                    Runtime = movieData.Runtime,
+                    Tagline = movieData.Tagline
+                };
+
+                movie = newMovie;
+            }
+
+            return View(movie);
         }
     }
 }

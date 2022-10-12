@@ -1,0 +1,53 @@
+﻿@model TmdbSingleMovieModel
+@{
+    ViewData["Title"] = Model.Title + $" ({Model.ReleaseDate.Year})";
+    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+    string posterPath = "https://image.tmdb.org/t/p/w500";
+
+    int hours = Convert.ToInt32(Model.Runtime / 60);
+    double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
+}
+
+<div class="main-container">
+    <span class="backdrop" style="background-image: url(@(backDropPath + @Model.BackdropPath));"></span>
+    <span class="blur-color"></span>
+    <section class="information-container">
+        <div class="info-img">
+            <img src="@(posterPath + Model.PosterPath)" alt="@Model.Title poster">
+        </div>
+        <div class="info-main">
+            <div class="header-info">
+                <div>
+                    <h1>@Model.Title</h1>
+                </div>
+                <div>
+                    <ul>
+                        <li>@Model.ReleaseDate.Year</li>
+                        <li>@($" • {hours}h {minutes}m")</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="user-score">
+                <p class="rating-small">User Score</p>
+                <div>
+                    <img src="~/images/star.png" />
+                    <b>@float.Parse(Model.Rating).ToString("0.0")</b>
+                    <span class="rating-small">/10</span>
+                </div>
+                <span class="rating-small">@Model.VoteCount.ToString("#,##0") Ratings</span>
+            </div>
+            <div class="overview-info">
+                @if (Model.Tagline != null)
+                {
+                    <div id="tagline">@Model.Tagline</div>
+                }
+                <h4>Overview</h4>
+                <div id="description">@Model.Description</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/moviesSingle.css" />
+}
