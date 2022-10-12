@@ -20,7 +20,6 @@
 
         public IActionResult Index()
         {
-            var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
             var mostPopular21Request = baseUrl + "/discover/movie?primary_release_date.gte=2021-01-01&primary_release_date.lte=2021-09-31&" + apiKey;
             var topRatedActionsRequest = baseUrl + "/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&" + apiKey;
 

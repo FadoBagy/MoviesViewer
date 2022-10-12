@@ -1,6 +1,7 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
@@ -77,7 +78,67 @@
                 }
             }
 
-            var moviesTop5 = movies.Take(5);
+            return View(movies);
+        }
+
+        [Route("/Movies/TopRated")]
+        public IActionResult TopRated()
+        {
+            var topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
+
+            var movies = new List<PopularMovieResultModule>();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(topRatedRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var movieDto = JsonConvert.DeserializeObject<PopularMovieModule>(json);
+                if (movieDto != null && movieDto.Results != null)
+                {
+                    foreach (var movie in movieDto.Results)
+                    {
+                        if (!data.Movies.Any(m => m.TmdbId == movie.TmdbId))
+                        {
+                            var newPopularMovie = new Movie
+                            {
+                                Title = movie.Title,
+                                Description = movie.Description,
+                                DatePublished = movie.ReleaseDate,
+                                Poster = movie.PosterPath,
+                                Rating = float.Parse(movie.Rating),
+                                TmdbId = movie.TmdbId,
+                                VoteCount = movie.VoteCount
+                            };
+                            data.Movies.Add(newPopularMovie);
+                        }
+                        else
+                        {
+                            var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == movie.TmdbId);
+                            if (movieToCheck.DatePublished != movie.ReleaseDate)
+                            {
+                                movieToCheck.DatePublished = movie.ReleaseDate;
+                            }
+                            if (movieToCheck.Poster != movie.PosterPath)
+                            {
+                                movieToCheck.Poster = movie.PosterPath;
+                            }
+                            if (movieToCheck.Rating != float.Parse(movie.Rating))
+                            {
+                                movieToCheck.Rating = float.Parse(movie.Rating);
+                            }
+                            if (movieToCheck.VoteCount != movie.VoteCount)
+                            {
+                                movieToCheck.VoteCount = movie.VoteCount;
+                            }
+                        }
+
+                        movies.Add(movie);
+                    }
+                    data.SaveChanges();
+                }
+            }
+
             return View(movies);
         }
 
