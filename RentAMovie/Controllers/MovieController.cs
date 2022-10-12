@@ -44,6 +44,7 @@
                                 Description = movie.Description,
                                 DatePublished = movie.ReleaseDate,
                                 Poster = movie.PosterPath,
+                                Rating = float.Parse(movie.Rating),
                                 TmdbId = movie.TmdbId,
                                 VoteCount = movie.VoteCount
                             };

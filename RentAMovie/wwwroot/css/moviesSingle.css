@@ -6,7 +6,6 @@
     position: relative;
     width: 100%;
     padding: 10px;
-
     height: 600px;
 }
 
@@ -89,10 +88,10 @@
     /*margin: 0 20px 0 20%;*/
     width: fit-content;
     font-size: 1.3rem;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin: 10px 0 10px 0px;
 }
 
 .user-score div{
