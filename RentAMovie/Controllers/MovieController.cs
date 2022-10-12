@@ -129,22 +129,30 @@
                 var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
                 if (movieToCheck == null)
                 {
-                    var newTmdbMovie = new Movie
+                    try
                     {
-                        Title = movieData.Title,
-                        Description = movieData.Description,
-                        DatePublished = movieData.ReleaseDate,
-                        Poster = movieData.PosterPath,
-                        Rating = float.Parse(movieData.Rating),
-                        TmdbId = movieData.TmdbId,
-                        VoteCount = movieData.VoteCount,
-                        BackdropPath = movieData.BackdropPath,
-                        Budget = movieData.Budget,
-                        Revenue = movieData.Revenue,
-                        Runtime = movieData.Runtime,
-                        Tagline = movieData.Tagline
-                    };
-                    data.Movies.Add(newTmdbMovie);
+                        var newTmdbMovie = new Movie
+                        {
+                            Title = movieData.Title,
+                            Description = movieData.Description,
+                            DatePublished = movieData.ReleaseDate,
+                            Poster = movieData.PosterPath,
+                            Rating = float.Parse(movieData.Rating),
+                            TmdbId = movieData.TmdbId,
+                            VoteCount = movieData.VoteCount,
+                            BackdropPath = movieData.BackdropPath,
+                            Budget = movieData.Budget,
+                            Revenue = movieData.Revenue,
+                            Runtime = movieData.Runtime,
+                            Tagline = movieData.Tagline
+                        };
+                        data.Movies.Add(newTmdbMovie);
+                    }
+                    catch (Exception)
+                    {
+                        return RedirectToAction("Error", "Home");
+                    }
+                    
                 }
                 else
                 {
