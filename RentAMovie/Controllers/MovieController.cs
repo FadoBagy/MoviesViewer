@@ -18,9 +18,9 @@
             this.data = data;
         }
 
-        [ActionName("List")]
-        [Route("/Movies")]
-        public IActionResult List()
+        [ActionName("Popular")]
+        [Route("/Movies/Popular")]
+        public IActionResult Popular()
         {
             var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
 
