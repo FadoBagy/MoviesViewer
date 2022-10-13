@@ -23,26 +23,9 @@
         [Route("/Movies/Popular")]
         public IActionResult Popular()
         {
-            var mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
-
+            string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
             var movies = new List<PopularMovieResultModule>();
-            using (var httpClient = new HttpClient())
-            {
-                var endpoint = new Uri(mostPopularRequest);
-                var result = httpClient.GetAsync(endpoint).Result;
-                var json = result.Content.ReadAsStringAsync().Result;
-
-                var movieDto = JsonConvert.DeserializeObject<PopularMovieModule>(json);
-                if (movieDto != null && movieDto.Results != null)
-                {
-                    foreach (var movie in movieDto.Results)
-                    {
-                        ValidateMovieApiRequest(movie);
-                        movies.Add(movie);
-                    }
-                    data.SaveChanges();
-                }
-            }
+            CollectMoviesData(mostPopularRequest, movies);
 
             return View(movies);
         }
@@ -50,26 +33,9 @@
         [Route("/Movies/TopRated")]
         public IActionResult TopRated()
         {
-            var topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
-
+            string topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
             var movies = new List<PopularMovieResultModule>();
-            using (var httpClient = new HttpClient())
-            {
-                var endpoint = new Uri(topRatedRequest);
-                var result = httpClient.GetAsync(endpoint).Result;
-                var json = result.Content.ReadAsStringAsync().Result;
-
-                var movieDto = JsonConvert.DeserializeObject<PopularMovieModule>(json);
-                if (movieDto != null && movieDto.Results != null)
-                {
-                    foreach (var movie in movieDto.Results)
-                    {
-                        ValidateMovieApiRequest(movie);
-                        movies.Add(movie);
-                    }
-                    data.SaveChanges();
-                }
-            }
+            CollectMoviesData(topRatedRequest, movies);
 
             return View(movies);
         }
@@ -211,40 +177,57 @@
             };
         }
 
-        private void ValidateMovieApiRequest(PopularMovieResultModule movie)
+        private void CollectMoviesData(string Url, List<PopularMovieResultModule> movies)
         {
-            var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == movie.TmdbId);
-            if (movieToCheck == null)
+            using (var httpClient = new HttpClient())
             {
-                var newPopularMovie = new Movie
+                var endpoint = new Uri(Url);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var movieDto = JsonConvert.DeserializeObject<PopularMovieModule>(json);
+                if (movieDto != null && movieDto.Results != null)
                 {
-                    Title = movie.Title,
-                    Description = movie.Description,
-                    DatePublished = movie.ReleaseDate,
-                    Poster = movie.PosterPath,
-                    Rating = float.Parse(movie.Rating),
-                    TmdbId = movie.TmdbId,
-                    VoteCount = movie.VoteCount
-                };
-                data.Movies.Add(newPopularMovie);
-            }
-            else
-            {
-                if (movieToCheck.DatePublished != movie.ReleaseDate)
-                {
-                    movieToCheck.DatePublished = movie.ReleaseDate;
-                }
-                if (movieToCheck.Poster != movie.PosterPath)
-                {
-                    movieToCheck.Poster = movie.PosterPath;
-                }
-                if (movieToCheck.Rating != float.Parse(movie.Rating))
-                {
-                    movieToCheck.Rating = float.Parse(movie.Rating);
-                }
-                if (movieToCheck.VoteCount != movie.VoteCount)
-                {
-                    movieToCheck.VoteCount = movie.VoteCount;
+                    foreach (var movie in movieDto.Results)
+                    {
+                        var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == movie.TmdbId);
+                        if (movieToCheck == null)
+                        {
+                            var newPopularMovie = new Movie
+                            {
+                                Title = movie.Title,
+                                Description = movie.Description,
+                                DatePublished = movie.ReleaseDate,
+                                Poster = movie.PosterPath,
+                                Rating = float.Parse(movie.Rating),
+                                TmdbId = movie.TmdbId,
+                                VoteCount = movie.VoteCount
+                            };
+                            data.Movies.Add(newPopularMovie);
+                        }
+                        else
+                        {
+                            if (movieToCheck.DatePublished != movie.ReleaseDate)
+                            {
+                                movieToCheck.DatePublished = movie.ReleaseDate;
+                            }
+                            if (movieToCheck.Poster != movie.PosterPath)
+                            {
+                                movieToCheck.Poster = movie.PosterPath;
+                            }
+                            if (movieToCheck.Rating != float.Parse(movie.Rating))
+                            {
+                                movieToCheck.Rating = float.Parse(movie.Rating);
+                            }
+                            if (movieToCheck.VoteCount != movie.VoteCount)
+                            {
+                                movieToCheck.VoteCount = movie.VoteCount;
+                            }
+                        }
+
+                        movies.Add(movie);
+                    }
+                    data.SaveChanges();
                 }
             }
         }
