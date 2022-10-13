@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
-    using NuGet.Packaging;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
@@ -279,7 +278,7 @@
             }
 
             var top6 = actorsModel.Take(10).ToList();
-            return top6;
+            return actorsModel;
         }
     }
 }

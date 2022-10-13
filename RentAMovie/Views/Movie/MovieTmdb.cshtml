@@ -6,6 +6,8 @@
 
     int hours = Convert.ToInt32(Model.Runtime / 60);
     double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
+
+    int index = 0;
 }
 
 <div class="main-container">
@@ -49,7 +51,7 @@
 </div>
 <div class="details-container">
     <div class="main-details">
-        <h3>Top Actors</h3>
+        <h3>Top Cast</h3>
         <div class="actors media-scroller">
                 @foreach (var actor in Model.Actors)
                 {
@@ -70,12 +72,42 @@
                             </p>
                             <p class="small">@actor.Character</p>
                         </div>
-                    </div>
+                    </div> 
+                    index++;
+                    if (index == 10)
+                    {
+                        <div class="more-actors">
+                            <a href="#">View more</a>
+                        </div>
+                        break;
+                    }
                 }
         </div>
     </div>
     <div class="aside-details">
-        @Model.Revenue
+        <div class="aside-member">
+            <h5>Budget</h5>
+            @if (Model.Budget == 0 || Model.Budget == null)
+            {
+                <p>-</p>
+            }
+            else
+            {
+                <p>$@(((int)@Model.Budget).ToString("#,##0.00"))</p>
+            }
+            
+        </div>
+        <div class="aside-member">
+            <h5>Revenue</h5>
+            @if (Model.Revenue == 0 || Model.Revenue == null)
+            {
+                <p>-</p>
+            }
+            else
+            {
+                <p>$@(((int)@Model.Revenue).ToString("#,##0.00"))</p>
+            }
+        </div>
     </div>
 </div>
 
