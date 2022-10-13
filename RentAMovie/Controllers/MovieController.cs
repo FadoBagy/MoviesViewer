@@ -3,9 +3,11 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
+    using NuGet.Packaging;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
+    using RentAMovie.Models.PersonModels;
     using System.Linq;
 
     public class MovieController : Controller
@@ -93,10 +95,11 @@
                 }
                 catch (Exception)
                 {
+                    // Most likely invalid movie ID
                     return RedirectToAction("Error", "Home");
                 }
-
                 data.SaveChanges();
+
                 movie = GetSingleMovieData(movieData);
             }
 
@@ -118,7 +121,8 @@
                 Budget = movie.Budget,
                 Revenue = movie.Revenue,
                 Runtime = movie.Runtime,
-                Tagline = movie.Tagline
+                Tagline = movie.Tagline,
+                Actors = GetActorModels(movie.TmdbId)
             };
         }
 
@@ -237,6 +241,45 @@
                     movieToCheck.Tagline = movieData.Tagline;
                 }
             }
+        }
+
+        private ICollection<ProductionTeamCastModel> GetActorModels(int? movieId)
+        {
+            var teamDataRequest = baseUrl + $"/movie/{movieId}/casts?" + apiKey;
+
+            var actorsModel = new List<ProductionTeamCastModel>();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(teamDataRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var teamData = JsonConvert.DeserializeObject<ProductionTeamModel>(json);
+
+                if (teamData != null && teamData.Cast != null)
+                {
+                    foreach (var member in teamData.Cast)
+                    {
+                        if (member.Role == "Acting")
+                        {
+                            var newActorModel = new ProductionTeamCastModel()
+                            {
+                                Gender = member.Gender,
+                                Id = member.Id,
+                                Role = member.Role,
+                                Name = member.Name,
+                                Photo = member.Photo,
+                                Character = member.Character
+                            };
+
+                            actorsModel.Add(newActorModel);
+                        }
+                    }
+                }
+            }
+
+            var top6 = actorsModel.Take(10).ToList();
+            return top6;
         }
     }
 }

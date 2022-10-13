@@ -47,6 +47,37 @@
         </div>
     </section>
 </div>
+<div class="details-container">
+    <div class="main-details">
+        <h3>Top Actors</h3>
+        <div class="actors media-scroller">
+                @foreach (var actor in Model.Actors)
+                {
+                    <div class="card">
+                        <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@actor.Id">
+                            @if (actor.Photo != null)
+                            {
+                                <img src="@(posterPath + actor.Photo)" class="card-img-top">
+                            }
+                            else
+                            {
+                                <img src="~/images/default-icon.png" class="card-img-top">
+                            }
+                        </a>
+                        <div class="card-body">
+                            <p class="card-title">
+                                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@actor.Id">@actor.Name</a>
+                            </p>
+                            <p class="small">@actor.Character</p>
+                        </div>
+                    </div>
+                }
+        </div>
+    </div>
+    <div class="aside-details">
+        @Model.Revenue
+    </div>
+</div>
 
 @section Styles {
     <link rel="stylesheet" href="~/css/moviesSingle.css" />

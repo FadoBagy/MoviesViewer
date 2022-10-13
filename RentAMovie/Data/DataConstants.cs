@@ -13,6 +13,8 @@
 
         public const int ActorNameMaxLength = 55;
         public const int PersonBiographyMaxLength = 800;
+        public const int PersonGenderMaxLength = 2;
+        public const int PersonGenderMinLength = 1;
 
         public const int ReviewContentMaxLength = 1000;
 

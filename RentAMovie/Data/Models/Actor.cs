@@ -9,6 +9,8 @@
         [Key]
         public int Id { get; set; }
 
+        public int? TmdbId { get; set; }
+
         [Required]
         [MaxLength(ActorNameMaxLength)]
         public string Name { get; set; }
@@ -18,6 +20,9 @@
         public string? Biography { get; set; }
 
         public string? Photo { get; set; }
+
+        [Range(PersonGenderMinLength, PersonGenderMaxLength)]
+        public int? Gender { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 

@@ -23,7 +23,14 @@
 
 			<div class="card">
 				<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-					<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+					@if (movie.PosterPath != null)
+					{
+						<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+					}
+					else
+					{
+						<img src="~/images/default-icon.png" class="card-img-top">
+					}
 				</a>
 				<div class="card-body">
 					<div class="rating @ratingColor">
