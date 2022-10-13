@@ -86,71 +86,16 @@
                 var json = result.Content.ReadAsStringAsync().Result;
 
                 var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
-                if (movieToCheck == null)
+
+                try
                 {
-                    try
-                    {
-                        var newTmdbMovie = new Movie
-                        {
-                            Title = movieData.Title,
-                            Description = movieData.Description,
-                            DatePublished = movieData.ReleaseDate,
-                            Poster = movieData.PosterPath,
-                            Rating = float.Parse(movieData.Rating),
-                            TmdbId = movieData.TmdbId,
-                            VoteCount = movieData.VoteCount,
-                            BackdropPath = movieData.BackdropPath,
-                            Budget = movieData.Budget,
-                            Revenue = movieData.Revenue,
-                            Runtime = movieData.Runtime,
-                            Tagline = movieData.Tagline
-                        };
-                        data.Movies.Add(newTmdbMovie);
-                    }
-                    catch (Exception)
-                    {
-                        return RedirectToAction("Error", "Home");
-                    }
+                    ValidateSingleMovieData(movieToCheck, movieData);
                 }
-                else
+                catch (Exception)
                 {
-                    if (movieToCheck.DatePublished != movieData.ReleaseDate)
-                    {
-                        movieToCheck.DatePublished = movieData.ReleaseDate;
-                    }
-                    if (movieToCheck.Poster != movieData.PosterPath)
-                    {
-                        movieToCheck.Poster = movieData.PosterPath;
-                    }
-                    if (movieToCheck.Rating != float.Parse(movieData.Rating))
-                    {
-                        movieToCheck.Rating = float.Parse(movieData.Rating);
-                    }
-                    if (movieToCheck.VoteCount != movieData.VoteCount)
-                    {
-                        movieToCheck.VoteCount = movieData.VoteCount;
-                    }
-                    if (movieToCheck.BackdropPath != movieData.BackdropPath)
-                    {
-                        movieToCheck.BackdropPath = movieData.BackdropPath;
-                    }
-                    if (movieToCheck.Budget != movieData.Budget)
-                    {
-                        movieToCheck.Budget = movieData.Budget;
-                    }
-                    if (movieToCheck.Revenue != movieData.Revenue)
-                    {
-                        movieToCheck.Revenue = movieData.Revenue;
-                    }
-                    if (movieToCheck.Runtime != movieData.Runtime)
-                    {
-                        movieToCheck.Runtime = movieData.Runtime;
-                    }
-                    if (movieToCheck.Tagline != movieData.Tagline)
-                    {
-                        movieToCheck.Tagline = movieData.Tagline;
-                    }
+                    return RedirectToAction("Error", "Home");
                 }
+
                 data.SaveChanges();
                 movie = GetSingleMovieData(movieData);
             }
@@ -228,6 +173,68 @@
                         movies.Add(movie);
                     }
                     data.SaveChanges();
+                }
+            }
+        }
+
+        private void ValidateSingleMovieData(Movie movieToCheck, TmdbSingleMovieModel movieData)
+        {
+            if (movieToCheck == null)
+            {
+                var newTmdbMovie = new Movie
+                {
+                    Title = movieData.Title,
+                    Description = movieData.Description,
+                    DatePublished = movieData.ReleaseDate,
+                    Poster = movieData.PosterPath,
+                    Rating = float.Parse(movieData.Rating),
+                    TmdbId = movieData.TmdbId,
+                    VoteCount = movieData.VoteCount,
+                    BackdropPath = movieData.BackdropPath,
+                    Budget = movieData.Budget,
+                    Revenue = movieData.Revenue,
+                    Runtime = movieData.Runtime,
+                    Tagline = movieData.Tagline
+                };
+                data.Movies.Add(newTmdbMovie);
+            }
+            else
+            {
+                if (movieToCheck.DatePublished != movieData.ReleaseDate)
+                {
+                    movieToCheck.DatePublished = movieData.ReleaseDate;
+                }
+                if (movieToCheck.Poster != movieData.PosterPath)
+                {
+                    movieToCheck.Poster = movieData.PosterPath;
+                }
+                if (movieToCheck.Rating != float.Parse(movieData.Rating))
+                {
+                    movieToCheck.Rating = float.Parse(movieData.Rating);
+                }
+                if (movieToCheck.VoteCount != movieData.VoteCount)
+                {
+                    movieToCheck.VoteCount = movieData.VoteCount;
+                }
+                if (movieToCheck.BackdropPath != movieData.BackdropPath)
+                {
+                    movieToCheck.BackdropPath = movieData.BackdropPath;
+                }
+                if (movieToCheck.Budget != movieData.Budget)
+                {
+                    movieToCheck.Budget = movieData.Budget;
+                }
+                if (movieToCheck.Revenue != movieData.Revenue)
+                {
+                    movieToCheck.Revenue = movieData.Revenue;
+                }
+                if (movieToCheck.Runtime != movieData.Runtime)
+                {
+                    movieToCheck.Runtime = movieData.Runtime;
+                }
+                if (movieToCheck.Tagline != movieData.Tagline)
+                {
+                    movieToCheck.Tagline = movieData.Tagline;
                 }
             }
         }
