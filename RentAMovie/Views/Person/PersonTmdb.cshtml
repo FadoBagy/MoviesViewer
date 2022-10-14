@@ -1,3 +1,166 @@
 ﻿@model TmdbSingleActorModel
+@{
+    ViewData["Title"] = Model.Name;
+    string photoPath = "https://image.tmdb.org/t/p/w300";
 
-@Model.Name
+    string[] biographyParts = new string[]{};
+    if (Model.Biography != null)
+    {
+        biographyParts = Model.Biography.Split('\r', '\n');
+    }
+
+    string? gender;
+    string dateOfBirth;
+    string deathDay;
+    string placeOfBirth;
+
+    if (Model.Gender == null)
+    {
+        gender = "-";
+    }
+    else if(Model.Gender == 2)
+    {
+        gender = "Male";
+    }
+    else
+    {
+        gender = "Female";
+    }
+
+    if (Model.DateOfBirth == null)
+    {
+        dateOfBirth = "-";
+    }
+    else
+    {
+        dateOfBirth = Model.DateOfBirth;
+    }
+
+    if (Model.DeathDay == null)
+    {
+        deathDay = "-";
+    }
+    else
+    {
+        deathDay = Model.DeathDay;
+    }
+
+    if (Model.PlaceOfBirth == null)
+    {
+        placeOfBirth = "-";
+    }
+    else
+    {
+        placeOfBirth = Model.PlaceOfBirth;
+    }
+}
+
+<div class="main-section">
+    <div class="img-section">
+        <span class="blur-color"></span>
+        @if (Model.Photo != null)
+        {
+            <img src="@(photoPath + Model.Photo)" alt="" />
+        }
+        else
+        {
+            <img src="~/images/default-icon.png" class="card-img-top">
+        }
+        <div class="details">
+            <h5>Personal Info</h5>
+            <div class="detail">
+                <p>Name</p>
+                <p>@Model.Name</p>
+            </div>
+            
+            <div class="detail">
+                <p>Gender</p>
+                <p>@gender</p>
+            </div>
+            
+            @if (Model.DeathDay == null)
+            {
+                <div class="detail">
+                    <p>Birthday</p>
+                    @if (dateOfBirth == "-")
+                    {
+                        <p>@dateOfBirth</p>
+                    }
+                    else
+                    {
+                        <p>@(DateTime.Parse(dateOfBirth).ToString("dd-MM-yyyy") + $" ({DateTime.UtcNow.Year - DateTime.Parse(dateOfBirth).Year} years old)")</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="detail">
+                    <p>Birthday</p>
+                    @if (dateOfBirth == "-")
+                    {
+                        <p>@dateOfBirth</p>
+                    }
+                    else
+                    {
+                        <p>@DateTime.Parse(dateOfBirth).ToString("dd-MM-yyyy")</p>
+                    }
+                </div>
+                <div class="detail">
+                    <p>Day of Death</p>
+                    @if (deathDay == "-")
+                    {
+                        <p>@deathDay</p>
+                    }
+                    else
+                    {
+                        <p>@DateTime.Parse(deathDay).ToString("dd-MM-yyyy")</p>
+                    }
+                    
+                </div>
+            }
+            <div class="detail">
+                <p>Place of Birth</p>
+                <p>@placeOfBirth</p>
+            </div>
+        </div>
+    </div>
+    <div class="info-section">
+        <h2>@Model.Name</h2>
+        <div class="biography">
+            <h5>Biography</h5>
+        </div>
+        <div class="parts">
+            @if (Model.Biography != null)
+            {
+                if (Model.Biography.Count() > 0)
+                {
+                    foreach (var part in biographyParts)
+                    {
+                        if (part != "" && !part.Contains("Wikipedia") && !part.Contains("wikipedia"))
+                        {
+                            <p>@part</p>
+                        }
+                    }
+                }
+                else
+                {
+                    <p>Missing biography for @Model.Name</p>
+                }
+            }
+            else
+            {
+                <p>Missing biography for @Model.Name</p>
+            }
+        </div>
+        <div class="movies">
+            <h5>Known For</h5>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/personSingle.css" />
+}
+@section Scripts {
+    <script src="~/js/personSingle.js"></script>
+}
