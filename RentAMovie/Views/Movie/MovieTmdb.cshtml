@@ -56,7 +56,7 @@
                 @foreach (var actor in Model.Actors)
                 {
                     <div class="card">
-                        <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@actor.Id">
+                    <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
                             @if (actor.Photo != null)
                             {
                                 <img src="@(posterPath + actor.Photo)" class="card-img-top">
@@ -68,7 +68,7 @@
                         </a>
                         <div class="card-body">
                             <p class="card-title">
-                                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@actor.Id">@actor.Name</a>
+                            <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">@actor.Name</a>
                             </p>
                             <p class="small">@actor.Character</p>
                         </div>

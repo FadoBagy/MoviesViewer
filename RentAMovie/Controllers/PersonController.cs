@@ -4,7 +4,8 @@
     using Newtonsoft.Json;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
-    using RentAMovie.Models.MovieModuls;
+    using RentAMovie.Models.PersonModels;
+    using System;
 
     public class PersonController : Controller
     {
@@ -20,20 +21,83 @@
         [Route("/Person/{id}-tmdb")]
         public IActionResult PersonTmdb(int id)
         {
-            var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
+            var personDataRequest = baseUrl + $"/person/{id}?" + apiKey;
 
-            var movie = new TmdbSingleMovieModel();
-            var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == id);
+            TmdbSingleActorModel person;
             using (var httpClient = new HttpClient())
             {
-                var endpoint = new Uri(movieDataRequest);
+                var endpoint = new Uri(personDataRequest);
                 var result = httpClient.GetAsync(endpoint).Result;
                 var json = result.Content.ReadAsStringAsync().Result;
 
-                var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
+                var personData = JsonConvert.DeserializeObject<TmdbSingleActorModel>(json);
+
+                person = new TmdbSingleActorModel{
+                    Biography = personData.Biography,
+                    DateOfBirth = personData.DateOfBirth,
+                    DeathDay = personData.DeathDay,
+                    Gender = personData.Gender,
+                    Name = personData.Name,
+                    PlaceOfBirth = personData.PlaceOfBirth,
+                    Photo = personData.Photo,
+                    TmdbId = personData.TmdbId
+                };
             }
 
-            return View(movie);
+            ValidatePersonData(person);
+            data.SaveChanges();
+
+            return View(person);
+        }
+
+        private void ValidatePersonData(TmdbSingleActorModel person)
+        {
+            var personOtCheck = data.Actors.FirstOrDefault(a => a.TmdbId == person.TmdbId);
+            if (personOtCheck == null)
+            {
+                data.Actors.Add(new Actor()
+                {
+                    Name = person.Name,
+                    Biography = person.Biography,
+                    Photo = person.Photo,
+                    Gender = person.Gender,
+                    DateOfBirth = person.DateOfBirth,
+                    DeathDay = person.DeathDay,
+                    PlaceOfBirth = person.PlaceOfBirth,
+                    TmdbId = person.TmdbId
+                });
+            }
+            else
+            {
+                if (personOtCheck.Name != person.Name)
+                {
+                    personOtCheck.Name = person.Name;
+                }
+                if (personOtCheck.Biography != person.Biography)
+                {
+                    personOtCheck.Biography = person.Biography;
+                }
+                if (personOtCheck.Photo != person.Photo)
+                {
+                    personOtCheck.Photo = person.Photo;
+                }
+                if (personOtCheck.Gender != person.Gender)
+                {
+                    personOtCheck.Gender = person.Gender;
+                }
+                if (personOtCheck.DateOfBirth != person.DateOfBirth)
+                {
+                    personOtCheck.DateOfBirth = person.DateOfBirth;
+                }
+                if (personOtCheck.DeathDay != person.DeathDay)
+                {
+                    personOtCheck.DeathDay = person.DeathDay;
+                }
+                if (personOtCheck.PlaceOfBirth != person.PlaceOfBirth)
+                {
+                    personOtCheck.PlaceOfBirth = person.PlaceOfBirth;
+                }
+            }
         }
     }
 }

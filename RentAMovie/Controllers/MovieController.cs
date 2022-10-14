@@ -97,9 +97,27 @@
                     // Most likely invalid movie ID
                     return RedirectToAction("Error", "Home");
                 }
-                data.SaveChanges();
 
                 movie = GetSingleMovieData(movieData);
+
+                if (movie.Actors != null)
+                {
+                    foreach (var actor in movie.Actors)
+                    {
+                        if (!data.Actors.Any(a => a.TmdbId == actor.Id))
+                        {
+                            movieToCheck.Actors.Add(new Actor()
+                            {
+                                TmdbId = actor.Id,
+                                Gender = actor.Gender,
+                                Name = actor.Name,
+                                Photo = actor.Photo
+                            });
+                        }
+                    }
+                }
+
+                data.SaveChanges();
             }
 
             return View(movie);
@@ -277,8 +295,62 @@
                 }
             }
 
-            var top6 = actorsModel.Take(10).ToList();
             return actorsModel;
+        }
+
+        // Slow don't use
+        private ICollection<Actor> GetActorsFromMovie(int movieId)
+        {
+            var allActorsDataRequest = baseUrl + $"/movie/{movieId}/casts?" + apiKey;
+
+            var actorModels = new List<Actor>();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(allActorsDataRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var teamData = JsonConvert.DeserializeObject<ProductionTeamModel>(json);
+
+                int index = 0;
+                if (teamData != null && teamData.Cast != null)
+                {
+                    foreach (var member in teamData.Cast)
+                    {
+                        var actorDataRequest = baseUrl + $"/person/{member.Id}?" + apiKey;
+
+                        if (member.Role == "Acting")
+                        {
+                            var endpointSingle = new Uri(actorDataRequest);
+                            var resultSingle = httpClient.GetAsync(endpointSingle).Result;
+                            var jsonSingle = resultSingle.Content.ReadAsStringAsync().Result;
+
+                            var actorData = JsonConvert.DeserializeObject<TmdbSingleActorModel>(jsonSingle);
+
+                            var newActor = new Actor()
+                            {
+                                Name = actorData.Name,
+                                Biography = actorData.Biography,
+                                Photo = actorData.Photo,
+                                Gender = actorData.Gender,
+                                DateOfBirth = null,
+                                DeathDay = null,
+                                PlaceOfBirth = actorData.PlaceOfBirth,
+                                TmdbId = actorData.TmdbId
+                            };
+
+                            actorModels.Add(newActor);
+                        }
+                        index++;
+                        if (index == 30)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return actorModels;
         }
     }
 }

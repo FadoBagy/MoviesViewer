@@ -15,7 +15,6 @@
         [MaxLength(ActorNameMaxLength)]
         public string Name { get; set; }
 
-        [Required]
         [MaxLength(PersonBiographyMaxLength)]
         public string? Biography { get; set; }
 
@@ -24,9 +23,9 @@
         [Range(PersonGenderMinLength, PersonGenderMaxLength)]
         public int? Gender { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
 
-        public DateTime? DeathDay { get; set; }
+        public string? DeathDay { get; set; }
 
         public string? PlaceOfBirth { get; set; }
 

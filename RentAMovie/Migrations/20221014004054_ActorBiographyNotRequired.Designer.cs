@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentAMovie.Data;
 
@@ -11,9 +12,10 @@ using RentAMovie.Data;
 namespace RentAMovie.Migrations
 {
     [DbContext(typeof(ViewMoviesDbContext))]
-    partial class ViewMoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221014004054_ActorBiographyNotRequired")]
+    partial class ActorBiographyNotRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,11 +283,11 @@ namespace RentAMovie.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DateOfBirth")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DeathDay")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("DeathDay")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("int");

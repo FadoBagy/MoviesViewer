@@ -12,7 +12,7 @@
         public const int MovieMinRating = 0;
 
         public const int ActorNameMaxLength = 55;
-        public const int PersonBiographyMaxLength = 800;
+        public const int PersonBiographyMaxLength = 5000;
         public const int PersonGenderMaxLength = 2;
         public const int PersonGenderMinLength = 1;
 
