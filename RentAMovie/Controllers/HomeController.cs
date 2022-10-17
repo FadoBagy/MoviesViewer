@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     using RentAMovie.Data;
     using RentAMovie.Models;
+    using RentAMovie.Models.Home;
     using RentAMovie.Models.MovieModuls;
     using System.Diagnostics;
 
@@ -20,9 +21,7 @@
 
         public IActionResult Index()
         {
-            var mostPopular21Request = baseUrl + "/discover/movie?primary_release_date.gte=2021-01-01&primary_release_date.lte=2021-09-31&" + apiKey;
             var topRatedActionsRequest = baseUrl + "/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&" + apiKey;
-
             var movies = new List<PopularMovieResultModule>();
             using (var httpClient = new HttpClient())
             {
@@ -41,7 +40,11 @@
             }
 
             var moviesTop5 = movies.Take(5);
-            return View(moviesTop5);
+            return View(new IndexViewModel()
+            {
+                TopActionMovies = moviesTop5,
+                TotalMovies = data.Movies.Count()
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

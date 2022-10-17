@@ -1,11 +1,15 @@
-﻿.carousel-item a {
+﻿#carouselExampleCaptions {
+    width: 80%;
+    margin: auto;
+}
+
+.carousel-item a {
     color: #fff;
     text-decoration: none;
 }
 
 .carouselImg {
     width: 100%;
-    /*height: 500px;*/
     height: 350px;
     background-repeat: no-repeat;
     background-position: center;
@@ -20,6 +24,29 @@
     box-shadow: 5px 10px 8px #888888;
 }
 
-.carousel-item h5:hover {
+.carousel-item a:hover {
     color: #1f7aff;
+}
+
+.statistics {
+    width: 90%;
+    background-color: #1f1f1f;
+    color: #f2f2f2;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.statistics-item {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.statistics-item p{
+    margin: 0px;
 }
