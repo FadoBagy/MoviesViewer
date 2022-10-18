@@ -1,0 +1,58 @@
+﻿@model SearchQueryModel
+@{
+	ViewData["Title"] = "Search";
+	string posterPath = "https://image.tmdb.org/t/p/w500";
+
+	List<Movie> movies = new List<Movie>();
+	if (Model.Movies != null )
+	{
+		movies = Model.Movies;
+	}
+}
+
+<div class="search-bar">
+	<form method="get">
+		<input asp-for="SearchTerm" class="form-control" />
+	</form>
+</div>
+<div class="result">
+	@if (Model.SearchTerm != null && Model.Movies.Count() > 0)
+	{
+		<div class="row">
+			@foreach (var movie in Model.Movies)
+			{
+				<div class="card">
+					<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+						@if (movie.Poster != null)
+						{
+							<img src="@(movie.TmdbId != null ? posterPath + movie.Poster : movie.Poster)" class="card-img-top" alt="@movie.Title poster">
+						}
+						else
+						{
+							<img src="~/images/default-icon.png" class="card-img-top">
+						}
+					</a>
+					<div class="card-body">
+						<div class="rating">
+							<p>@(movie.Rating != null ? movie.Rating.Value.ToString("0.0") : "NR")</p>
+						</div>
+						<h5 class="card-title">
+							<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
+						</h5>
+						<h6>@(movie.DatePublished != null ? movie.DatePublished.Value.ToString("MMM dd, yyyy") : "-")</h6>
+					</div>
+					<img class="info" src="~/images/information.png" alt="info button">
+				</div>
+			}
+		</div>
+	}
+	else
+	{
+		<p id="no-results">No results</p>
+	}
+</div>
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/search.css" />
+	<link rel="stylesheet" href="~/css/movies.css" />
+}

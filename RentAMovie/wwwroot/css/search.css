@@ -1,0 +1,14 @@
+﻿input {
+    font-size: 1.6rem !important;
+}
+
+.row {
+    margin-top: 30px;
+}
+
+#no-results {
+    margin: 30px 0 0 10px;
+    font-size: 1.3rem;
+    opacity: 90%;
+    user-select: none;
+}

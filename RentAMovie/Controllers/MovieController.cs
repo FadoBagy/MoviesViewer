@@ -100,25 +100,28 @@
 
                 movie = GetSingleMovieData(movieData);
 
-                if (movie.Actors != null)
-                {
-                    foreach (var actor in movie.Actors)
-                    {
-                        if (!data.Actors.Any(a => a.TmdbId == actor.Id))
-                        {
-                            movieToCheck.Actors.Add(new Actor()
-                            {
-                                TmdbId = actor.Id,
-                                Gender = actor.Gender,
-                                Name = actor.Name,
-                                Photo = actor.Photo
-                            });
-                        }
-                    }
-                }
-
                 data.SaveChanges();
             }
+
+            if (movie.Actors != null)
+            {
+                foreach (var actor in movie.Actors)
+                {
+                    if (!data.Actors.Any(a => a.TmdbId == actor.Id))
+                    {
+                        var newActor = new Actor()
+                        {
+                            TmdbId = actor.Id,
+                            Gender = actor.Gender,
+                            Name = actor.Name,
+                            Photo = actor.Photo
+                        };
+
+                        data.Movies.FirstOrDefault(m => m.TmdbId == id).Actors.Add(newActor);
+                    }
+                }
+            }
+            data.SaveChanges();
 
             return View(movie);
         }
