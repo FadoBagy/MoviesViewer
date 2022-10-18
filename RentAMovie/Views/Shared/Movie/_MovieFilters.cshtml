@@ -1,10 +1,29 @@
 ﻿<div class="search-section">
 	<h1>Movies</h1>
 	<div class="top-nav">
-		<p>Sort By:</p>
-		<button type="button" class="btn btn-primary">Rating</button>
-		<button type="button" class="btn btn-primary">Popularity</button>
-		<button type="button" class="btn btn-primary">Number of votes</button>
+		<div class="dropdown">
+			<a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Sort By
+			</a>
+			<ul class="dropdown-menu">
+				<li><a class="dropdown-item" href="#">Rating Descending</a></li>
+				<li><a class="dropdown-item" href="#">Rating Ascending</a></li>
+				<li><a class="dropdown-item" href="#">Popularity Descending</a></li>
+				<li><a class="dropdown-item" href="#">Popularity Ascending</a></li>
+				<li><a class="dropdown-item" href="#">Release Date Descending</a></li>
+				<li><a class="dropdown-item" href="#">Release Date Ascending</a></li>
+				<li><a class="dropdown-item" href="#">Title (A-Z)</a></li>
+				<li><a class="dropdown-item" href="#">Title (Z-A)</a></li>
+			</ul>
+		</div>
+		<div class="dropdown">
+			<a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Filters
+			</a>
+			<ul class="dropdown-menu">
+				<li><a class="dropdown-item" href="#">Number of votes</a></li>
+			</ul>
+		</div>
 		<a asp-controller="Search" asp-action="Index" class="btn btn-secondary">Search</a>
 	</div>
 </div>

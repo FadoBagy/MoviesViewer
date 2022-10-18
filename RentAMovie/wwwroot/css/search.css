@@ -12,3 +12,48 @@
     opacity: 90%;
     user-select: none;
 }
+
+.filters {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.filter-item {
+    min-width: 100px;
+    background-color: #fff;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+.filter-item p {
+    margin: 0;
+}
+
+.filter-item:hover {
+    border: 2px solid #6fc2ff
+}
+
+.filters::-webkit-scrollbar-track {
+    padding: 2px 0;
+    background-color: inherit;
+}
+
+.filters::-webkit-scrollbar {
+    height: 5px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+    height: 2px;
+    border-radius: 5px;
+    background-color: #6c757d;
+}

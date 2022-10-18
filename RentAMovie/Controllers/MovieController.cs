@@ -25,6 +25,8 @@
         public IActionResult Popular()
         {
             string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
+            string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
+
             var movies = new List<PopularMovieResultModule>();
             CollectMoviesData(mostPopularRequest, movies);
 

@@ -9,6 +9,56 @@
 	<form method="get" autocomplete="off">
 		<input asp-for="SearchTerm" class="form-control" />
 	</form>
+	<div class="filters">
+		<div class="filter-item">
+			<p>Action</p>
+		</div>
+		<div class="filter-item">
+			<p>Comedy</p>
+		</div>
+		<div class="filter-item">
+			<p>Horror</p>
+		</div>
+		<div class="filter-item">
+			<p>Drama</p>
+		</div>
+		<div class="filter-item">
+			<p>Thriller</p>
+		</div>
+		<div class="filter-item">
+			<p>Adventure</p>
+		</div>
+		<div class="filter-item">
+			<p>Sci-Fi</p>
+		</div>
+		<div class="filter-item">
+			<p>Crime</p>
+		</div>
+		<div class="filter-item">
+			<p>Documentary</p>
+		</div>
+		<div class="filter-item">
+			<p>Fantasy</p>
+		</div>
+		<div class="filter-item">
+			<p>History</p>
+		</div>
+		<div class="filter-item">
+			<p>Romance</p>
+		</div>
+		<div class="filter-item">
+			<p>War</p>
+		</div>
+		<div class="filter-item">
+			<p>Western</p>
+		</div>
+		<div class="filter-item">
+			<p>Popular</p>
+		</div>
+		<div class="filter-item">
+			<p>Top rated</p>
+		</div>
+	</div>
 </div>
 <div class="result">
 	@if (Model.SearchTerm != null && Model.Movies.Count() > 0)
@@ -24,7 +74,7 @@
 				{
 					ratingColor = "orange";
 				}
-				else if (movie.Rating < 5)
+				else if (movie.Rating < 5 && movie.Rating > 0)
 				{
 					ratingColor = "red";
 				}
@@ -46,7 +96,7 @@
 					</a>
 					<div class="card-body">
 						<div class="rating @ratingColor">
-							<p>@(movie.Rating != null ? movie.Rating.Value.ToString("0.0") : "NR")</p>
+							<p>@(movie.Rating != null && movie.Rating != 0 ? movie.Rating.Value.ToString("0.0") : "NR")</p>
 						</div>
 						<h5 class="card-title">
 							<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>

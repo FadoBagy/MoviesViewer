@@ -15,15 +15,18 @@
         [Route("/Search")]
         public IActionResult Index(string searchTerm)
         {
-            var movies = data.Movies
-                .Where(m => m.Title.Contains(searchTerm))
-                .OrderByDescending(m => m.DatePublished)
-                .ToList();
+            var movieQuery = data.Movies.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                movieQuery = movieQuery
+                    .Where(m => m.Title.Contains(searchTerm))
+                    .OrderByDescending(m => m.DatePublished);
+            }
 
             return View(new SearchQueryModel()
             {
                 SearchTerm = searchTerm,
-                Movies = movies
+                Movies = movieQuery.ToList()
             });
         }
     }
