@@ -53,6 +53,8 @@
     {
         placeOfBirth = Model.PlaceOfBirth;
     }
+
+    bool fromWikipedia = false;
 }
 
 <div class="main-section">
@@ -136,6 +138,11 @@
                 {
                     foreach (var part in biographyParts)
                     {
+                        if (part.Contains("Wikipedia") || part.Contains("wikipedia"))
+                        {
+                            fromWikipedia = true;
+                        }
+
                         if (part != "" && !part.Contains("Wikipedia") && !part.Contains("wikipedia"))
                         {
                             <p>@part</p>
@@ -150,6 +157,11 @@
             else
             {
                 <p>Missing biography for @Model.Name</p>
+            }
+
+            @if (fromWikipedia)
+            {
+                <p id="wikipedia">WIKIPEDIA</p>
             }
         </div>
         <div class="movies">

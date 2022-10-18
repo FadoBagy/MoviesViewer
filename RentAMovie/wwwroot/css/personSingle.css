@@ -76,3 +76,10 @@
    font-size: 1.2rem;
    font-weight: 500;
 }
+
+#wikipedia{
+    font-size: 0.9rem;
+    opacity: 80%;
+    user-select: none;
+    margin-bottom: 0;
+}

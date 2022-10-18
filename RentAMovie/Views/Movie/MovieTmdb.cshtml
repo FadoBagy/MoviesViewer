@@ -1,6 +1,6 @@
 ﻿@model TmdbSingleMovieModel
 @{
-    ViewData["Title"] = Model.Title + $" ({Model.ReleaseDate.Year})";
+    ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     string posterPath = "https://image.tmdb.org/t/p/w500";
 
@@ -15,7 +15,14 @@
     <span class="blur-color"></span>
     <section class="information-container">
         <div class="info-img">
-            <img src="@(posterPath + Model.PosterPath)" alt="@Model.Title poster">
+            @if (Model.PosterPath != null)
+            {
+                <img src="@(posterPath + Model.PosterPath)" />
+            }
+            else
+            {
+                <img src="~/images/default-poster1.png" />
+            }
         </div>
         <div class="info-main">
             <div class="header-info">
@@ -24,19 +31,35 @@
                 </div>
                 <div>
                     <ul>
-                        <li>@Model.ReleaseDate.Year</li>
-                        <li>@($" • {hours}h {minutes}m")</li>
+                        @if (Model.ReleaseDate != null)
+                        {
+                            <li>@Model.ReleaseDate.Value.Year</li>
+                        }
+                        @if (minutes != 0 && hours != 0)
+                        {
+                            <li>@($" • {hours}h {minutes}m")</li>
+                        }
                     </ul>
                 </div>
             </div>
             <div class="user-score">
                 <p class="rating-small">User Score</p>
-                <div>
-                    <img src="~/images/star.png" />
-                    <b>@float.Parse(Model.Rating).ToString("0.0")</b>
-                    <span class="rating-small">/10</span>
-                </div>
-                <span class="rating-small">@Model.VoteCount.ToString("#,##0") Ratings</span>
+                @if (Model.VoteCount != null && Model.VoteCount > 0)
+                {
+                    <div>
+                        <img src="~/images/star.png" />
+                        <b>@float.Parse(Model.Rating).ToString("0.0")</b>
+                        <span class="rating-small">/10</span>
+                    </div>
+                    <span class="rating-small">@Model.VoteCount.Value.ToString("#,##0") Ratings</span>
+                }
+                else
+                {
+                    <div>
+                        <img src="~/images/star.png" />
+                        <b>NR</b>
+                    </div>
+                }
             </div>
             <div class="overview-info">
                 @if (Model.Tagline != null)
@@ -44,7 +67,7 @@
                     <div id="tagline">@Model.Tagline</div>
                 }
                 <h4>Overview</h4>
-                <div id="description">@Model.Description</div>
+                <div id="description">@(Model.Description != "" ? Model.Description : "No description available")</div>
             </div>
         </div>
     </section>
@@ -53,10 +76,12 @@
     <div class="main-details">
         <h3>Top Cast</h3>
         <div class="actors media-scroller">
+            @if (Model.Actors != null && Model.Actors.Count > 0)
+            {
                 @foreach (var actor in Model.Actors)
                 {
                     <div class="card">
-                    <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
+                        <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
                             @if (actor.Photo != null)
                             {
                                 <img src="@(posterPath + actor.Photo)" class="card-img-top">
@@ -68,11 +93,11 @@
                         </a>
                         <div class="card-body">
                             <p class="card-title">
-                            <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">@actor.Name</a>
+                                <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">@actor.Name</a>
                             </p>
                             <p class="small">@actor.Character</p>
                         </div>
-                    </div> 
+                    </div>
                     index++;
                     if (index == 10)
                     {
@@ -82,31 +107,33 @@
                         break;
                     }
                 }
+            }
+            else
+            {
+                <div id="no-actors">
+                    <h5>No actors available</h5>
+                </div>
+            }
         </div>
     </div>
     <div class="aside-details">
         <div class="aside-member">
             <h5>Budget</h5>
-            @if (Model.Budget == 0 || Model.Budget == null)
-            {
-                <p>-</p>
-            }
-            else
-            {
-                <p>$@(((int)@Model.Budget).ToString("#,##0.00"))</p>
-            }
-            
+            <p>
+                @(
+                Model.Budget == 0 || Model.Budget == null ?
+                "-" :
+                $"${((int)@Model.Budget).ToString("#,##0.00")}")
+            </p>
         </div>
         <div class="aside-member">
             <h5>Revenue</h5>
-            @if (Model.Revenue == 0 || Model.Revenue == null)
-            {
-                <p>-</p>
-            }
-            else
-            {
-                <p>$@(((int)@Model.Revenue).ToString("#,##0.00"))</p>
-            }
+            <p>
+                @(
+                Model.Revenue == 0 || Model.Revenue == null ?
+                "-" :
+                $"${((int)@Model.Revenue).ToString("#,##0.00")}")
+            </p>
         </div>
     </div>
 </div>

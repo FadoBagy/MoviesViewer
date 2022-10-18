@@ -201,3 +201,9 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
+
+#no-actors {
+    width: fit-content !important;
+    opacity: 80%;
+    user-select: none;
+}

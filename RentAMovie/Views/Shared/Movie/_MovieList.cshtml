@@ -8,15 +8,21 @@
 	<div class="row">
 		@foreach (var movie in Model)
 		{
-			if (float.Parse(movie.Rating) >= 8)
+			string rating = "0.0";
+			if (movie.Rating != null)
+			{
+				rating = movie.Rating;
+			}
+
+			if (float.Parse(rating) >= 8)
 			{
 				ratingColor = "green";
 			}
-			else if (float.Parse(movie.Rating) >= 5)
+			else if (float.Parse(rating) >= 5)
 			{
 				ratingColor = "orange";
 			}
-			else if (float.Parse(movie.Rating) < 5 && float.Parse(movie.Rating) > 0)
+			else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
 			{
 				ratingColor = "red";
 			}
@@ -33,7 +39,7 @@
 					}
 					else
 					{
-						<img src="~/images/default-icon.png" class="card-img-top">
+						<img src="~/images/default-poster1.png" />
 					}
 				</a>
 				<div class="card-body">
