@@ -2,12 +2,7 @@
 @{
 	ViewData["Title"] = "Search";
 	string posterPath = "https://image.tmdb.org/t/p/w500";
-
-	List<Movie> movies = new List<Movie>();
-	if (Model.Movies != null )
-	{
-		movies = Model.Movies;
-	}
+	string ratingColor;
 }
 
 <div class="search-bar">
@@ -21,6 +16,19 @@
 		<div class="row">
 			@foreach (var movie in Model.Movies)
 			{
+				if (movie.Rating >= 8)
+				{
+					ratingColor = "green";
+				}
+				else if (movie.Rating >= 5)
+				{
+					ratingColor = "orange";
+				}
+				else
+				{
+					ratingColor = "red";
+				}
+
 				<div class="card">
 					<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
 						@if (movie.Poster != null)
@@ -33,7 +41,7 @@
 						}
 					</a>
 					<div class="card-body">
-						<div class="rating">
+						<div class="rating @ratingColor">
 							<p>@(movie.Rating != null ? movie.Rating.Value.ToString("0.0") : "NR")</p>
 						</div>
 						<h5 class="card-title">
