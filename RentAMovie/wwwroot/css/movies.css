@@ -84,8 +84,12 @@ main .container {
     color: #e67100;
 }
 
-.red{
+.red {
     color: #c20000;
+}
+
+.black {
+    color: #212529;
 }
 
 .info {
@@ -94,13 +98,12 @@ main .container {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
-
-    -webkit-touch-callout: none; 
-    -webkit-user-select: none; 
-    -khtml-user-select: none; 
-    -moz-user-select: none; 
-    -ms-user-select: none; 
-    user-select: none; 
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #dark {

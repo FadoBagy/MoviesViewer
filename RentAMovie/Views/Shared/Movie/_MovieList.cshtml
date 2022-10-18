@@ -16,9 +16,13 @@
 			{
 				ratingColor = "orange";
 			}
-			else
+			else if (float.Parse(movie.Rating) < 5)
 			{
 				ratingColor = "red";
+			}
+			else
+			{
+				ratingColor = "black";
 			}
 
 			<div class="card">
@@ -34,7 +38,7 @@
 				</a>
 				<div class="card-body">
 					<div class="rating @ratingColor">
-						<p>@float.Parse(movie.Rating).ToString("0.0")</p>
+						<p>@(movie.Rating != null ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
 					</div>
 					<h5 class="card-title">
 						<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
