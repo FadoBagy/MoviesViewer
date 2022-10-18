@@ -18,6 +18,10 @@ body {
   background-color: #f2f2f2;
 }
 
+img {
+    user-select: none;
+}
+
 .dropdown-item {
     color: rgb(33,37,41) !important;
 }
