@@ -61,12 +61,17 @@
             return RedirectToAction("Index", "Home");
         }
 
-        // Now every user can edit any movie, FIX
         //[Route("/Movies/MyMovies/Edit")]
         [Authorize]
         public IActionResult Edit(int id)
         {
             var movie = data.Movies.Find(id);
+
+            if (movie?.UserId != GetCurrentUserId())
+            {
+                TempData["error"] = "You can't edit this movie!";
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(new AddMovieFormModule()
             {
@@ -92,18 +97,24 @@
                 return View(model);
             }
 
-            var moive = data.Movies.Find(id);
+            var movie = data.Movies.Find(id);
 
-            moive.Title = model.Title?.TrimEnd();
-            moive.Description = model.Description?.TrimEnd();
-            moive.Tagline = model.Tagline?.TrimEnd();
-            moive.Runtime = model.Runtime;
-            moive.Revenue = model.Revenue;
-            moive.Budget = model.Budget;
-            moive.DatePublished = model.DatePublished;
-            moive.Poster = model.Poster;
-            moive.BackdropPath = model.Backdrop;
-            moive.Trailer = model.Trailer;
+            if (movie?.UserId != GetCurrentUserId())
+            {
+                TempData["error"] = "You can't edit this movie!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            movie.Title = model.Title.TrimEnd();
+            movie.Description = model.Description?.TrimEnd();
+            movie.Tagline = model.Tagline?.TrimEnd();
+            movie.Runtime = model.Runtime;
+            movie.Revenue = model.Revenue;
+            movie.Budget = model.Budget;
+            movie.DatePublished = model.DatePublished;
+            movie.Poster = model.Poster;
+            movie.BackdropPath = model.Backdrop;
+            movie.Trailer = model.Trailer;
             data.SaveChanges();
 
             return RedirectToAction("UserMovies", "Movie");
