@@ -1,5 +1,4 @@
 ﻿#nullable disable
-
 namespace RentAMovie.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;

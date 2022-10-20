@@ -1,25 +1,9 @@
 ﻿namespace RentAMovie.Data.Models
 {
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
-    using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
 
-    using static DataConstants;
-
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        [MaxLength(UserUsernameMaxLength)]
-        public string Username { get; set; }
-
-        [Required]
-        [MaxLength(UserEmailMaxLength)]
-        public string Email { get; set; }
-
-        public int Password { get; set; }
-
         public string? Photo { get; set; }
 
         public ICollection<Movie> UploadedMovies { get; set; } = new List<Movie>();

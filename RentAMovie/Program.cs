@@ -1,8 +1,8 @@
 namespace RentAMovie
 {
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
+    using RentAMovie.Data.Models;
 
     public class Program
     {
@@ -17,8 +17,11 @@ namespace RentAMovie
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => 
-                options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<User>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+            })
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
             builder.Services.AddControllersWithViews();     
 

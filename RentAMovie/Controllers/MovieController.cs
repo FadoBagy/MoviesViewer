@@ -1,5 +1,6 @@
 ﻿namespace RentAMovie.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
@@ -43,12 +44,14 @@
             return View(movies);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Create(AddMovieFormModule movie)
         {
             if (!ModelState.IsValid)

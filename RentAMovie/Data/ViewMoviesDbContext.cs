@@ -4,15 +4,13 @@
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data.Models;
 
-    public class ViewMoviesDbContext : IdentityDbContext
+    public class ViewMoviesDbContext : IdentityDbContext<User>
     {
         public ViewMoviesDbContext(DbContextOptions<ViewMoviesDbContext> options)
             : base(options)
         {
         }
 
-        // TODO: change user entity
-        public DbSet<User> Users { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Director> Directors { get; set; }
         public DbSet<Actor> Actors { get; set; }
@@ -21,20 +19,25 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            //modelBuilder
+            //    .Entity<Movie>()
+            //    .HasOne(m => m.User)
+            //    .WithMany(u => u.UploadedMovies)
+            //    .HasForeignKey(m => m.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder
-                .Entity<Movie>()
-                .HasOne(m => m.User)
-                .WithMany(m => m.UploadedMovies)
-                .HasForeignKey(m => m.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-            
+            //modelBuilder
+            //    .Entity<User>()
+            //    .Property(x => x.UserName)
+            //    .HasMaxLength(15);
+
             //modelBuilder
             //     .Entity<StudentCourse>(e =>
             //     {
             //         e.HasKey(sc => new { sc.StudentId, sc.CourseId });
             //     });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

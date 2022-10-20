@@ -1,5 +1,6 @@
 ﻿namespace RentAMovie.Data.Models
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -58,7 +59,7 @@
         public ICollection<Actor> Actors { get; set; } = new List<Actor>();
 
         [ForeignKey(nameof(User))]
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public User? User { get; set; }
 
         //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
