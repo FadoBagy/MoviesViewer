@@ -40,6 +40,10 @@
         public string? Poster { get; init; }
 
         [Url(ErrorMessage = "Invalid URL")]
+        [Display(Name = "Backdrop URL")]
+        public string? Backdrop { get; init; }
+
+        [Url(ErrorMessage = "Invalid URL")]
         [Display(Name = "Trailer URL")]
         public string? Trailer { get; init; }
 

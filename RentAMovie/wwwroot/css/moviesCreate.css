@@ -1,9 +1,26 @@
-﻿.row {
+﻿h2 {
+    text-align: center;
+}
+
+.row-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
     margin-left: 10px;
+    width: fit-content;
 }
 
 form .form-group {
     margin-bottom: 5px;
+    width: 500px;
+}
+
+.form-group input[type="submit"]{
+    width: 100%;
+    margin-top: 20px;
 }
 
 .form-group span[id*="-error"] {

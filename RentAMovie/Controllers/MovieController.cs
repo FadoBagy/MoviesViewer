@@ -1,6 +1,7 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
@@ -9,39 +10,19 @@
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.PersonModels;
     using System.Linq;
+    using System.Security.Claims;
 
     public class MovieController : Controller
     {
         private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
         private readonly string baseUrl = "https://api.themoviedb.org/3";
 
+        private readonly UserManager<User> userManager;
         private readonly ViewMoviesDbContext data;
-        public MovieController(ViewMoviesDbContext data)
+        public MovieController(ViewMoviesDbContext data, UserManager<User> userManager)
         {
             this.data = data;
-        }
-
-        [ActionName("Popular")]
-        [Route("/Movies/Popular")]
-        public IActionResult Popular()
-        {
-            string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
-            string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
-
-            var movies = new List<PopularMovieResultModule>();
-            CollectMoviesData(mostPopularRequest, movies);
-
-            return View(movies);
-        }
-
-        [Route("/Movies/TopRated")]
-        public IActionResult TopRated()
-        {
-            string topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
-            var movies = new List<PopularMovieResultModule>();
-            CollectMoviesData(topRatedRequest, movies);
-
-            return View(movies);
+            this.userManager = userManager;
         }
 
         [Authorize]
@@ -61,15 +42,17 @@
 
             var newMovie = new Movie
             {
-                Title = movie.Title,
-                Description = movie.Description,
-                Tagline = movie.Tagline,
+                Title = movie.Title.TrimEnd(),
+                Description = movie.Description.TrimEnd(),
+                Tagline = movie.Tagline?.TrimEnd(),
                 Runtime = movie.Runtime,
                 Revenue = movie.Revenue,
                 Budget = movie.Budget,
                 DatePublished = movie.DatePublished,
                 Poster = movie.Poster,
-                Trailer = movie.Trailer
+                BackdropPath = movie.Backdrop,
+                Trailer = movie.Trailer,
+                UserId = GetCurrentUserId()
             };
 
             data.Movies.Add(newMovie);
@@ -78,8 +61,90 @@
             return RedirectToAction("Index", "Home");
         }
 
+        // Now every user can edit any movie, FIX
+        //[Route("/Movies/MyMovies/Edit")]
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var movie = data.Movies.Find(id);
+
+            return View(new AddMovieFormModule()
+            {
+                Title = movie.Title,
+                Description = movie.Description,
+                Tagline = movie.Tagline,
+                Runtime = movie.Runtime,
+                Revenue = movie.Revenue,
+                Budget = movie.Budget,
+                DatePublished = movie.DatePublished,
+                Poster = movie.Poster,
+                Backdrop = movie.BackdropPath,
+                Trailer = movie.Trailer
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, AddMovieFormModule model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var moive = data.Movies.Find(id);
+
+            moive.Title = model.Title?.TrimEnd();
+            moive.Description = model.Description?.TrimEnd();
+            moive.Tagline = model.Tagline?.TrimEnd();
+            moive.Runtime = model.Runtime;
+            moive.Revenue = model.Revenue;
+            moive.Budget = model.Budget;
+            moive.DatePublished = model.DatePublished;
+            moive.Poster = model.Poster;
+            moive.BackdropPath = model.Backdrop;
+            moive.Trailer = model.Trailer;
+            data.SaveChanges();
+
+            return RedirectToAction("UserMovies", "Movie");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var moive = data.Movies.Find(id);
+            if (moive != null)
+            {
+                data.Movies.Remove(moive);
+                data.SaveChanges();
+            }
+
+            return RedirectToAction("UserMovies", "Movie");
+        }
+
+        [Route("/Movies/MyMovies")]
+        [Authorize]
+        public IActionResult UserMovies()
+        {
+            var userMovies = data.Movies
+                .Where(m => m.UserId == GetCurrentUserId())
+                .OrderByDescending(m => m.DateCreated)
+                .Select(m => new UserMovieViewCardModel
+                {
+                    Title = m.Title,
+                    Description = m.Description,
+                    ReleaseDate = m.DatePublished,
+                    PosterPath = m.Poster,
+                    Id = m.Id
+                })
+                .ToList();
+
+            return View(userMovies);
+        }
+
         [Route("/Movie/{id}-tmdb")]
-        public IActionResult MovieTmdb(int id) 
+        public IActionResult MovieTmdb(int id)
         {
             var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
 
@@ -129,6 +194,34 @@
             data.SaveChanges();
 
             return View(movie);
+        }
+
+        [ActionName("Popular")]
+        [Route("/Movies/Popular")]
+        public IActionResult Popular()
+        {
+            string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
+            string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
+
+            var movies = new List<PopularMovieResultModule>();
+            CollectMoviesData(mostPopularRequest, movies);
+
+            return View(movies);
+        }
+
+        [Route("/Movies/TopRated")]
+        public IActionResult TopRated()
+        {
+            string topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
+            var movies = new List<PopularMovieResultModule>();
+            CollectMoviesData(topRatedRequest, movies);
+
+            return View(movies);
+        }
+
+        private string GetCurrentUserId()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private TmdbSingleMovieModel GetSingleMovieData(TmdbSingleMovieModel movie)

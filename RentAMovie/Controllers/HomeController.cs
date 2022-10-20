@@ -43,7 +43,8 @@
             return View(new IndexViewModel()
             {
                 TopActionMovies = moviesTop5,
-                TotalMovies = data.Movies.Count()
+                TotalMovies = data.Movies.Count(),
+                TotalUsers = data.Users.Count()
             });
         }
 

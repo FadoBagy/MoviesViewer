@@ -1,0 +1,89 @@
+﻿@model AddMovieFormModule
+
+<div class="row-container">
+    <div class="row">
+        <div class="col-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tagline" class="control-label"></label>
+                    <input asp-for="Tagline" class="form-control" />
+                    <span asp-validation-for="Tagline" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Runtime" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <input asp-for="Runtime" class="form-control" />
+                        <span class="input-group-text">min</span>
+                    </div>
+                    <span asp-validation-for="Runtime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Revenue" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input asp-for="Revenue" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Revenue" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Budget" class="control-label"></label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input asp-for="Budget" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Budget" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DatePublished" class="control-label"></label>
+                    <input asp-for="DatePublished" class="form-control" />
+                    <span asp-validation-for="DatePublished" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Poster" class="control-label"></label>
+                    <input asp-for="Poster" class="form-control" />
+                    <span asp-validation-for="Poster" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Backdrop" class="control-label"></label>
+                    <input asp-for="Backdrop" class="form-control" />
+                    <span asp-validation-for="Backdrop" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Trailer" class="control-label"></label>
+                    <input asp-for="Trailer" class="form-control" />
+                    <span asp-validation-for="Trailer" class="text-danger"></span>
+                </div>
+                @*
+                TODO: Implement Genres
+                <div class="form-group">
+                <input asp-for="ContentRanting" class="form-control" />
+
+                <label asp-for="ContentRanting" class="control-label"></label>
+                <select asp-for="ContentRanting" class="form-select">
+                @foreach
+                <option value="id">name</option>
+
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+                </select>
+                <span asp-validation-for="ContentRanting" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <input type="submit" value="@(ViewData["Title"] == "Create Movie" ? "Create" : "Submit")" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

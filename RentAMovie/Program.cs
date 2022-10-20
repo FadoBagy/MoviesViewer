@@ -20,6 +20,7 @@ namespace RentAMovie
             builder.Services.AddDefaultIdentity<User>(options => {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
             })
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
