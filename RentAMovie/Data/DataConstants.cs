@@ -2,14 +2,29 @@
 {
     public class DataConstants
     {
-        public const int MovieTitleMaxLength = 210;
-        public const int MovieTitleMinLength = 1;
-        public const int MovieDescriptionMaxLength = 800;
-        public const int MovieDescriptionMinLength = 3;
-        public const int MovieMaxRuntime = 880;
-        public const int MovieMinRuntime = 0;
-        public const int MovieMaxRating = 10;
-        public const int MovieMinRating = 0;
+        public class Movie
+        {
+            public const int MaxMovieTitle = 210;
+            public const int MinMovieTitle = 1;
+
+            public const int MaxMovieDescription = 800;
+            public const int MinMovieDescription = 3;
+
+            public const string MaxMovieRuntime = "880";
+            public const string MinMovieRuntime = "0";
+
+            public const string MaxMovieRating = "10.0";
+            public const string MinMovieRating = "0.0";
+        }
+
+        public class User
+        {
+            public const int MaxUserUsername = 40;
+            public const int MinUserUsername = 0;
+
+            public const int MaxUserPassword = 100;
+            public const int MinUserPassword = 6;
+        }
 
         public const int ActorNameMaxLength = 55;
         public const int PersonBiographyMaxLength = 5000;

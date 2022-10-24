@@ -1,11 +1,10 @@
 ﻿namespace RentAMovie.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static DataConstants;
+    using static DataConstants.Movie;
 
     public class Movie
     {
@@ -15,21 +14,23 @@
         public int? TmdbId { get; set; }
 
         [Required]
-        [MinLength(MovieTitleMinLength)]
-        [MaxLength(MovieTitleMaxLength)]
+        [StringLength(MaxMovieTitle,
+            MinimumLength = MinMovieTitle)]
         public string Title { get; set; }
 
         [Required]
-        [MinLength(MovieDescriptionMinLength)]
-        [MaxLength(MovieDescriptionMaxLength)]
+        [StringLength(MaxMovieDescription,
+            MinimumLength = MinMovieDescription)]
         public string? Description { get; set; }
 
         public string? Tagline { get; set; }
 
-        [Range(MovieMinRuntime, MovieMaxRuntime)]
+        [Range(typeof(int), MinMovieRuntime, MaxMovieRuntime,
+            ConvertValueInInvariantCulture = true)]
         public int? Runtime { get; set; }
 
-        [Range(MovieMinRating, MovieMaxRating)]
+        [Range(typeof(float), MinMovieRating, MaxMovieRating,
+            ConvertValueInInvariantCulture = true)]
         public float? Rating { get; set; }
 
         public int? VoteCount { get; set; }

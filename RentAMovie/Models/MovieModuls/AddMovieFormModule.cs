@@ -1,30 +1,29 @@
 ﻿namespace RentAMovie.Models.MovieModuls
 {
     using Microsoft.AspNetCore.Mvc;
-    using RentAMovie.Data.Models.Enums;
     using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants;
+    using static Data.DataConstants.Movie;
 
     public class AddMovieFormModule
     {
-        [StringLength(MovieTitleMaxLength, 
-            MinimumLength = MovieTitleMinLength,
+        [StringLength(MaxMovieTitle, 
+            MinimumLength = MinMovieTitle,
             ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Title { get; init; }
 
-        [StringLength(MovieDescriptionMaxLength,
-            MinimumLength = MovieDescriptionMinLength, 
+        [StringLength(MaxMovieDescription,
+            MinimumLength = MinMovieDescription, 
             ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
         public string Description { get; init; }
 
         public string? Tagline { get; set; }
 
-        [Range(MovieMinRuntime,
-            MovieMaxRuntime,
-            ErrorMessage = "{0} length must be between {1} and {2}.")]
+        [Range(typeof(int), MinMovieRuntime, MaxMovieRuntime,
+            ErrorMessage = "{0} length must be between {1} and {2}.",
+            ConvertValueInInvariantCulture = true)]
         public int? Runtime { get; init; }
 
         public int? Revenue { get; init; }

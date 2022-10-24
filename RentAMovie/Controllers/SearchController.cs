@@ -31,7 +31,7 @@
                 {
                     Title = m.Title,
                     Description = m.Description,
-                    ReleaseDate = m.DateCreated,
+                    ReleaseDate = m.DatePublished,
                     Rating = m.Rating.ToString(),
                     TmdbId = (int)m.TmdbId,
                     VoteCount = (int)m.VoteCount,

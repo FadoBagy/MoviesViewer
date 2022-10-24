@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using RentAMovie.Data;
 namespace RentAMovie
 {
     using Microsoft.EntityFrameworkCore;

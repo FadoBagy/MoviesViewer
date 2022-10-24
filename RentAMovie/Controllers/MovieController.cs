@@ -69,7 +69,7 @@
 
             if (movie?.UserId != GetCurrentUserId())
             {
-                TempData["error"] = "You can't edit this movie!";
+                TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -101,7 +101,7 @@
 
             if (movie?.UserId != GetCurrentUserId())
             {
-                TempData["error"] = "You can't edit this movie!";
+                TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -124,10 +124,16 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            var moive = data.Movies.Find(id);
-            if (moive != null)
+            var movie = data.Movies.Find(id);
+            if (movie?.UserId != GetCurrentUserId())
             {
-                data.Movies.Remove(moive);
+                TempData["error"] = "You cannot edit this movie!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (movie != null)
+            {
+                data.Movies.Remove(movie);
                 data.SaveChanges();
             }
 
