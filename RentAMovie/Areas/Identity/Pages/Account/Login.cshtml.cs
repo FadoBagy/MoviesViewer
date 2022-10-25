@@ -41,8 +41,13 @@ namespace RentAMovie.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
+            if (User?.Identity.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -51,12 +56,12 @@ namespace RentAMovie.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ReturnUrl = returnUrl;
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-
 
             if (ModelState.IsValid)
             {

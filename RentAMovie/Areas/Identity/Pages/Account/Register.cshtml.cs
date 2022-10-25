@@ -58,9 +58,17 @@ namespace RentAMovie.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
-            ReturnUrl = returnUrl;
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ReturnUrl = returnUrl;
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
