@@ -1,10 +1,9 @@
 ﻿namespace RentAMovie.Data.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static DataConstants;
+    using static DataConstants.Review;
 
     public class Review
     {
@@ -12,7 +11,7 @@
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ReviewContentMaxLength)]
+        [StringLength(MaxReviewContent)]
         public string Content { get; set; }
 
         public DateTime CreationDate { get; set; } = DateTime.Now;

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Log out";
 }
 
-<header>
+<header class="logout">
     <h1>@ViewData["Title"]</h1>
     @{
         if (User?.Identity?.IsAuthenticated ?? false)
@@ -19,3 +19,7 @@
         }
     }
 </header>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/authentication.css" />
+}

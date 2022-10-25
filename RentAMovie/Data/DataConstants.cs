@@ -26,14 +26,21 @@
             public const int MinUserPassword = 6;
         }
 
-        public const int ActorNameMaxLength = 55;
-        public const int PersonBiographyMaxLength = 5000;
-        public const int PersonGenderMaxLength = 2;
-        public const int PersonGenderMinLength = 1;
+        public class Person
+        {
+            public const int MaxPersonName = 56;
+            public const int MinPersonName = 0;
 
-        public const int ReviewContentMaxLength = 1000;
+            public const int MaxPersonBiography = 5000;
+            public const int MinPersonBiography = 0;
 
-        public const int UserUsernameMaxLength = 30;
-        public const int UserEmailMaxLength = 350;
+            public const string MaxPersonGender = "2";
+            public const string MinPersonGender = "1";
+        }
+
+        public class Review
+        {
+            public const int MaxReviewContent = 1000;
+        }
     }
 }

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.Person;
 
     public class Actor
     {
@@ -12,15 +12,18 @@
         public int? TmdbId { get; set; }
 
         [Required]
-        [MaxLength(ActorNameMaxLength)]
+        [StringLength(MaxPersonName,
+            MinimumLength = MinPersonName)]
         public string Name { get; set; }
 
-        [MaxLength(PersonBiographyMaxLength)]
+        [StringLength(MaxPersonBiography,
+            MinimumLength = MinPersonBiography)]
         public string? Biography { get; set; }
 
         public string? Photo { get; set; }
 
-        [Range(PersonGenderMinLength, PersonGenderMaxLength)]
+        [Range(typeof(int), MinPersonGender, MaxPersonGender,
+            ConvertValueInInvariantCulture = true)]
         public int? Gender { get; set; }
 
         public string? DateOfBirth { get; set; }

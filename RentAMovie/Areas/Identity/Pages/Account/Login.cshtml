@@ -6,10 +6,11 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<div class="row">
+<div class="row form-container">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
+                <h2>Sign in to an existing account.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
@@ -30,6 +31,9 @@
     </div>
 </div>
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/authentication.css" />
+}
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

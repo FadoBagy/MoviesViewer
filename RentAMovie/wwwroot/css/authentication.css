@@ -1,0 +1,30 @@
+﻿h1 {
+    text-align: center;
+}
+
+.form-container {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-container h2 {
+    font-size: 1.8rem;
+    opacity: 80%;
+    user-select: none;
+}
+
+.form-floating {
+    margin-bottom: 10px;
+}
+
+.logout form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout form button{
+    font-size: 1.8rem;
+    color: #0a58ca !important;
+}
