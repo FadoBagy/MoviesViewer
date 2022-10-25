@@ -33,7 +33,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create(AddMovieFormModule movie)
+        public IActionResult Create(FormMovieModule movie)
         {
             if (!ModelState.IsValid)
             {
@@ -73,7 +73,7 @@
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(new AddMovieFormModule()
+            return View(new FormMovieModule()
             {
                 Title = movie.Title,
                 Description = movie.Description,
@@ -90,7 +90,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Edit(int id, AddMovieFormModule model)
+        public IActionResult Edit(int id, FormMovieModule model)
         {
             if (!ModelState.IsValid)
             {
@@ -147,7 +147,7 @@
             var userMovies = data.Movies
                 .Where(m => m.UserId == GetCurrentUserId())
                 .OrderByDescending(m => m.DateCreated)
-                .Select(m => new UserMovieViewCardModel
+                .Select(m => new ViewUserMovieCardModel
                 {
                     Title = m.Title,
                     Description = m.Description,
@@ -443,7 +443,7 @@
                             var resultSingle = httpClient.GetAsync(endpointSingle).Result;
                             var jsonSingle = resultSingle.Content.ReadAsStringAsync().Result;
 
-                            var actorData = JsonConvert.DeserializeObject<TmdbSingleActorModel>(jsonSingle);
+                            var actorData = JsonConvert.DeserializeObject<ViewTmdbSingleActorModel>(jsonSingle);
 
                             var newActor = new Actor()
                             {

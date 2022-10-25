@@ -1,6 +1,6 @@
 ﻿namespace RentAMovie.Models.MovieModuls
 {
-	public class UserMovieViewCardModel
+	public class ViewUserMovieCardModel
 	{
         public string? Title { get; set; }
 

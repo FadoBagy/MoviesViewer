@@ -5,7 +5,7 @@
 
     using static Data.DataConstants.Movie;
 
-    public class AddMovieFormModule
+    public class FormMovieModule
     {
         [StringLength(MaxMovieTitle, 
             MinimumLength = MinMovieTitle,

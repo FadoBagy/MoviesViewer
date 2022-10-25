@@ -40,7 +40,7 @@
             }
 
             var moviesTop5 = movies.Take(5);
-            return View(new IndexViewModel()
+            return View(new ViewIndexModel()
             {
                 TopActionMovies = moviesTop5,
                 TotalMovies = data.Movies.Count(),

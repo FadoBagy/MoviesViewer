@@ -3,7 +3,7 @@
     using Newtonsoft.Json;
     using RentAMovie.Data.Models;
 
-    public class TmdbSingleActorModel
+    public class ViewTmdbSingleActorModel
     {
         public string? Biography { get; set; }
 

@@ -2,7 +2,7 @@
 {
     using RentAMovie.Models.MovieModuls;
 
-    public class IndexViewModel
+    public class ViewIndexModel
     {
         public IEnumerable<PopularMovieResultModule> TopActionMovies { get; set; }
 
