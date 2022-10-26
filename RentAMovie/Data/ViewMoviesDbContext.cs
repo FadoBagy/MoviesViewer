@@ -27,9 +27,9 @@
             //    .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder
-            //    .Entity<User>()
-            //    .Property(x => x.UserName)
-            //    .HasMaxLength(15);
+            //   .Entity<Director>()
+            //   .Property(x => x.Name)
+            //   .HasColumnType("nvarchar(56)");
 
             //modelBuilder
             //     .Entity<StudentCourse>(e =>

@@ -8,12 +8,7 @@
     align-items: center;
 }
 
-.row {
-    margin-left: 10px;
-    width: fit-content;
-}
-
-form .form-group {
+.form-group {
     margin-bottom: 5px;
     width: 500px;
 }
@@ -29,4 +24,14 @@ form .form-group {
 
 .input-group{
     margin-bottom: 0 !important;
+}
+
+@media screen and (max-width: 580px) {
+    .form-group {
+        width: 100%; 
+    }
+
+    .row {
+        width: 100%;
+    }
 }
