@@ -22,6 +22,9 @@ main .container {
 
 .card a img {
     width: 100%;
+    height: 309px;
+    object-fit: cover;
+    object-position: center;
     border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
     cursor: pointer;
 

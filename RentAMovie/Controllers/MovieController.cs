@@ -186,6 +186,7 @@
             return View(userMovies);
         }
 
+        [Route("/Movies/{movieId}")]
         public IActionResult MovieUser(int movieId)
         {
             var movie = data.Movies.Find(movieId);
@@ -208,7 +209,7 @@
             return View(movieModel);
         }
 
-        [Route("/Movie/{id}-tmdb")]
+        [Route("/Movies/{id}-tmdb")]
         public IActionResult MovieTmdb(int id)
         {
             var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
