@@ -51,19 +51,27 @@
 
         public string? Trailer { get; set; }
 
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public string? Genres { get; set; }
 
-        public ICollection<Director> Directors { get; set; } = new List<Director>();
+        public ICollection<Genre> TmdbGenres { get; set; } 
+            = new List<Genre>();
 
-        public ICollection<Writer> Writers { get; set; } = new List<Writer>();
+        public ICollection<Review> Reviews { get; set; } 
+            = new List<Review>();
 
-        public ICollection<Actor> Actors { get; set; } = new List<Actor>();
+        public ICollection<Director> Directors { get; set; } 
+            = new List<Director>();
+
+        public ICollection<Writer> Writers { get; set; } 
+            = new List<Writer>();
+
+        public ICollection<Actor> Actors { get; set; } 
+            = new List<Actor>();
 
         [ForeignKey(nameof(User))]
         public string? UserId { get; set; }
         public User? User { get; set; }
 
-        //public ICollection<Genre> Genres { get; set; } = new List<Genre>();
         //public ICollection<string> Images { get; set; } = new List<string>();
     }
 }

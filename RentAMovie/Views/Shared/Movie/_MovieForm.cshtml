@@ -64,22 +64,67 @@
                     <input asp-for="Trailer" class="form-control" />
                     <span asp-validation-for="Trailer" class="text-danger"></span>
                 </div>
-                @*
-                TODO: Implement Genres
+                
                 <div class="form-group">
-                <input asp-for="ContentRanting" class="form-control" />
+                    <div class="genres-lable">
+                        <label asp-for="Genres" class="control-label"></label>
+                        <p id="clear">Clear</p>
+                    </div>
+                    <input asp-for="Genres" class="form-control" readonly />
+                    <span asp-validation-for="Genres" class="text-danger"></span>
+                    <div class="genres">
+                        <div class="genre-item">
+                            <p>Action</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Adventure</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Animation</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Comedy</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Crime</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Documentary</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Drama</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Fantasy</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>History</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Horror</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Mystery</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Romance</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Science Fiction</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Thriller</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>War</p>
+                        </div>
+                        <div class="genre-item">
+                            <p>Western</p>
+                        </div>  
+                    </div>
+                    <p id="genresTip">Select up to <b>five</b> genres</p>
+                </div>
 
-                <label asp-for="ContentRanting" class="control-label"></label>
-                <select asp-for="ContentRanting" class="form-select">
-                @foreach
-                <option value="id">name</option>
-
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-                </select>
-                <span asp-validation-for="ContentRanting" class="text-danger"></span>
-                </div>*@
                 <div class="form-group">
                     <input type="submit" value="@(ViewData["Title"] == "Create Movie" ? "Create" : "Submit")" class="btn btn-primary" />
                 </div>

@@ -1,6 +1,7 @@
 ﻿namespace RentAMovie.Models.MovieModuls
 {
     using Newtonsoft.Json;
+    using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
 
     public class TmdbSingleMovieModel
@@ -37,5 +38,8 @@
         public string? Tagline { get; set; }
 
         public ICollection<ProductionTeamCastModel>? Actors { get; set; }
+
+        [JsonProperty("genres")]
+        public ICollection<Genre>? Genres { get; set; }
     }
 }

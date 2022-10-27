@@ -14,22 +14,13 @@
 			<p>Action</p>
 		</div>
 		<div class="filter-item">
-			<p>Comedy</p>
-		</div>
-		<div class="filter-item">
-			<p>Horror</p>
-		</div>
-		<div class="filter-item">
-			<p>Drama</p>
-		</div>
-		<div class="filter-item">
-			<p>Thriller</p>
-		</div>
-		<div class="filter-item">
 			<p>Adventure</p>
 		</div>
 		<div class="filter-item">
-			<p>Sci-Fi</p>
+			<p>Animation</p>
+		</div>
+		<div class="filter-item">
+			<p>Comedy</p>
 		</div>
 		<div class="filter-item">
 			<p>Crime</p>
@@ -38,13 +29,28 @@
 			<p>Documentary</p>
 		</div>
 		<div class="filter-item">
+			<p>Drama</p>
+		</div>
+		<div class="filter-item">
 			<p>Fantasy</p>
 		</div>
 		<div class="filter-item">
 			<p>History</p>
 		</div>
 		<div class="filter-item">
+			<p>Horror</p>
+		</div>
+		<div class="filter-item">
+			<p>Mystery</p>
+		</div>
+		<div class="filter-item">
 			<p>Romance</p>
+		</div>
+		<div class="filter-item">
+			<p>Science Fiction</p>
+		</div>
+		<div class="filter-item">
+			<p>Thriller</p>
 		</div>
 		<div class="filter-item">
 			<p>War</p>
@@ -91,22 +97,45 @@
 				}
 
 				<div class="card">
-					<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-						@if (movie.PosterPath != null)
-						{
-							<img src="@(movie.TmdbId != null ? posterPath + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
-						}
-						else
-						{
-							<img src="~/images/default-poster1.png" />
-						}
-					</a>
+					@if (movie.TmdbId != null)
+					{
+						<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+							@if (movie.PosterPath != null)
+							{
+								<img src="@(movie.TmdbId != null ? posterPath + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+							}
+							else
+							{
+								<img src="~/images/default-poster1.png" />
+							}
+						</a>
+					}
+					else
+					{
+						<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
+							@if (movie.PosterPath != null)
+							{
+								<img src="@(movie.TmdbId != null ? posterPath + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+							}
+							else
+							{
+								<img src="~/images/default-poster1.png" />
+							}
+						</a>
+					}
 					<div class="card-body">
 						<div class="rating @ratingColor">
 							<p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
 						</div>
 						<h5 class="card-title">
-							<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
+							@if (movie.TmdbId != null)
+							{
+								<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
+							}
+							else
+							{
+								<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
+							}
 						</h5>
 						<h6>@(movie.ReleaseDate != null ? movie.ReleaseDate.Value.ToString("MMM dd, yyyy") : "-")</h6>
 					</div>

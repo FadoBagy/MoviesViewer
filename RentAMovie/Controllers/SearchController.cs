@@ -34,6 +34,7 @@
                     ReleaseDate = m.DatePublished,
                     Rating = m.Rating.ToString(),
                     TmdbId = (int)m.TmdbId,
+                    Id = m.Id,
                     VoteCount = (int)m.VoteCount,
                     PosterPath = m.Poster
                 })

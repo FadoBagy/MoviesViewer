@@ -1,8 +1,6 @@
-﻿@model TmdbSingleMovieModel
+﻿@model UserSingleMovieModel
 @{
-    ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
-    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-    string posterPath = "https://image.tmdb.org/t/p/w500";
+    ViewData["Title"] = Model.Title + (Model.DatePublished != null ? $" ({Model.DatePublished.Value.Year})" : "");
 
     int hours = Convert.ToInt32(Model.Runtime / 60);
     double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
@@ -13,7 +11,7 @@
 <div class="main-container">
     @if (Model.BackdropPath != null)
     {
-        <span class="backdrop" style="background-image: url(@(backDropPath + @Model.BackdropPath));"></span>
+        <span class="backdrop" style="background-image: url(@Model.BackdropPath)"></span>
     }
     else
     {
@@ -22,9 +20,9 @@
     <span class="blur-color"></span>
     <section class="information-container">
         <div class="info-img">
-            @if (Model.PosterPath != null)
+            @if (Model.Poster != null)
             {
-                <img src="@(posterPath + Model.PosterPath)" />
+                <img src="@Model.Poster" />
             }
             else
             {
@@ -38,19 +36,20 @@
                 </div>
                 <div>
                     <ul>
-                        @if (Model.ReleaseDate != null)
+                        @if (Model.DatePublished != null)
                         {
-                            <li>@Model.ReleaseDate.Value.Year</li>
+                            <li>@Model.DatePublished.Value.Year</li>
                         }
                         @if (minutes != 0 && hours != 0)
                         {
                             <li>@($" • {hours}h {minutes}m • ")</li>
                         }
-                        @if (Model.Genres?.Count() > 0)
+                        @if (Model.Genres != null)
                         {
-                            foreach (var genre in Model.Genres)
+                            var genres = Model.Genres.Split(", ", StringSplitOptions.TrimEntries);
+                            foreach (var genre in genres)
                             {
-                                <li>@($"{genre.Name} ")</li>
+                                <li>@($"{genre} ")</li>
                             }
                         }
                     </ul>
@@ -92,7 +91,7 @@
         <div class="actors media-scroller">
             @if (Model.Actors != null && Model.Actors.Count > 0)
             {
-                @foreach (var actor in Model.Actors)
+                @*@foreach (var actor in Model.Actors)
                 {
                     <div class="card">
                         <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
@@ -120,7 +119,7 @@
                         </div>
                         break;
                     }
-                }
+                }*@
             }
             else
             {
@@ -135,18 +134,18 @@
             <h5>Budget</h5>
             <p>
                 @(
-                Model.Budget == 0 || Model.Budget == null ?
-                "-" :
-                $"${((int)@Model.Budget).ToString("#,##0.00")}")
+                    Model.Budget == 0 || Model.Budget == null ?
+                    "-" :
+                    $"${((int)@Model.Budget).ToString("#,##0.00")}")
             </p>
         </div>
         <div class="aside-member">
             <h5>Revenue</h5>
             <p>
                 @(
-                Model.Revenue == 0 || Model.Revenue == null ?
-                "-" :
-                $"${((int)@Model.Revenue).ToString("#,##0.00")}")
+                    Model.Revenue == 0 || Model.Revenue == null ?
+                    "-" :
+                    $"${((int)@Model.Revenue).ToString("#,##0.00")}")
             </p>
         </div>
     </div>

@@ -46,8 +46,10 @@
         [Display(Name = "Trailer URL")]
         public string? Trailer { get; init; }
 
+        [Required(ErrorMessage = "Required field")]
+        public string Genres { get; set; }
+
         //[Display(Name = "Content Ranting")]
         //public string ContentRanting { get; init; }
-        //public IEnumerable<Genre> Genres { get; set; }
     }
 }

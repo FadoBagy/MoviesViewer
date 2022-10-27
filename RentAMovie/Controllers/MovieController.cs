@@ -40,6 +40,14 @@
                 return View(movie);
             }
 
+            var newMovieGenres = movie.Genres.Split(", ", StringSplitOptions.TrimEntries);
+
+            string genres = "";
+            foreach (var genre in newMovieGenres)
+            {
+                genres += genre + ", ";
+            }
+
             var newMovie = new Movie
             {
                 Title = movie.Title.TrimEnd(),
@@ -52,7 +60,8 @@
                 Poster = movie.Poster,
                 BackdropPath = movie.Backdrop,
                 Trailer = movie.Trailer,
-                UserId = GetCurrentUserId()
+                UserId = GetCurrentUserId(),
+                Genres = genres
             };
 
             data.Movies.Add(newMovie);
@@ -61,8 +70,9 @@
             return RedirectToAction("Index", "Home");
         }
 
-        //[Route("/Movies/MyMovies/Edit")]
+        // Bugprone
         [Authorize]
+        [Route("/Movies/MyMovies/Edit/{id}")]
         public IActionResult Edit(int id)
         {
             var movie = data.Movies.Find(id);
@@ -84,12 +94,14 @@
                 DatePublished = movie.DatePublished,
                 Poster = movie.Poster,
                 Backdrop = movie.BackdropPath,
-                Trailer = movie.Trailer
+                Trailer = movie.Trailer,
+                Genres = movie.Genres
             });
         }
 
         [HttpPost]
         [Authorize]
+        [Route("/Movies/MyMovies/Edit/{id}")]
         public IActionResult Edit(int id, FormMovieModule model)
         {
             if (!ModelState.IsValid)
@@ -115,6 +127,20 @@
             movie.Poster = model.Poster;
             movie.BackdropPath = model.Backdrop;
             movie.Trailer = model.Trailer;
+            if (movie.Genres != model.Genres)
+            {
+                var newMovieGenres = model.Genres.Split(", ", StringSplitOptions.TrimEntries);
+                string genres = "";
+                foreach (var genre in newMovieGenres)
+                {
+                    if (genre != "")
+                    {
+                        genres += genre + ", ";
+                    }
+                }
+                movie.Genres = genres;
+            }
+
             data.SaveChanges();
 
             return RedirectToAction("UserMovies", "Movie");
@@ -140,8 +166,8 @@
             return RedirectToAction("UserMovies", "Movie");
         }
 
-        [Route("/Movies/MyMovies")]
         [Authorize]
+        [Route("/Movies/MyMovies")]
         public IActionResult UserMovies()
         {
             var userMovies = data.Movies
@@ -160,13 +186,36 @@
             return View(userMovies);
         }
 
+        public IActionResult MovieUser(int movieId)
+        {
+            var movie = data.Movies.Find(movieId);
+
+            var movieModel = new UserSingleMovieModel()
+            {
+                Title = movie.Title,
+                Description = movie.Description,
+                Tagline = movie.Tagline,
+                Runtime = movie.Runtime,
+                Revenue = movie.Revenue,
+                Budget = movie.Budget,
+                DatePublished = movie.DatePublished,
+                Poster = movie.Poster,
+                BackdropPath = movie.BackdropPath,
+                Trailer = movie.Trailer,
+                Genres = movie.Genres
+            };
+
+            return View(movieModel);
+        }
+
         [Route("/Movie/{id}-tmdb")]
         public IActionResult MovieTmdb(int id)
         {
             var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
 
             var movie = new TmdbSingleMovieModel();
-            var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == id);
+            var movieToCheck = data.Movies
+                .FirstOrDefault(m => m.TmdbId == id);
             using (var httpClient = new HttpClient())
             {
                 var endpoint = new Uri(movieDataRequest);
@@ -257,7 +306,8 @@
                 Revenue = movie.Revenue,
                 Runtime = movie.Runtime,
                 Tagline = movie.Tagline,
-                Actors = GetActorModels(movie.TmdbId)
+                Actors = GetActorModels(movie.TmdbId),
+                Genres = movie.Genres
             };
         }
 
@@ -333,7 +383,8 @@
                     Budget = movieData.Budget,
                     Revenue = movieData.Revenue,
                     Runtime = movieData.Runtime,
-                    Tagline = movieData.Tagline
+                    Tagline = movieData.Tagline,
+                    //Genres = movieData?.Genres
                 };
                 data.Movies.Add(newTmdbMovie);
             }
@@ -375,6 +426,13 @@
                 {
                     movieToCheck.Tagline = movieData.Tagline;
                 }
+                //if (movieToCheck.Genres.Count != movieData.Genres?.Count)
+                //{
+                //    if (movieData.Genres != null)
+                //    {
+                //        movieToCheck.Genres.AddRange(movieData.Genres);
+                //    }
+                //}
             }
         }
 

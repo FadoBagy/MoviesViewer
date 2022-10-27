@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentAMovie.Data;
 
@@ -11,9 +12,10 @@ using RentAMovie.Data;
 namespace RentAMovie.Migrations
 {
     [DbContext(typeof(ViewMoviesDbContext))]
-    partial class ViewMoviesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221026165838_Geners")]
+    partial class Geners
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,15 +56,15 @@ namespace RentAMovie.Migrations
 
             modelBuilder.Entity("GenreMovie", b =>
                 {
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MoviesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TmdbGenresId")
-                        .HasColumnType("int");
+                    b.HasKey("GenresId", "MoviesId");
 
-                    b.HasKey("MoviesId", "TmdbGenresId");
-
-                    b.HasIndex("TmdbGenresId");
+                    b.HasIndex("MoviesId");
 
                     b.ToTable("GenreMovie");
                 });
@@ -424,9 +426,6 @@ namespace RentAMovie.Migrations
                         .HasMaxLength(800)
                         .HasColumnType("nvarchar(800)");
 
-                    b.Property<string>("Genres")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
@@ -641,15 +640,15 @@ namespace RentAMovie.Migrations
 
             modelBuilder.Entity("GenreMovie", b =>
                 {
-                    b.HasOne("RentAMovie.Data.Models.Movie", null)
+                    b.HasOne("RentAMovie.Data.Models.Genre", null)
                         .WithMany()
-                        .HasForeignKey("MoviesId")
+                        .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RentAMovie.Data.Models.Genre", null)
+                    b.HasOne("RentAMovie.Data.Models.Movie", null)
                         .WithMany()
-                        .HasForeignKey("TmdbGenresId")
+                        .HasForeignKey("MoviesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
