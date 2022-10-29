@@ -4,7 +4,6 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
@@ -12,7 +11,6 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ViewMoviesDbContext data;
 
         public IndexModel(
             UserManager<User> userManager,
@@ -23,7 +21,7 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
-
+        
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -32,10 +30,6 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-
             [Url(ErrorMessage = "Invalid URL")]
             [Display(Name = "Photo URL")]
             public string Photo { get; set; }
@@ -44,14 +38,15 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(User user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var userPhoto = await _userManager.GetUserNameAsync(user);
+            var userPhoto = "";
+            if (user.Photo != null)
+            {
+                userPhoto = user.Photo;
+            }
 
             Username = userName;
-
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber,
                 Photo = userPhoto
             };
         }
@@ -82,16 +77,31 @@ namespace RentAMovie.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var photoUrl = user.Photo;
+            if (Input.Photo != photoUrl)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                try
+                {
+                    user.Photo = Input.Photo;
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                }
+                catch (Exception)
                 {
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
             }
+
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //if (Input.PhoneNumber != phoneNumber)
+            //{
+            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //    if (!setPhoneResult.Succeeded)
+            //    {
+            //        StatusMessage = "Unexpected error when trying to set phone number.";
+            //        return RedirectToPage();
+            //    }
+            //}
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

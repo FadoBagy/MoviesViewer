@@ -1,6 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject ViewMoviesDbContext data
+
+@{
+    var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -9,7 +15,8 @@
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello 
             @(User.Identity != null && User.Identity.Name != null ? 
             User.Identity.Name :
-            "User")!</a>
+            "User")!
+        </a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

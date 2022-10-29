@@ -1,26 +1,19 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using RentAMovie.Data.Models;
-
-namespace RentAMovie.Areas.Identity.Pages.Account.Manage
+﻿namespace RentAMovie.Areas.Identity.Pages.Account.Manage
 {
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using RentAMovie.Data.Models;
+    using System.Threading.Tasks;
+
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<User> _userManager;
-        private readonly ILogger<PersonalDataModel> _logger;
 
         public PersonalDataModel(
-            UserManager<User> userManager,
-            ILogger<PersonalDataModel> logger)
+            UserManager<User> userManager)
         {
             _userManager = userManager;
-            _logger = logger;
         }
 
         public async Task<IActionResult> OnGet()

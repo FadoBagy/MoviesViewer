@@ -1,13 +1,14 @@
 ﻿@page
 @model IndexModel
-
 @using System.Security.Claims
 @inject ViewMoviesDbContext data
+
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 
     var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+    var userMovies = data.Movies.Where(m => m.UserId == currentUser.Id).ToList().OrderByDescending(m => m.DateCreated).Take(3);
 
     var yearsFromCreation = DateTime.UtcNow.Year - currentUser.DateCreated.Year;
     var monthsFromCreation = ((DateTime.UtcNow.Year - currentUser.DateCreated.Year) * 12) + DateTime.UtcNow.Month - currentUser.DateCreated.Month;
@@ -55,27 +56,86 @@
                 }
             </div>
         </div>
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Username" class="form-control" disabled />
-                <label asp-for="Username" class="form-label"></label>
+        <div class="account-info">
+            <div class="header-button-section">
+                <h3>Account information</h3>
+                <p>Edit</p>
             </div>
-            <div class="form-floating">
-                <input asp-for="Input.Photo" class="form-control" />
-                <label asp-for="Input.Photo" class="form-label"></label>
-                <span asp-validation-for="Input.Photo" class="text-danger"></span>
+            <form id="profile-form" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-floating">
+                    <input asp-for="Username" class="form-control" disabled />
+                    <label asp-for="Username" class="form-label"></label>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" disabled="" type="email" id="Email" name="Email" value="@currentUser.Email">
+                    <label class="form-label" for="Email">Email</label>
+                    <a class="change-link" asp-page="./Email">Change</a>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" disabled="" type="password" id="Password" name="Password" value="secretpassword">
+                    <label class="form-label" for="Password">Password</label>
+                    <a class="change-link" asp-page="./ChangePassword">Change</a>
+                </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Photo" class="form-control" onClick="this.select();" />
+                    <label asp-for="Input.Photo" class="form-label"></label>
+                    <span asp-validation-for="Input.Photo" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            </form>
+        </div>
+        <div class="uploaded-movies">
+            <div class="header-button-section">
+                <h3>Uploaded movies</h3>
+                <a asp-controller="Movie" asp-action="UserMovies">View all</a>
             </div>
-            @*<div class="form-floating">
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>*@
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+            <div class="movie-section">
+                @if (userMovies != null && userMovies.Count() > 0)
+                {
+                    @foreach (var movie in userMovies)
+                    {
+                        <div class="movie-item">
+                            <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
+                                @if (movie.Poster != null)
+                                {
+                                    <img src="@movie.Poster" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/default-poster1.png" />
+                                }
+                            </a>
+                            <div class="movie-info">
+                                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
+                            </div>
+                        </div>
+                    }
+                }
+                else 
+                {
+                    <p class="not-available">No available movies</p>
+                }
+            </div>
+        </div>
+        <div class="written-reviews">
+            <div class="header-button-section">
+                <h3>Reviews and comments</h3>
+                <a href="#">View all</a>
+            </div>
+            @if (false)
+            {
+                // Add reviews and comments here   
+            }
+            else
+            {
+                <p class="not-available">No available reviews or comments</p>
+            }
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/profile.js"></script>
 }
