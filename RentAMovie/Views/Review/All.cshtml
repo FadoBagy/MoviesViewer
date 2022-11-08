@@ -5,9 +5,16 @@
     ViewData["Title"] = $"Reviews for {currentMovie?.Title}";
 }
 
-<h1>All review for movie @Model.FirstOrDefault()?.MovieInfo.Title</h1>
+<h1>All review for movie @currentMovie?.Title</h1>
 
-@foreach (var reviw in Model)
+@if (Model.Count() > 0)
 {
-    <p>@reviw.Content</p>
+    @foreach (var reviw in Model)
+    {
+        <p>@reviw.Content</p>
+    }
+}
+else 
+{ 
+    <div>No reviews yet</div>
 }

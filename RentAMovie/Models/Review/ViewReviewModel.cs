@@ -12,7 +12,5 @@
         public string UserId { get; set; }
 
         public Movie MovieInfo { get; set; }
-
-        public ICollection<Review>? Comments { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model ViewReviewModel
+
+@Model.Content
+
+Make it so only the owner can see this butotn
+<form class="mt-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@Model.Id">
+	<div class="d-grid gap-2">
+		<input type="submit" value="Delete" class="btn btn-danger mb-2"
+			   onclick="return confirm('Are you sure you want to DELETE this review: @Model.Id')" />
+	</div>
+</form>

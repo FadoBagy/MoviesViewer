@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.Review;
@@ -55,10 +56,43 @@
             return RedirectToAction("All", "Review", new { movieId = review.MovieId }); 
         }
 
-        // TODO: Error handling for comments - no reviews (home)
+        [Route("/Reviews/{reviewId}")]
+        public IActionResult SingleReview(int reviewId)
+        {
+            var review = data.Reviews.Find(reviewId);
+            if (review?.UserId != GetCurrentUserId())
+            {
+                TempData["error"] = "Could not find!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var movie = data.Movies.Find(review.MovieId);
+            return View(new ViewReviewModel
+            {
+                Id = review.Id,
+                Content = review.Content,
+                CreationDate = review.CreationDate,
+                MovieInfo = new Movie
+                {
+                    Title = movie.Title,
+                    Poster = movie.Poster,
+                    BackdropPath = movie.BackdropPath,
+                    DatePublished = movie.DatePublished
+                },
+                UserId = review.UserId
+            });
+        }
+
+        // TODO: Error handling for no revews for the given movie id (home)
+        [Route("/Movies/{movieId}/Reviews")]
         public IActionResult All(int movieId)
         {
-            var movie = data.Movies.Find(movieId);
+            var movie = data.Movies.Include(m => m.Reviews).FirstOrDefault(m => m.Id == movieId);
+            if (movie == null)
+            {
+                TempData["error"] = "Could not find movie!";
+                return RedirectToAction("Index", "Home");
+            }
             var reviews = data.Reviews
                 .Where(r => r.MovieId == movieId)
                 .OrderByDescending(r => r.CreationDate)
@@ -72,20 +106,50 @@
                         Title = movie.Title,
                         Poster = movie.Poster,
                         BackdropPath = movie.BackdropPath,
-                        DateCreated = movie.DateCreated
+                        DatePublished = movie.DatePublished
                     },
-                    Comments = r.Comments,
                     UserId = r.UserId
                 })
                 .ToList();
 
+            if (reviews.Count() == 0)
+            {
+                return View(new List<ViewReviewModel>() {
+                    new ViewReviewModel
+                    {
+                        MovieInfo = new Movie
+                        {
+                            Title = movie.Title,
+                            Poster = movie.Poster,
+                            BackdropPath = movie.BackdropPath,
+                            DatePublished = movie.DatePublished
+                        }
+                    }
+                });
+            }
+
             return View(reviews);
         }
 
-        //[Route("/Movies/Reviews/{movieId}")]
-        //public IActionResult MovieReviews(int movieId)
-        //{
-        //}
+        [HttpPost]
+        [Authorize]
+        public IActionResult Delete(int reviewId)
+        {
+            var review = data.Reviews.Find(reviewId);
+            if (review?.UserId != GetCurrentUserId())
+            {
+                TempData["error"] = "You cannot delete this review!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (review != null)
+            {
+                data.Reviews.Remove(review);
+                data.SaveChanges();
+            }
+
+            return RedirectToAction("All", "Review", new { movieId = review.MovieId });
+        }
 
         private string GetCurrentUserId()
         {

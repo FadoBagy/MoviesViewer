@@ -172,7 +172,7 @@
                             @Model.Review.Content
                         </p>
                         <div class="buttons">
-                            <a href="#">
+                            <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@Model.Review.Id">
                                 <p>Open review</p>
                             </a>
                         </div>

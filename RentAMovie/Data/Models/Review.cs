@@ -23,11 +23,5 @@
         [ForeignKey(nameof(Movie))]
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
-
-        [ForeignKey(nameof(CommentReview))]
-        public int? ReviewId { get; set; }
-        public Review? CommentReview { get; set; }
-
-        public ICollection<Review> Comments { get; set; } = new List<Review>();
     }
 }
