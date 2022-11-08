@@ -5,61 +5,70 @@
 }
 
 <div class="row">
-	@foreach (var movie in Model)
+	@if (Model != null && Model.Count() > 0)
 	{
-		string rating = "0";
+		@foreach (var movie in Model)
+		{
+			string rating = "0";
 
-		if (movie.Rating != null)
-		{
-			rating = movie.Rating;
-		}
+			if (movie.Rating != null)
+			{
+				rating = movie.Rating;
+			}
 
-		if (float.Parse(rating) >= 8)
-		{
-			ratingColor = "green";
-		}
-		else if (float.Parse(rating) >= 5)
-		{
-			ratingColor = "orange";
-		}
-		else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-		{
-			ratingColor = "red";
-		}
-		else
-		{
-			ratingColor = "black";
-		}
+			if (float.Parse(rating) >= 8)
+			{
+				ratingColor = "green";
+			}
+			else if (float.Parse(rating) >= 5)
+			{
+				ratingColor = "orange";
+			}
+			else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
+			{
+				ratingColor = "red";
+			}
+			else
+			{
+				ratingColor = "black";
+			}
 
-		<div class="card">
-			<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
-				@if (movie.PosterPath != null)
-				{
-					<img src="@movie.PosterPath" class="card-img-top" alt="@movie.Title poster">
-				}
-				else
-				{
-					<img src="~/images/default-poster1.png" />
-				}
-			</a>
-			<div class="card-body">
-				<div class="rating @ratingColor">
-					<p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
-				</div>
-				<h5 class="card-title">
-					<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
-				</h5>
-				<h6>@(movie.ReleaseDate != null ? movie.ReleaseDate.Value.ToString("MMM dd, yyyy") : "-")</h6>
-			</div>
-			<div class="user-controls">
-				<a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
-				<form class="mt-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
-					<div class="d-grid gap-2">
-						<input type="submit" value="Delete" class="btn btn-danger mb-2"
-						   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
+			<div class="card">
+				<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
+					@if (movie.PosterPath != null)
+					{
+						<img src="@movie.PosterPath" class="card-img-top" alt="@movie.Title poster">
+					}
+					else
+					{
+						<img src="~/images/default-poster1.png" />
+					}
+				</a>
+				<div class="card-body">
+					<div class="rating @ratingColor">
+						<p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
 					</div>
-				</form>
+					<h5 class="card-title">
+						<a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
+					</h5>
+					<h6>@(movie.ReleaseDate != null ? movie.ReleaseDate.Value.ToString("MMM dd, yyyy") : "-")</h6>
+				</div>
+				<div class="user-controls">
+					<a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
+					<form class="mt-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
+						<div class="d-grid gap-2">
+							<input type="submit" value="Delete" class="btn btn-danger mb-2"
+						   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
+						</div>
+					</form>
+				</div>
 			</div>
+		}
+	}
+	else
+	{
+		<div class="not-available-container">
+			<p class="not-available">No available movies</p>
 		</div>
 	}
 </div>

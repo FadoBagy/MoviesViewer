@@ -41,6 +41,7 @@
         public class Review
         {
             public const int MaxReviewContent = 1000;
+            public const int MinReviewContent = 3;
         }
     }
 }

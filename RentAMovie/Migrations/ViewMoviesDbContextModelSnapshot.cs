@@ -34,7 +34,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("PlayedInMoviesId");
 
-                    b.ToTable("ActorMovie");
+                    b.ToTable("ActorMovie", (string)null);
                 });
 
             modelBuilder.Entity("DirectorMovie", b =>
@@ -49,7 +49,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("DirectorsId");
 
-                    b.ToTable("DirectorMovie");
+                    b.ToTable("DirectorMovie", (string)null);
                 });
 
             modelBuilder.Entity("GenreMovie", b =>
@@ -64,7 +64,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("TmdbGenresId");
 
-                    b.ToTable("GenreMovie");
+                    b.ToTable("GenreMovie", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -216,7 +216,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("WrittenMoviesId");
 
-                    b.ToTable("MovieWriter");
+                    b.ToTable("MovieWriter", (string)null);
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Actor", b =>
@@ -256,7 +256,7 @@ namespace RentAMovie.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Director", b =>
@@ -294,7 +294,7 @@ namespace RentAMovie.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Directors");
+                    b.ToTable("Directors", (string)null);
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Genre", b =>
@@ -311,7 +311,7 @@ namespace RentAMovie.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres");
+                    b.ToTable("Genres", (string)null);
 
                     b.HasData(
                         new
@@ -463,7 +463,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.Review", b =>
@@ -500,7 +500,7 @@ namespace RentAMovie.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("RentAMovie.Data.Models.User", b =>
@@ -609,7 +609,7 @@ namespace RentAMovie.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Writers");
+                    b.ToTable("Writers", (string)null);
                 });
 
             modelBuilder.Entity("ActorMovie", b =>

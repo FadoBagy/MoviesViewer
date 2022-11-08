@@ -1,12 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using System.Security.Claims
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@inject ViewMoviesDbContext data
-
-@{
-    var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

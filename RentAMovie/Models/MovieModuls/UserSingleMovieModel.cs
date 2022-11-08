@@ -1,9 +1,12 @@
 ﻿namespace RentAMovie.Models.MovieModuls
 {
+    using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
 
     public class UserSingleMovieModel
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string? Description { get; set; }
@@ -31,5 +34,7 @@
         public int? VoteCount { get; set; }
 
         public string? Rating { get; set; }
+
+        public Review? Review { get; set; }
     }
 }

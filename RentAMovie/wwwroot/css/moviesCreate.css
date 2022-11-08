@@ -27,6 +27,11 @@
 }
 
 #Genres {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -64,8 +69,14 @@
 #genresTip {
     opacity: 80%;
     margin-top: 5px;
-    user-select: none;
     font-size: 0.9rem;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .genres-lable {
@@ -77,6 +88,12 @@
     margin-bottom: 0;
     cursor: pointer;
     color: #0d6efd;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 

@@ -1,0 +1,13 @@
+﻿@model List<ViewReviewModel>
+@{
+    var currentMovie = Model.FirstOrDefault().MovieInfo;
+
+    ViewData["Title"] = $"Reviews for {currentMovie?.Title}";
+}
+
+<h1>All review for movie @Model.FirstOrDefault()?.MovieInfo.Title</h1>
+
+@foreach (var reviw in Model)
+{
+    <p>@reviw.Content</p>
+}

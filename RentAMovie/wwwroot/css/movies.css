@@ -102,6 +102,7 @@ main .container {
     bottom: 10px;
     right: 10px;
     cursor: pointer;
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

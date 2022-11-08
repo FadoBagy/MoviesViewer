@@ -190,9 +190,14 @@
         public IActionResult MovieUser(int movieId)
         {
             var movie = data.Movies.Find(movieId);
+            var lastReview = data.Reviews
+                .Where(r => r.MovieId == movieId)
+                .OrderByDescending(r => r.CreationDate)
+                .FirstOrDefault();
 
             var movieModel = new UserSingleMovieModel()
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
                 Tagline = movie.Tagline,
@@ -203,7 +208,8 @@
                 Poster = movie.Poster,
                 BackdropPath = movie.BackdropPath,
                 Trailer = movie.Trailer,
-                Genres = movie.Genres
+                Genres = movie.Genres,
+                Review = lastReview
             };
 
             return View(movieModel);
