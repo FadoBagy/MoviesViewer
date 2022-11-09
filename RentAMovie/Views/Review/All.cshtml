@@ -136,6 +136,7 @@ else
             {
                 <h1>@ViewBag.MovieTitle</h1>
             }
+
             @if (ViewBag.MovieTmdbId != null)
             {
                 <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@ViewBag.MovieTmdbId">
@@ -144,7 +145,7 @@ else
             }
             else
             {
-                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@ViewBag.MovieTmdbId">
+                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@ViewBag.MovieId">
                     Back to movie
                 </a>
             }
@@ -153,7 +154,9 @@ else
             </a>
         </div>
     </div>
-    <div>No reviews yet</div>
+    <div id="no-reviews">
+        No reviews yet
+    </div>
 }
 
 @section Styles {

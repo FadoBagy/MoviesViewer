@@ -8,7 +8,18 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 
     var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-    var userMovies = data.Movies.Where(m => m.UserId == currentUser.Id).ToList().OrderByDescending(m => m.DateCreated).Take(3);
+
+    var userMovies = data.Movies
+        .Where(m => m.UserId == currentUser.Id)
+        .ToList()
+        .OrderByDescending(m => m.DateCreated)
+        .Take(3)
+        .ToList();
+
+    var userLastReview = data.Reviews
+        .Where(r => r.UserId == currentUser.Id)
+        .OrderByDescending(r => r.CreationDate)
+        .FirstOrDefault();
 
     var yearsFromCreation = DateTime.UtcNow.Year - currentUser.DateCreated.Year;
     var monthsFromCreation = ((DateTime.UtcNow.Year - currentUser.DateCreated.Year) * 12) + DateTime.UtcNow.Month - currentUser.DateCreated.Month;
@@ -120,16 +131,30 @@
         </div>
         <div class="written-reviews">
             <div class="header-button-section">
-                <h3>Reviews and comments</h3>
+                <h3>Reviews</h3>
                 <a href="#">View all</a>
             </div>
-            @if (false)
+            @if (userLastReview != null)
             {
-                // Add reviews and comments here   
+                <div class="review-section col-12">
+                    <img src="@currentUser.Photo" />
+                    <div class="review-content">
+                        <h5>@currentUser.UserName</h5>
+                        <p class="review-date">Written on @userLastReview.CreationDate.ToString("MMM d, yyyy")</p>
+                        <p class="review-text">
+                            @userLastReview.Content
+                        </p>
+                        <div class="buttons">
+                            <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@userLastReview.Id">
+                                <p>Open review</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             }
             else
             {
-                <p class="not-available">No available reviews or comments</p>
+                <p class="not-available">No available reviews</p>
             }
         </div>
     </div>

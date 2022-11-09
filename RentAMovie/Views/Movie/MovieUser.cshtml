@@ -138,31 +138,25 @@
         </div>
         <hr />
         <div class="reviews">
+            <div class="header-controls">
+                <h3>Latest review</h3>
+                <div class="controls">
+                    <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Id">
+                        <p>View all reviews</p>
+                    </a>
+                    <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Id">
+                        <p>Review this movie</p>
+                    </a>
+                </div>
+            </div>
             @if (reviewUserOwner == null)
             {
-                <h3>Reviews</h3>
-                <div class="review-section col-9">
-                    <div>No reviews yet</div>
-                    <div class="controls">
-                        <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Id">
-                            <p>Review this movie</p>
-                        </a>
-                    </div>
+                <div id="no-reviews">
+                    <h5>No reviews yet</h5>
                 </div>
             }
             else
             {
-                <div class="header-controls">
-                    <h3>Latest review</h3>
-                    <div class="controls">
-                        <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Id">
-                            <p>View all reviews</p>
-                        </a>
-                        <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Id">
-                            <p>Review this movie</p>
-                        </a>
-                    </div>
-                </div>
                 <div class="review-section col-9">
                     <img src="@reviewUserOwner.Photo" />
                     <div class="review-content">
