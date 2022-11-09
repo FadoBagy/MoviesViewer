@@ -188,6 +188,7 @@
 
 .filter-controls label{
     font-size: 1.1rem;
+    margin-right: 10px;
 }
 
 .filter-controls input {

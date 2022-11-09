@@ -29,7 +29,7 @@
             <p class="review-text">
                 @Model.Content
             </p>
-            @if (currentUser.Id == Model.UserId)
+            @if (currentUser?.Id == Model.UserId)
             {
                 <div class="buttons">
                     <form class="mt-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@Model.Id">

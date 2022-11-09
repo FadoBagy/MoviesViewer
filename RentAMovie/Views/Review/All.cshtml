@@ -22,13 +22,20 @@
 @if (Model != null && Model.Count() > 0)
 {
     <div class="header-info">
-        @if (currentMovie.TmdbId != null)
+        @if (currentMovie.Poster != null)
         {
-            <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+            @if (currentMovie.TmdbId != null)
+            {
+                <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+            }
+            else
+            {
+                <img id="movie-poster" src="@currentMovie.Poster" />
+            }
         }
         else
         {
-            <img id="movie-poster" src="@currentMovie.Poster" />
+            <img id="movie-poster" src="~/images/default-poster1.png" />
         }
 
         <div class="movie-title">
@@ -109,13 +116,20 @@
 else 
 {
     <div class="header-info">
-        @if (ViewBag.MovieTmdbId != null)
+        @if (ViewBag.MoviePoster != null)
         {
-            <img id="movie-poster" src="@(posterPath + ViewBag.MoviePoster)" />
+            @if (ViewBag.MovieTmdbId != null)
+            {
+                <img id="movie-poster" src="@(posterPath + ViewBag.MoviePoster)" />
+            }
+            else
+            {
+                <img id="movie-poster" src="@ViewBag.MoviePoster" />
+            }
         }
         else
         {
-            <img id="movie-poster" src="@ViewBag.MoviePoster" />
+            <img id="movie-poster" src="~/images/default-poster1.png" />
         }
 
         <div class="movie-title">

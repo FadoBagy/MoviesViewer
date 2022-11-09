@@ -33,26 +33,33 @@
 	</div>
 </div>
 
-@foreach (var review in Model.Reviews)
+@if (Model.Reviews.Count() > 0)
 {
-	<div class="review-section col-9">
-		<div class="review-content">
-			<p class="review-movie">
-				For movie - @review.MovieInfo.Title
-			</p>
-			<p class="review-date">
-				Written on @review.CreationDate.ToString("MMM d, yyyy")
-			</p>
-			<p class="review-text">
-				@review.Content
-			</p>
-			<div class="buttons">
-				<a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
-					<p>Open review</p>
-				</a>
+	@foreach (var review in Model.Reviews)
+	{
+		<div class="review-section col-9">
+			<div class="review-content">
+				<p class="review-movie">
+					For movie - @review.MovieInfo.Title
+				</p>
+				<p class="review-date">
+					Written on @review.CreationDate.ToString("MMM d, yyyy")
+				</p>
+				<p class="review-text">
+					@review.Content
+				</p>
+				<div class="buttons">
+					<a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
+						<p>Open review</p>
+					</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	}
+}
+else
+{
+	<div id="no-reviews">No reviews found</div>
 }
 
 @section Styles {

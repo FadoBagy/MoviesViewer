@@ -6,6 +6,8 @@
 
     public class TmdbSingleMovieModel
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         [JsonProperty("overview")]
@@ -41,5 +43,7 @@
 
         [JsonProperty("genres")]
         public ICollection<Genre>? Genres { get; set; }
+
+        public Review? Review { get; set; }
     }
 }

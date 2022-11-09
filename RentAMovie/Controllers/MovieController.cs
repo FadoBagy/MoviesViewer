@@ -234,6 +234,7 @@
                 try
                 {
                     ValidateSingleMovieData(movieToCheck, movieData);
+                    data.SaveChanges();
                 }
                 catch (Exception)
                 {
@@ -241,7 +242,9 @@
                     return RedirectToAction("Error", "Home");
                 }
 
-                movie = GetSingleMovieData(movieData);
+                movieToCheck = data.Movies
+                    .FirstOrDefault(m => m.TmdbId == id);
+                movie = GetSingleMovieData(movieData, movieToCheck);
 
                 data.SaveChanges();
             }
@@ -297,10 +300,16 @@
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        private TmdbSingleMovieModel GetSingleMovieData(TmdbSingleMovieModel movie)
+        private TmdbSingleMovieModel GetSingleMovieData(TmdbSingleMovieModel movie, Movie dbMovie)
         {
+            var lastReview = data.Reviews
+                .Where(r => r.MovieId == dbMovie.Id)
+                .OrderByDescending(r => r.CreationDate)
+                .FirstOrDefault();
+
             return new TmdbSingleMovieModel()
             {
+                Id = dbMovie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
                 ReleaseDate = movie.ReleaseDate,
@@ -314,7 +323,8 @@
                 Runtime = movie.Runtime,
                 Tagline = movie.Tagline,
                 Actors = GetActorModels(movie.TmdbId),
-                Genres = movie.Genres
+                Genres = movie.Genres,
+                Review = lastReview
             };
         }
 

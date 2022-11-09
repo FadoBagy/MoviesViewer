@@ -1,4 +1,6 @@
 ﻿@model TmdbSingleMovieModel
+@inject ViewMoviesDbContext data
+
 @{
     ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
@@ -8,6 +10,12 @@
     double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
 
     int index = 0;
+
+    User reviewUserOwner = null;
+    if (Model.Review != null)
+    {
+        reviewUserOwner = data.Users.FirstOrDefault(u => u.Id == Model.Review.UserId);
+    }
 }
 
 <div class="main-container">
@@ -126,6 +134,51 @@
             {
                 <div id="no-actors">
                     <h5>No actors available</h5>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="reviews">
+            <div class="header-controls">
+                <h3>Latest review</h3>
+                <div class="controls">
+                    <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Id">
+                        <p>View all reviews</p>
+                    </a>
+                    <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Id">
+                        <p>Review this movie</p>
+                    </a>
+                </div>
+            </div>
+            @if (reviewUserOwner == null)
+            {
+                <div id="no-reviews">
+                    <h5>No reviews yet</h5>
+                </div>
+            }
+            else
+            {
+                <div class="review-section col-9">
+                    @if (reviewUserOwner.Photo != null && reviewUserOwner.Photo != "")
+                    {
+                        <img src="@reviewUserOwner.Photo" />
+                    }
+                    else
+                    {
+                        <img src="~/images/default-user-icon.png" />
+                    }
+                    <div class="review-content">
+                        <h5>@reviewUserOwner.UserName</h5>
+                        <p class="review-date">Written on @Model.Review.CreationDate.ToString("MMM d, yyyy")</p>
+                        <p class="review-text">
+                            @Model.Review.Content
+                        </p>
+                        <div class="buttons">
+                            <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@Model.Review.Id">
+                                <p>Open review</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             }
         </div>

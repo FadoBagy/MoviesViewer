@@ -12,13 +12,20 @@
 
 <div>
     <div class="header-info">
-        @if (currentMovie.TmdbId != null)
+        @if (currentMovie.Poster != null)
         {
-            <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+            @if (currentMovie.TmdbId != null)
+            {
+                <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+            }
+            else
+            {
+                <img id="movie-poster" src="@currentMovie.Poster" />
+            }
         }
         else
         {
-            <img id="movie-poster" src="@currentMovie.Poster" />
+            <img id="movie-poster" src="~/images/default-poster1.png" />
         }
 
         <div class="movie-title">
