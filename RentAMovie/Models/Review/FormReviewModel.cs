@@ -11,6 +11,7 @@
             MinimumLength = MinReviewContent,
             ErrorMessage = "{0} length must be between {2} and {1}.")]
         [Required(ErrorMessage = "Required field")]
+        [Display(Name = "Review")]
         public string Content { get; init; }
 
         public int MovieId { get; set; }

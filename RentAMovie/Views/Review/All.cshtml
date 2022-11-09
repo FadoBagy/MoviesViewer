@@ -1,20 +1,161 @@
 ﻿@model List<ViewReviewModel>
-@{
-    var currentMovie = Model.FirstOrDefault().MovieInfo;
+@inject ViewMoviesDbContext data
 
-    ViewData["Title"] = $"Reviews for {currentMovie?.Title}";
+@{
+    Movie currentMovie = null;
+    if (Model != null)
+    {
+        currentMovie = Model.FirstOrDefault().MovieInfo;
+        ViewData["Title"] = $"Reviews for {currentMovie?.Title}";
+
+    }
+    else
+    {
+        ViewData["Title"] = $"Reviews for {ViewBag.MovieTitle}";
+    }
+
+    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+    string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 
-<h1>All review for movie @currentMovie?.Title</h1>
 
-@if (Model.Count() > 0)
+@if (Model != null && Model.Count() > 0)
 {
-    @foreach (var reviw in Model)
-    {
-        <p>@reviw.Content</p>
-    }
+    <div class="header-info">
+        @if (currentMovie.TmdbId != null)
+        {
+            <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+        }
+        else
+        {
+            <img id="movie-poster" src="@currentMovie.Poster" />
+        }
+
+        <div class="movie-title">
+            @if (currentMovie.BackdropPath != null)
+            {
+                @if (currentMovie.TmdbId != null)
+                {
+                    <span class="backdrop" style="background-image: url(@(backDropPath + currentMovie.BackdropPath))"></span>
+                }
+                else
+                {
+                    <span class="backdrop" style="background-image: url(@currentMovie.BackdropPath)"></span>
+                }
+            }
+            else
+            {
+                <img class="backdrop" src="~/images/default-movie-backdrop.png" />
+            }
+            <span class="blur-color"></span>
+
+            @if (currentMovie.DatePublished != null)
+            {
+                <h1>@currentMovie.Title (@currentMovie.DatePublished.Value.Year)</h1>
+            }
+            else
+            {
+                <h1>@currentMovie.Title</h1>
+            }
+
+            @if (currentMovie.TmdbId != null)
+            {
+                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@currentMovie.TmdbId">
+                    Back to movie
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@currentMovie.Id">
+                    Back to movie
+                </a>
+            }
+            <a asp-controller="Review" asp-action="Create" asp-route-movieId="@currentMovie.Id">
+                <p>Review this movie</p>
+            </a>
+        </div>
+    </div>
+    <div class="reviews">
+        @foreach (var review in Model)
+        {
+            var currentReviewOwner = data.Users.FirstOrDefault(u => u.Id == review.UserId);
+
+            <div class="review-section col-9">
+                <img src="@currentReviewOwner.Photo" />
+                <div class="review-content">
+                    <h5>@currentReviewOwner.UserName</h5>
+                    <p class="review-date">Written on @review.CreationDate.ToString("MMM d, yyyy")</p>
+                    <p class="review-text">
+                        @review.Content
+                    </p>
+                    <div class="buttons">
+                        <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
+                            <p>Open review</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 }
 else 
-{ 
+{
+    <div class="header-info">
+        @if (ViewBag.MovieTmdbId != null)
+        {
+            <img id="movie-poster" src="@(posterPath + ViewBag.MoviePoster)" />
+        }
+        else
+        {
+            <img id="movie-poster" src="@ViewBag.MoviePoster" />
+        }
+
+        <div class="movie-title">
+            @if (ViewBag.MovieBackdropPath != null)
+            {
+                @if (ViewBag.MovieTmdbId != null)
+                {
+                    <span class="backdrop" style="background-image: url(@(backDropPath + ViewBag.MovieBackdropPath))"></span>
+                }
+                else
+                {
+                    <span class="backdrop" style="background-image: url(@ViewBag.MovieBackdropPath)"></span>
+                }
+            }
+            else
+            {
+                <img class="backdrop" src="~/images/default-movie-backdrop.png" />
+            }
+            <span class="blur-color"></span>
+
+            @if (ViewBag.MovieDatePublished != null)
+            {
+                <h1>@ViewBag.MovieTitle (@ViewBag.MovieDatePublished.Year)</h1>
+            }
+            else
+            {
+                <h1>@ViewBag.MovieTitle</h1>
+            }
+            @if (ViewBag.MovieTmdbId != null)
+            {
+                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@ViewBag.MovieTmdbId">
+                    Back to movie
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@ViewBag.MovieTmdbId">
+                    Back to movie
+                </a>
+            }
+            <a asp-controller="Review" asp-action="Create" asp-route-movieId="@ViewBag.MovieId">
+                <p>Review this movie</p>
+            </a>
+        </div>
+    </div>
     <div>No reviews yet</div>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reviews.css" />
 }

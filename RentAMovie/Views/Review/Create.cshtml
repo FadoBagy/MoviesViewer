@@ -5,34 +5,89 @@
 @{
     var currentMovie = data.Movies.Find(Model.MovieId);
     ViewData["Title"] = $"Review for {currentMovie.Title}";
+
+    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+    string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 
-<div class="row-container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="movie-info">
-                <img src="@currentMovie.Poster" />
-                <p>@currentMovie.Title</p>
+<div>
+    <div class="header-info">
+        @if (currentMovie.TmdbId != null)
+        {
+            <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+        }
+        else
+        {
+            <img id="movie-poster" src="@currentMovie.Poster" />
+        }
+
+        <div class="movie-title">
+            @if (currentMovie.BackdropPath != null)
+            {
+                @if (currentMovie.TmdbId != null)
+                {
+                    <span class="backdrop" style="background-image: url(@(backDropPath + currentMovie.BackdropPath))"></span>
+                }
+                else
+                {
+                    <span class="backdrop" style="background-image: url(@currentMovie.BackdropPath)"></span>
+                }
+            }
+            else
+            {
+                <img class="backdrop" src="~/images/default-movie-backdrop.png" />
+            }
+            <span class="blur-color"></span>
+
+            @if (currentMovie.DatePublished != null)
+            {
+                <h1>@currentMovie.Title (@currentMovie.DatePublished.Value.Year)</h1>
+            }
+            else
+            {
+                <h1>@currentMovie.Title</h1>
+            }
+
+            @if (currentMovie.TmdbId != null)
+            {
+                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@currentMovie.TmdbId">
+                    Back to movie
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@currentMovie.Id">
+                    Back to movie
+                </a>
+            }
+        </div>
+    </div>
+    <div class="row-container">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Content" class="control-label"></label>
+                        <textarea asp-for="Content" class="form-control" autocomplete="off" rows="5"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-none">
+                        <label asp-for="MovieId" class="control-label"></label>
+                        <input asp-for="MovieId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <form method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Content" class="control-label"></label>
-                    <textarea asp-for="Content" class="form-control" autocomplete="off" rows="5"></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
-                </div>
-                <div class="form-group d-none">
-                    <label asp-for="MovieId" class="control-label"></label>
-                    <input asp-for="MovieId" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
-                </div>
-            </form>
         </div>
     </div>
 </div>
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/reviews.css" />
+}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

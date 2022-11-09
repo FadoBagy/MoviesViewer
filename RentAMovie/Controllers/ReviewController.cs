@@ -60,7 +60,7 @@
         public IActionResult SingleReview(int reviewId)
         {
             var review = data.Reviews.Find(reviewId);
-            if (review?.UserId != GetCurrentUserId())
+            if (review == null)
             {
                 TempData["error"] = "Could not find!";
                 return RedirectToAction("Index", "Home");
@@ -83,7 +83,6 @@
             });
         }
 
-        // TODO: Error handling for no revews for the given movie id (home)
         [Route("/Movies/{movieId}/Reviews")]
         public IActionResult All(int movieId)
         {
@@ -98,11 +97,13 @@
                 .OrderByDescending(r => r.CreationDate)
                 .Select(r => new ViewReviewModel
                 {
-                    Id = r.MovieId,
+                    Id = r.Id,
                     Content = r.Content,
                     CreationDate = r.CreationDate,
                     MovieInfo = new Movie
                     {
+                        Id = movie.Id,
+                        TmdbId = movie.TmdbId,
                         Title = movie.Title,
                         Poster = movie.Poster,
                         BackdropPath = movie.BackdropPath,
@@ -114,18 +115,14 @@
 
             if (reviews.Count() == 0)
             {
-                return View(new List<ViewReviewModel>() {
-                    new ViewReviewModel
-                    {
-                        MovieInfo = new Movie
-                        {
-                            Title = movie.Title,
-                            Poster = movie.Poster,
-                            BackdropPath = movie.BackdropPath,
-                            DatePublished = movie.DatePublished
-                        }
-                    }
-                });
+                ViewBag.MovieId = movie.Id;
+                ViewBag.MovieTmdbId = movie.TmdbId;
+                ViewBag.MovieTitle = movie.Title;
+                ViewBag.MoviePoster = movie.Poster;
+                ViewBag.MovieBackdropPath = movie.BackdropPath;
+                ViewBag.MovieDatePublished = movie.DatePublished;
+
+                return View();
             }
 
             return View(reviews);

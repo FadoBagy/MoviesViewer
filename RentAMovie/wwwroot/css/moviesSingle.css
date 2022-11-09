@@ -207,7 +207,7 @@ body .container{
 }
 
 #no-actors {
-    width: fit-content !important;
+    width: 200px;
     opacity: 80%;
 
     -webkit-touch-callout: none;
@@ -238,6 +238,7 @@ body .container{
 }
 
 .review-content {
+    width: 100%;
     padding-left: 20px;
 }
 

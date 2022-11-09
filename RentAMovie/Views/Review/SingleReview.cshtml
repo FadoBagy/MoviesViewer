@@ -1,11 +1,50 @@
 ﻿@model ViewReviewModel
+@inject ViewMoviesDbContext data
+@inject ViewMoviesDbContext data
+@using System.Security.Claims
 
-@Model.Content
+@{
+    ViewData["Title"] = $"Review for {Model.MovieInfo.Title}";
 
-Make it so only the owner can see this butotn
-<form class="mt-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@Model.Id">
-	<div class="d-grid gap-2">
-		<input type="submit" value="Delete" class="btn btn-danger mb-2"
-			   onclick="return confirm('Are you sure you want to DELETE this review: @Model.Id')" />
-	</div>
-</form>
+    var currentReviewOwner = data.Users.FirstOrDefault(u => u.Id == Model.UserId);
+    var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+}
+
+<div id="review">
+    <div class="review-section col-9">
+        <img src="@currentReviewOwner.Photo" />
+        <div class="review-content">
+            @if (Model.MovieInfo.DatePublished != null)
+            {
+                <h3>@Model.MovieInfo.Title (@Model.MovieInfo.DatePublished.Value.Year)</h3>
+            }
+            else 
+            {
+                <h3>@Model.MovieInfo.Title</h3>
+            }
+            <h5>@currentReviewOwner.UserName</h5>
+            <p class="review-date">Written on @Model.CreationDate.ToString("MMM d, yyyy")</p>
+            <p class="review-text">
+                @Model.Content
+            </p>
+            @if (currentUser.Id == Model.UserId)
+            {
+                <div class="buttons">
+                    <form class="mt-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@Model.Id">
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Delete" class="mb-2"
+                               onclick="return confirm('Are you sure you want to permanently DELETE this review')" />
+                        </div>
+                    </form>
+                </div>
+                
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reviews.css" />
+    <link rel="stylesheet" href="~/css/reviewSingle.css" />
+}
