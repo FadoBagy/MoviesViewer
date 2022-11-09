@@ -81,7 +81,15 @@
             var currentReviewOwner = data.Users.FirstOrDefault(u => u.Id == review.UserId);
 
             <div class="review-section col-9">
-                <img src="@currentReviewOwner.Photo" />
+                
+                @if (currentReviewOwner.Photo != null && currentReviewOwner.Photo != "")
+                {
+                    <img src="@currentReviewOwner.Photo" />
+                }
+                else
+                {
+                    <img src="~/images/default-user-icon.png" />
+                }
                 <div class="review-content">
                     <h5>@currentReviewOwner.UserName</h5>
                     <p class="review-date">Written on @review.CreationDate.ToString("MMM d, yyyy")</p>

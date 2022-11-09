@@ -6,7 +6,9 @@
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
+    using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
+    using RentAMovie.Models.User;
     using System.Security.Claims;
 
     public class ReviewController : Controller
@@ -126,6 +128,76 @@
             }
 
             return View(reviews);
+        }
+
+        [Authorize]
+        [Route("/Reviews/MyReviews")]
+        public IActionResult AllUserReview(int reviewedMovies)
+        {
+            List<ViewReviewModel> reviews = new List<ViewReviewModel>();
+            if (reviewedMovies == 0)
+            {
+                reviews = data.Reviews
+                    .Where(r => r.UserId == GetCurrentUserId())
+                    .OrderByDescending(r => r.CreationDate)
+                    .Select(r => new ViewReviewModel
+                    {
+                        Id = r.Id,
+                        Content = r.Content,
+                        CreationDate = r.CreationDate,
+                        UserId = GetCurrentUserId(),
+                        MovieInfo = new Movie
+                        {
+                            Id = r.Movie.Id,
+                            Title = r.Movie.Title
+                        }
+                    })
+                    .ToList();
+            }
+            else
+            {
+                reviews = data.Reviews
+                    .Where(r => r.UserId == GetCurrentUserId() && r.MovieId == reviewedMovies)
+                    .OrderByDescending(r => r.CreationDate)
+                    .Select(r => new ViewReviewModel
+                    {
+                        Id = r.Id,
+                        Content = r.Content,
+                        CreationDate = r.CreationDate,
+                        UserId = GetCurrentUserId(),
+                        MovieInfo = new Movie
+                        {
+                            Id = r.Movie.Id,
+                            Title = r.Movie.Title
+                        }
+                    })
+                    .ToList();
+            }
+
+            var ReviewedMovies = data.Reviews
+                .Where(r => r.UserId == GetCurrentUserId())
+                .Select(r => new ViewMovieModel
+                {
+                    Id = r.Movie.Id,
+                    Title = r.Movie.Title
+                })
+                .OrderByDescending(m => m.Title)
+                .Distinct()
+                .ToList();
+
+            var currentUser = data.Users
+                .FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            return View(new QueryReviewModel
+            {
+                UserInfo = new ViewUserModel
+                {
+                    UserName = currentUser.UserName,
+                    Photo = currentUser.Photo
+                },
+                ReviewedMovies = ReviewedMovies,
+                Reviews = reviews
+            });
         }
 
         [HttpPost]

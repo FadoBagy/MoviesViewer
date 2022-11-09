@@ -158,7 +158,14 @@
             else
             {
                 <div class="review-section col-9">
-                    <img src="@reviewUserOwner.Photo" />
+                    @if (reviewUserOwner.Photo != null && reviewUserOwner.Photo != "")
+                    {
+                        <img src="@reviewUserOwner.Photo" />
+                    }
+                    else
+                    {
+                        <img src="~/images/default-user-icon.png" />
+                    }
                     <div class="review-content">
                         <h5>@reviewUserOwner.UserName</h5>
                         <p class="review-date">Written on @Model.Review.CreationDate.ToString("MMM d, yyyy")</p>

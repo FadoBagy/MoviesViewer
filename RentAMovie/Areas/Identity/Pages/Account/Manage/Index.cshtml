@@ -132,14 +132,27 @@
         <div class="written-reviews">
             <div class="header-button-section">
                 <h3>Reviews</h3>
-                <a href="#">View all</a>
+                <a asp-controller="Review" asp-action="AllUserReview">
+                    View all
+                </a>
             </div>
             @if (userLastReview != null)
             {
                 <div class="review-section col-12">
-                    <img src="@currentUser.Photo" />
+                    @if (currentUser?.Photo != null && currentUser.Photo != "")
+                    {
+                        <img src="@currentUser.Photo" />
+
+                    }
+                    else
+                    {
+                        <img src="~/images/default-user-icon.png" />
+                    }
                     <div class="review-content">
                         <h5>@currentUser.UserName</h5>
+                        <p class="review-movie">
+                            For movie - @userLastReview.Movie.Title
+                        </p>
                         <p class="review-date">Written on @userLastReview.CreationDate.ToString("MMM d, yyyy")</p>
                         <p class="review-text">
                             @userLastReview.Content

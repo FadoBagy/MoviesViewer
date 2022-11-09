@@ -1,0 +1,60 @@
+﻿@model QueryReviewModel
+@{
+	ViewData["Title"] = "My reviews";
+}
+
+<div class="header-info">
+	@if (Model.UserInfo.Photo != null && Model.UserInfo.Photo != "")
+	{
+		<img id="profile-photo" src="@Model.UserInfo.Photo" />
+	}
+	else
+	{
+		<img id="profile-photo" src="~/images/default-user-icon.png" />
+	}
+	<div class="movie-filter-section">
+		<form method="get">
+			<div class="row md-5">
+				<div class="form-group">
+					<div class="filter-controls">
+						<label asp-for="ReviewedMovies"></label>
+						<input type="submit" value="Search"/>
+					</div>
+					<select asp-for="ReviewedMovies" class="form-select" size="6">
+						<option value="0">All</option>
+						@foreach (var movie in Model.ReviewedMovies)
+						{
+							<option value="@movie.Id">@movie.Title</option>
+						}
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+@foreach (var review in Model.Reviews)
+{
+	<div class="review-section col-9">
+		<div class="review-content">
+			<p class="review-movie">
+				For movie - @review.MovieInfo.Title
+			</p>
+			<p class="review-date">
+				Written on @review.CreationDate.ToString("MMM d, yyyy")
+			</p>
+			<p class="review-text">
+				@review.Content
+			</p>
+			<div class="buttons">
+				<a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
+					<p>Open review</p>
+				</a>
+			</div>
+		</div>
+	</div>
+}
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/reviews.css" />
+}

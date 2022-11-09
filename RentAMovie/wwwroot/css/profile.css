@@ -221,6 +221,12 @@
     align-items: center;
 }
 
+.review-movie {
+    opacity: 80%;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
 @media screen and (max-width: 473px) {
     .movie-section {
         display: block;

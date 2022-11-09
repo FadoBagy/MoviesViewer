@@ -12,17 +12,19 @@
 
 <div id="review">
     <div class="review-section col-9">
-        <img src="@currentReviewOwner.Photo" />
+        @if (currentReviewOwner.Photo != null && currentReviewOwner.Photo != "")
+        {
+            <img src="@currentReviewOwner.Photo" />
+        }
+        else
+        {
+            <img src="~/images/default-user-icon.png" />
+        }
         <div class="review-content">
-            @if (Model.MovieInfo.DatePublished != null)
-            {
-                <h3>@Model.MovieInfo.Title (@Model.MovieInfo.DatePublished.Value.Year)</h3>
-            }
-            else 
-            {
-                <h3>@Model.MovieInfo.Title</h3>
-            }
             <h5>@currentReviewOwner.UserName</h5>
+            <p class="review-movie">
+                For movie - @Model.MovieInfo.Title
+            </p>
             <p class="review-date">Written on @Model.CreationDate.ToString("MMM d, yyyy")</p>
             <p class="review-text">
                 @Model.Content

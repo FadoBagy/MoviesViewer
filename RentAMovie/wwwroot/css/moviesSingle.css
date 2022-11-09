@@ -48,6 +48,9 @@ body .container{
 
 .info-img img{
     width: 300px;
+    height: 450px;
+    object-fit: cover;
+    object-position: center;
     border-radius: calc(0.25rem - 1px);
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -243,7 +246,6 @@ body .container{
 .review-section img{
     width: 120px;
     height: 120px;
-
     border-radius: 10px;
     object-fit: cover;
     object-position: center;
