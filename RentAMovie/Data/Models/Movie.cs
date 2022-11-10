@@ -53,7 +53,7 @@
 
         public string? Genres { get; set; }
 
-        public ICollection<Genre> TmdbGenres { get; set; } 
+        public ICollection<Genre> GenresCollection { get; set; } 
             = new List<Genre>();
 
         public ICollection<Review> Reviews { get; set; } 

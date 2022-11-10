@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
+    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
@@ -41,11 +42,16 @@
             }
 
             var newMovieGenres = movie.Genres.Split(", ", StringSplitOptions.TrimEntries);
-
             string genres = "";
             foreach (var genre in newMovieGenres)
             {
                 genres += genre + ", ";
+            }
+
+            var genresCollection = new List<Genre>();
+            foreach (var genre in newMovieGenres)
+            {
+                genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
             }
 
             var newMovie = new Movie
@@ -61,7 +67,8 @@
                 BackdropPath = movie.Backdrop,
                 Trailer = movie.Trailer,
                 UserId = GetCurrentUserId(),
-                Genres = genres
+                Genres = genres,
+                GenresCollection = genresCollection
             };
 
             data.Movies.Add(newMovie);
@@ -190,6 +197,11 @@
         public IActionResult MovieUser(int movieId)
         {
             var movie = data.Movies.Find(movieId);
+            if (movie == null || movie.TmdbId != null)
+            {
+                TempData["error"] = "Could not find!";
+                return RedirectToAction("Index", "Home");
+            }
             var lastReview = data.Reviews
                 .Where(r => r.MovieId == movieId)
                 .OrderByDescending(r => r.CreationDate)
@@ -222,6 +234,7 @@
 
             var movie = new TmdbSingleMovieModel();
             var movieToCheck = data.Movies
+                .Include(m => m.GenresCollection)
                 .FirstOrDefault(m => m.TmdbId == id);
             using (var httpClient = new HttpClient())
             {
@@ -243,6 +256,7 @@
                 }
 
                 movieToCheck = data.Movies
+                    .Include(m => m.GenresCollection)
                     .FirstOrDefault(m => m.TmdbId == id);
                 movie = GetSingleMovieData(movieData, movieToCheck);
 
@@ -387,6 +401,22 @@
         {
             if (movieToCheck == null)
             {
+                string genres = "";
+                foreach (var genre in movieData.Genres)
+                {
+                    genres += genre.Name + ", ";
+                }
+
+                var genresCollection = new List<Genre>();
+                foreach (var genre in movieData.Genres)
+                {
+                    var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre.Name);
+                    if (currentGenre != null)
+                    {
+                        genresCollection.Add(currentGenre);
+                    }
+                }
+
                 var newTmdbMovie = new Movie
                 {
                     Title = movieData.Title,
@@ -401,7 +431,8 @@
                     Revenue = movieData.Revenue,
                     Runtime = movieData.Runtime,
                     Tagline = movieData.Tagline,
-                    //Genres = movieData?.Genres
+                    Genres = genres,
+                    GenresCollection = genresCollection
                 };
                 data.Movies.Add(newTmdbMovie);
             }
@@ -443,13 +474,30 @@
                 {
                     movieToCheck.Tagline = movieData.Tagline;
                 }
-                //if (movieToCheck.Genres.Count != movieData.Genres?.Count)
-                //{
-                //    if (movieData.Genres != null)
-                //    {
-                //        movieToCheck.Genres.AddRange(movieData.Genres);
-                //    }
-                //}
+                if (movieToCheck.Genres == "" || movieToCheck.Genres == null)
+                {
+                    string genres = "";
+                    foreach (var genre in movieData.Genres)
+                    {
+                        genres += genre.Name + ", ";
+                    }
+
+                    movieToCheck.Genres = genres;
+                }
+                if (movieToCheck.GenresCollection.Count() == 0)
+                {
+                    var genresCollection = new List<Genre>();
+                    foreach (var genre in movieData.Genres)
+                    {
+                        var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre.Name);
+                        if (currentGenre != null)
+                        {
+                            genresCollection.Add(currentGenre);
+                        }
+                    }
+
+                    movieToCheck.GenresCollection = genresCollection;
+                }
             }
         }
 
