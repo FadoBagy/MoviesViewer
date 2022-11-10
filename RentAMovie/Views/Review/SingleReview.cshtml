@@ -10,6 +10,9 @@
     var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
 }
 
+<a id="back" asp-controller="Review" asp-action="All" asp-route-movieId="@Model.MovieInfo.Id">
+    <p>Back to all</p>
+</a>
 <div id="review">
     <div class="review-section col-9">
         @if (currentReviewOwner.Photo != null && currentReviewOwner.Photo != "")
@@ -35,7 +38,7 @@
                     <form class="mt-2" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@Model.Id">
                         <div class="d-grid gap-2">
                             <input type="submit" value="Delete" class="mb-2"
-                               onclick="return confirm('Are you sure you want to permanently DELETE this review')" />
+                               onclick="return confirm('Are you sure you want to permanently DELETE this review?')" />
                         </div>
                     </form>
                 </div>

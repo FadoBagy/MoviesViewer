@@ -215,3 +215,49 @@
     border-radius: 4px;
     background-color: #cbcbcb;
 }
+
+.user-reviews {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-select option {
+    padding: 5px;
+}
+
+@media screen and (max-width: 573px) {
+    .container {
+        width: 100%;
+        padding: 0;
+    }
+
+    .header-info {
+        width: 100%;
+        padding: 0;
+    }
+
+    .review-section {
+        width: 97%;
+        margin-left: 0;
+    }
+
+    .row-container {
+        display: flex;
+        justify-content: center;
+    }
+    .row-container .row {
+        width: 97%;
+    }
+
+    #review-filters {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .movie-filter-section {
+        padding: 0;
+        width: 100%;
+    }
+}

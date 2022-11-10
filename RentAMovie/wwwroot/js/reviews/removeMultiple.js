@@ -1,0 +1,1 @@
+﻿document.querySelector('.form-select').removeAttribute("multiple");

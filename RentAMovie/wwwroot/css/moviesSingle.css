@@ -326,3 +326,84 @@ body .container{
 .controls a:hover{
     background-color: #0058db;
 }
+
+@media screen and (max-width: 990px) {
+    .container,
+    .main-container {
+        max-width: none;
+        width: 100%;
+        padding: 0;
+    }
+
+    .media-scroller {
+        gap: 90px;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .details-container {
+        display: -webkit-box;
+        display: -moz-box;
+        display: box;
+        -webkit-box-orient: vertical;
+        -moz-box-orient: vertical;
+        box-orient: vertical;
+    }
+    .aside-details {
+        -webkit-box-ordinal-group: 1;
+        -moz-box-ordinal-group: 1;
+        box-ordinal-group: 1;
+    }
+    .main-details {
+        -webkit-box-ordinal-group: 2;
+        -moz-box-ordinal-group: 2;
+        box-ordinal-group: 2;
+    }
+
+    .main-details {
+        width: 100%;
+    }
+    .aside-details {
+        display: flex;
+    }
+    .aside-member {
+        margin: 0 10px 0 0;
+        text-align: center;
+    }
+    .aside-member p {
+        margin: 0 ;
+    }
+
+    .header-controls {
+        flex-direction: column;
+    }
+    .controls {
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+    .review-section {
+        width: 100%;
+        margin: 0;
+    }
+
+    .information-container {
+        display: flex;
+        align-items: center;
+    }
+    .info-img {
+        margin: 0 10px 0 10px;
+    }
+    .info-img img{
+        width: 200px;
+        height: 300px;
+    }
+    .info-main {
+        height: fit-content;
+        margin: 50px 10px 50px 0;
+    }
+}
+
+@media screen and (max-width: 573px) {
+    
+}

@@ -76,6 +76,7 @@
                 CreationDate = review.CreationDate,
                 MovieInfo = new Movie
                 {
+                    Id = movie.Id,
                     Title = movie.Title,
                     Poster = movie.Poster,
                     BackdropPath = movie.BackdropPath,
