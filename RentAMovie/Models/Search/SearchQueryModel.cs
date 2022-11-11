@@ -10,6 +10,8 @@
 
         public string SearchTerm { get; set; }
 
+        public string SearchGenre { get; set; }
+
         public List<SearchMovieModel> Movies { get; set; } = new List<SearchMovieModel>();
     }
 }

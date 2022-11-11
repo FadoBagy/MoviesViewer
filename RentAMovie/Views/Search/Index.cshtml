@@ -9,62 +9,6 @@
 	<form method="get" autocomplete="off">
 		<input asp-for="SearchTerm" class="form-control" />
 	</form>
-	<div class="filters">
-		<div class="filter-item">
-			<p>Action</p>
-		</div>
-		<div class="filter-item">
-			<p>Adventure</p>
-		</div>
-		<div class="filter-item">
-			<p>Animation</p>
-		</div>
-		<div class="filter-item">
-			<p>Comedy</p>
-		</div>
-		<div class="filter-item">
-			<p>Crime</p>
-		</div>
-		<div class="filter-item">
-			<p>Documentary</p>
-		</div>
-		<div class="filter-item">
-			<p>Drama</p>
-		</div>
-		<div class="filter-item">
-			<p>Fantasy</p>
-		</div>
-		<div class="filter-item">
-			<p>History</p>
-		</div>
-		<div class="filter-item">
-			<p>Horror</p>
-		</div>
-		<div class="filter-item">
-			<p>Mystery</p>
-		</div>
-		<div class="filter-item">
-			<p>Romance</p>
-		</div>
-		<div class="filter-item">
-			<p>Science Fiction</p>
-		</div>
-		<div class="filter-item">
-			<p>Thriller</p>
-		</div>
-		<div class="filter-item">
-			<p>War</p>
-		</div>
-		<div class="filter-item">
-			<p>Western</p>
-		</div>
-		<div class="filter-item">
-			<p>Popular</p>
-		</div>
-		<div class="filter-item">
-			<p>Top rated</p>
-		</div>
-	</div>
 </div>
 <div class="result">
 	@if (Model.SearchTerm != null && Model.Movies.Count() > 0)
@@ -160,3 +104,60 @@
 	<link rel="stylesheet" href="~/css/search.css" />
 	<link rel="stylesheet" href="~/css/movies.css" />
 }
+
+	@*<select asp-for="SearchGenre" class="filters">
+		<option class="filter-item">
+			<p>Action</p>
+		</option>
+		<option class="filter-item">
+			<p>Adventure</p>
+		</option>
+		<option class="filter-item">
+			<p>Animation</p>
+		</option>
+		<option class="filter-item">
+			<p>Comedy</p>
+		</option>
+		<option class="filter-item">
+			<p>Crime</p>
+		</option>
+		<option class="filter-item">
+			<p>Documentary</p>
+		</option>
+		<option class="filter-item">
+			<p>Drama</p>
+		</option>
+		<option class="filter-item">
+			<p>Fantasy</p>
+		</option>
+		<option class="filter-item">
+			<p>History</p>
+		</option>
+		<option class="filter-item">
+			<p>Horror</p>
+		</option>
+		<option class="filter-item">
+			<p>Mystery</p>
+		</option>
+		<option class="filter-item">
+			<p>Romance</p>
+		</option>
+		<option class="filter-item">
+			<p>Science Fiction</p>
+		</option>
+		<option class="filter-item">
+			<p>Thriller</p>
+		</option>
+		<option class="filter-item">
+			<p>War</p>
+		</option>
+		<option class="filter-item">
+			<p>Western</p>
+		</option>
+		<option class="filter-item">
+			<p>Popular</p>
+		</option>
+		<option class="filter-item">
+			<p>Top rated</p>
+		</option>
+	</select>*@

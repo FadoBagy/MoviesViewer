@@ -116,7 +116,9 @@
                 return View(model);
             }
 
-            var movie = data.Movies.Find(id);
+            var movie = data.Movies
+                .Include(m => m.GenresCollection)
+                .FirstOrDefault(m => m.Id == id);
 
             if (movie?.UserId != GetCurrentUserId())
             {
@@ -146,6 +148,32 @@
                     }
                 }
                 movie.Genres = genres;
+            }
+            if (movie.GenresCollection.Count() > 0)
+            {
+                movie.GenresCollection.Clear();
+
+                var newMovieGenres = model.Genres.Split(", ", StringSplitOptions.TrimEntries);
+                var genresCollection = new List<Genre>();
+                foreach (var genre in newMovieGenres)
+                {
+                    var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre);
+                    if (currentGenre != null)
+                    {
+                        genresCollection.Add(currentGenre);
+                    }
+                }
+                movie.GenresCollection = genresCollection;
+            }
+            else
+            {
+                var newMovieGenres = model.Genres.Split(", ", StringSplitOptions.TrimEntries);
+                var genresCollection = new List<Genre>();
+                foreach (var genre in newMovieGenres)
+                {
+                    genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                }
+                movie.GenresCollection = genresCollection;
             }
 
             data.SaveChanges();
