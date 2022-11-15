@@ -41,10 +41,8 @@
                             .ThenBy(m => m.Title);
                         break;
                     case 3:
-
                         break;
                     case 4:
-
                         break;
                     case 5:
                         movieQuery = movieQuery
@@ -67,6 +65,12 @@
                             .ThenBy(m => m.DateCreated);
                         break;
                 }
+            }
+
+            if (query.Genre != null)
+            {
+                movieQuery = movieQuery
+                    .Where(m => m.GenresCollection.Any(g => g.Id == query.Genre));
             }
 
             var movies = movieQuery

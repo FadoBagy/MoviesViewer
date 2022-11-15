@@ -26,9 +26,9 @@
             ConvertValueInInvariantCulture = true)]
         public int? Runtime { get; init; }
 
-        public int? Revenue { get; init; }
+        public long? Revenue { get; init; }
 
-        public int? Budget { get; init; }
+        public long? Budget { get; init; }
 
         [BindProperty, DataType(DataType.Date)]
         [Display(Name = "Date Published")]

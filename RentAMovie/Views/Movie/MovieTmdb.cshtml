@@ -190,7 +190,7 @@
                 @(
                 Model.Budget == 0 || Model.Budget == null ?
                 "-" :
-                $"${((int)@Model.Budget).ToString("#,##0.00")}")
+                $"${((long)@Model.Budget).ToString("#,##0.00")}")
             </p>
         </div>
         <div class="aside-member">
@@ -199,7 +199,7 @@
                 @(
                 Model.Revenue == 0 || Model.Revenue == null ?
                 "-" :
-                $"${((int)@Model.Revenue).ToString("#,##0.00")}")
+                $"${((long)@Model.Revenue).ToString("#,##0.00")}")
             </p>
         </div>
     </div>

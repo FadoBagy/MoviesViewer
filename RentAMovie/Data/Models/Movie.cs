@@ -35,9 +35,9 @@
 
         public int? VoteCount { get; set; }
 
-        public int? Revenue { get; set; }
+        public long? Revenue { get; set; }
 
-        public int? Budget { get; set; }
+        public long? Budget { get; set; }
 
         public string? ContentRanting { get; set; }
 

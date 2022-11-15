@@ -15,9 +15,9 @@
 
         public int? Runtime { get; set; }
 
-        public int? Revenue { get; set; }
+        public long? Revenue { get; set; }
 
-        public int? Budget { get; set; }
+        public long? Budget { get; set; }
 
         public DateTime? DatePublished { get; set; }
 
