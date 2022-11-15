@@ -1,17 +1,15 @@
-﻿@model IEnumerable<PopularMovieResultModule>
+﻿@model FilterMovieModel
 @{
 	ViewData["Title"] = "Popular";
 }
 
 <partial name="~/Views/Shared/Movie/_MovieFilters.cshtml" />
 
-<h3>What's Popular</h3>
-
 <partial name="~/Views/Shared/Movie/_MovieList.cshtml" />
 
 @section Styles {
 	<link rel="stylesheet" href="~/css/movies.css" />
 }
-	@section Scripts {
+@section Scripts {
 	<script src="~/js/renderMovieInfo.js"></script>
 }
