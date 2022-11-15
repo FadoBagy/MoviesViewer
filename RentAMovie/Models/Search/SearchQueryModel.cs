@@ -14,8 +14,6 @@
 
         public int? Genre { get; set; }
 
-        public int? FilterBy { get; set; }
-
         public List<SearchMovieModel> Movies { get; set; } = new List<SearchMovieModel>();
 
         public ICollection<ViewGenreModel> AvailableGenres { get; set; }

@@ -5,6 +5,7 @@
     using RentAMovie.Models.Genre;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Search;
+    using System.Linq;
     using System.Linq.Expressions;
 
     public class SearchController : Controller
@@ -63,6 +64,16 @@
                         movieQuery = movieQuery
                             .OrderByDescending(m => m.Title)
                             .ThenBy(m => m.DateCreated);
+                        break;
+                    case 9:
+                        movieQuery = movieQuery
+                            .OrderByDescending(m => m.VoteCount)
+                            .ThenBy(m => m.Title);
+                        break;
+                    case 10:
+                        movieQuery = movieQuery
+                           .OrderBy(m => m.VoteCount)
+                           .ThenBy(m => m.Title);
                         break;
                 }
             }

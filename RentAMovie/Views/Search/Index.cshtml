@@ -20,6 +20,8 @@
 				<option value="6">Release Date Ascending</option>
 				<option value="7">Title (A-Z)</option>
 				<option value="8">Title (Z-A)</option>
+				<option value="9">Number Of Votes Descending</option>
+				<option value="10">Number Of Votes Ascending</option>
 			</select>
 		</div>
 		<div class="search-section">
@@ -30,14 +32,6 @@
 				{
 					<option value="@genre.Id">@genre.Name</option>
 				}
-			</select>
-		</div>
-		<div class="search-section">
-			<p>Filter by</p>
-			<select class="form-select" asp-for="FilterBy">
-				<option selected>Select</option>
-				<option value="1">Number Of Votes Descending</option>
-				<option value="2">Number Of Votes Ascending</option>
 			</select>
 		</div>
 		<input type="submit" value="Search" />
