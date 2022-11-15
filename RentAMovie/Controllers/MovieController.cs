@@ -10,7 +10,6 @@
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.PersonModels;
-    using RentAMovie.Models.Search;
     using System.Linq;
     using System.Security.Claims;
 
@@ -317,47 +316,15 @@
 
         [ActionName("Popular")]
         [Route("/Movies/Popular")]
-        public IActionResult Popular([FromQuery] FilterMovieModel query)
+        public IActionResult Popular()
         {
             string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
             string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
 
-            // Empty filters
-            if (true)
-            {
-                var populareMovies = new List<PopularMovieResultModule>();
-                CollectMoviesData(mostPopularRequest, populareMovies);
+            var movies = new List<PopularMovieResultModule>();
+            CollectMoviesData(mostPopularRequest, movies);
 
-                var moives = new List<SearchMovieModel>();
-                foreach (var movie in populareMovies)
-                {
-                    var newMovie = new SearchMovieModel
-                    {
-                        Title = movie.Title,
-                        Description = movie.Description,
-                        PosterPath = movie.PosterPath,
-                        Rating = movie.Rating,
-                        ReleaseDate = movie.ReleaseDate,
-                        TmdbId = movie.TmdbId,
-                        VoteCount = movie.VoteCount
-                    };
-                    moives.Add(newMovie);
-                }
-
-                return View(new FilterMovieModel
-                {
-                    Movies = moives
-                });
-            }
-
-            // Filtered movies
-            //var filteredMovies = data.Movies;
-
-
-            //return View(new FilterMovieModel
-            //{
-            //    Movies = filteredMovies
-            //});
+            return View(movies);
         }
 
         [Route("/Movies/TopRated")]

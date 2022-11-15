@@ -1,12 +1,11 @@
-﻿@model FilterMovieModel
-@{
+﻿@{
 	string posterPath = "https://image.tmdb.org/t/p/w500";
 	string ratingColor;
 }
 
 <div class="container">
 	<div class="row">
-		@foreach (var movie in Model.Movies)
+		@foreach (var movie in Model)
 		{
 			string rating = "0.0";
 			if (movie.Rating != null)
@@ -49,7 +48,7 @@
 					<h5 class="card-title">
 						<a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
 					</h5>
-					<h6>@movie.ReleaseDate.Value.ToString("MMM dd, yyyy")</h6>
+					<h6>@movie.ReleaseDate.ToString("MMM dd, yyyy")</h6>
 				</div>
 				<img class="info" src="~/images/information.png" alt="info button">
 			</div>

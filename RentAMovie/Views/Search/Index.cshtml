@@ -8,6 +8,7 @@
 <div class="search-bar">
 	<form method="get" autocomplete="off">
 		<input asp-for="SearchTerm" class="form-control" />
+		<partial name="~/Views/Shared/Movie/_MovieFilters.cshtml" />
 	</form>
 </div>
 <div class="result">

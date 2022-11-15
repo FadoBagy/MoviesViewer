@@ -128,12 +128,6 @@ main .container {
     z-index: 101;
 }
 
-.search-section{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .top-nav{
     display: flex;
     justify-content: center;

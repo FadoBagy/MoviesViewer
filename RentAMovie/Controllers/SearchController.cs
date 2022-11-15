@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using RentAMovie.Data;
+    using RentAMovie.Models.Genre;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Search;
 
@@ -23,6 +24,14 @@
                     .Where(m => m.Title.Contains(query.SearchTerm))
                     .OrderByDescending(m => m.DatePublished);
             }
+
+            var genres = data.Genres
+                .OrderBy(g => g.Name)
+                .Select(g => new ViewGenreModel
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                }).ToList();
 
             var movies = movieQuery
                 //.Skip((query.CurrentPage - 1) * SearchQueryModel.MoviesPerPage)

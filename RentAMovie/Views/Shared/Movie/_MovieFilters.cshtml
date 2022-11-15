@@ -1,20 +1,10 @@
 ﻿@model FilterMovieModel
 
-<div class="search-section">
-	<h1>Movies</h1>
-	<div class="top-nav">
-		
-	</div>
-</div>
-<div>
-	<form method="get" autocomplete="off">
-		<select class="form-select" aria-label="Default select example">
-			<option value="1">One</option>
-			<option value="2">Two</option>
-			<option value="3">Three</option>
-		</select>
+<form method="get" autocomplete="off">
+	<div class="search-section">
+		<p>Sort by</p>
 		<select class="form-select" asp-for="SortBy">
-			<option selected>Sort by</option>
+			<option selected>Select</option>
 			<option value="1">Rating Descending</option>
 			<option value="2">Rating Ascending</option>
 			<option value="3">Popularity Descending</option>
@@ -24,9 +14,24 @@
 			<option value="7">Title (A-Z)</option>
 			<option value="8">Title (Z-A)</option>
 		</select>
-		<select class="form-select">
-			<option value="1">Number of votes</option>
+	</div>
+	<div class="search-section">
+		<p>Genre</p>
+		<select class="form-select" asp-for="Genre">
+			<option selected>Select</option>
+			@foreach (var genre in Model.AvailableGenres)
+			{
+				<option value="@genre.Id">@genre.Name</option>
+			}
 		</select>
-		<input type="submit" value="Search" />
-	</form>
-</div>
+	</div>
+	<div class="search-section">
+		<p>Filter by</p>
+		<select class="form-select" asp-for="FilterBy">
+			<option selected>Select</option>
+			<option value="1">Number Of Votes Descending</option>
+			<option value="2">Number Of Votes Ascending</option>
+		</select>
+	</div>
+	<input type="submit" value="Search" />
+</form>
