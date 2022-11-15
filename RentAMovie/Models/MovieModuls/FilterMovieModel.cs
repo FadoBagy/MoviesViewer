@@ -10,7 +10,7 @@
 
         public int FilterBy { get; set; }
 
-        public List<SearchMovieModel> Movies { get; set; } = new List<SearchMovieModel>();
+        public ICollection<SearchMovieModel> Movies { get; set; } = new List<SearchMovieModel>();
 
         public ICollection<ViewGenreModel> AvailableGenres { get; set; }
     }

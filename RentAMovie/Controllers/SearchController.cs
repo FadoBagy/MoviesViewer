@@ -5,6 +5,7 @@
     using RentAMovie.Models.Genre;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Search;
+    using System.Linq.Expressions;
 
     public class SearchController : Controller
     {
@@ -25,13 +26,48 @@
                     .OrderByDescending(m => m.DatePublished);
             }
 
-            var genres = data.Genres
-                .OrderBy(g => g.Name)
-                .Select(g => new ViewGenreModel
+            if (query.SortBy != null)
+            {
+                switch (query.SortBy)
                 {
-                    Id = g.Id,
-                    Name = g.Name
-                }).ToList();
+                    case 1:
+                        movieQuery = movieQuery
+                            .OrderByDescending(m => m.Rating)
+                            .ThenBy(m => m.Title);
+                        break;
+                    case 2:
+                        movieQuery = movieQuery
+                            .OrderBy(m => m.Rating)
+                            .ThenBy(m => m.Title);
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+                        movieQuery = movieQuery
+                            .OrderByDescending(m => m.DatePublished)
+                            .ThenBy(m => m.Title);
+                        break;
+                    case 6:
+                        movieQuery = movieQuery
+                            .OrderBy(m => m.DatePublished)
+                            .ThenBy(m => m.Title);
+                        break;
+                    case 7:
+                        movieQuery = movieQuery
+                            .OrderBy(m => m.Title)
+                            .ThenBy(m => m.DateCreated);
+                        break;
+                    case 8:
+                        movieQuery = movieQuery
+                            .OrderByDescending(m => m.Title)
+                            .ThenBy(m => m.DateCreated);
+                        break;
+                }
+            }
 
             var movies = movieQuery
                 //.Skip((query.CurrentPage - 1) * SearchQueryModel.MoviesPerPage)
@@ -48,6 +84,14 @@
                     PosterPath = m.Poster
                 })
                 .ToList();
+
+            var genres = data.Genres
+                .OrderBy(g => g.Name)
+                .Select(g => new ViewGenreModel
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                }).ToList();
 
             if (movies != null)
             {

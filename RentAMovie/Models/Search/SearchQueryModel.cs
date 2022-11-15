@@ -10,11 +10,11 @@
 
         public string SearchTerm { get; set; }
 
-        public int SortBy { get; set; }
+        public int? SortBy { get; set; }
 
-        public int Genre { get; set; }
+        public int? Genre { get; set; }
 
-        public int FilterBy { get; set; }
+        public int? FilterBy { get; set; }
 
         public List<SearchMovieModel> Movies { get; set; } = new List<SearchMovieModel>();
 
