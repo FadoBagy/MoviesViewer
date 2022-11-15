@@ -8,7 +8,39 @@
 <div class="search-bar">
 	<form method="get" autocomplete="off">
 		<input asp-for="SearchTerm" class="form-control" />
-		<partial name="~/Views/Shared/Movie/_MovieFilters.cshtml" />
+		<div class="search-section">
+			<p>Sort by</p>
+			<select class="form-select" asp-for="SortBy">
+				<option selected>Select</option>
+				<option value="1">Rating Descending</option>
+				<option value="2">Rating Ascending</option>
+				<option value="3">Popularity Descending</option>
+				<option value="4">Popularity Ascending</option>
+				<option value="5">Release Date Descending</option>
+				<option value="6">Release Date Ascending</option>
+				<option value="7">Title (A-Z)</option>
+				<option value="8">Title (Z-A)</option>
+			</select>
+		</div>
+		<div class="search-section">
+			<p>Genre</p>
+			<select class="form-select" asp-for="Genre">
+				<option selected>Select</option>
+				@foreach (var genre in Model.AvailableGenres)
+				{
+					<option value="@genre.Id">@genre.Name</option>
+				}
+			</select>
+		</div>
+		<div class="search-section">
+			<p>Filter by</p>
+			<select class="form-select" asp-for="FilterBy">
+				<option selected>Select</option>
+				<option value="1">Number Of Votes Descending</option>
+				<option value="2">Number Of Votes Ascending</option>
+			</select>
+		</div>
+		<input type="submit" value="Search" />
 	</form>
 </div>
 <div class="result">

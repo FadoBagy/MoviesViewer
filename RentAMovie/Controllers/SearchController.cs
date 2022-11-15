@@ -54,6 +54,7 @@
                 query.Movies.AddRange(movies);
             }
             query.SearchTerm = query.SearchTerm;
+            query.AvailableGenres = genres;
             return View(query);
         }
     }
