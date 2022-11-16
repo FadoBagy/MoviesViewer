@@ -9,13 +9,13 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-  background-color: #f2f2f2;
+    margin-bottom: 60px;
+    background-color: #f2f2f2;
 }
 
 img {
@@ -27,6 +27,52 @@ img {
     user-select: none;
 }
 
-.dropdown-item {
-    color: rgb(33,37,41) !important;
+#navbar-header {
+    transition: 600ms;
+}
+
+.navbar-brand {
+    padding-top: 0;
+}
+
+#navbar-header nav {
+    background-color: #021632 !important;
+    color: #f2f2f2 !important;
+    border: none !important;
+    box-shadow: 0 0.5rem 1rem #0216323e;
+    transition: 300ms;
+}
+
+#navbar-header nav a,
+#navbar-header nav button {
+    color: #f2f2f2 !important;
+}
+
+.navbar-toggler img {
+    width: 26.25px;
+    height: 26.25px;
+}
+
+#nav-dropdown {
+    background-color: #021632 !important;
+}
+
+#nav-dropdown li a:hover{
+    background-color: #002860 !important;
+}
+
+.sticky {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 5;
+}
+
+.maring-top {
+    margin-top: 75px;
+}
+
+.no-shadow {
+    box-shadow: none !important;
 }

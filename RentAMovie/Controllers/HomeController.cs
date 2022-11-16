@@ -44,7 +44,8 @@
             {
                 TopActionMovies = moviesTop5,
                 TotalMovies = data.Movies.Count(),
-                TotalUsers = data.Users.Count()
+                TotalUsers = data.Users.Count(),
+                TotalReviews = data.Reviews.Count()
             });
         }
 

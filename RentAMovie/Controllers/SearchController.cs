@@ -6,7 +6,6 @@
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Search;
     using System.Linq;
-    using System.Linq.Expressions;
 
     public class SearchController : Controller
     {

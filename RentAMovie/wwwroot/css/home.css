@@ -29,6 +29,7 @@
 }
 
 .statistics {
+    position: relative;
     width: 90%;
     background-color: #1f1f1f;
     color: #f2f2f2;
@@ -48,5 +49,36 @@
 }
 
 .statistics-item p{
-    margin: 0px;
+    margin: 0;
+}
+
+.statistics-shadow {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #021632;
+    border-radius: 5px;
+    z-index: -1;
+    bottom: -10px;
+    right: -10px;
+    /*animation: background-pan 3s linear infinite;
+    background: linear-gradient(
+        to right,
+        white,
+        black,
+        white,
+        black
+    );
+    background-size: 200%;*/
+}
+
+@keyframes background-pan {
+    from {
+        background-position: 0% center;
+    }
+
+    to {
+        background-position: -200% center;
+    }
 }
