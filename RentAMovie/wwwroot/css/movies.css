@@ -48,10 +48,11 @@ main .container {
 
 .card-title {
     margin-top: 15px;
+    transition: 100ms;
 }
 
 .card-title:hover {
-    color: #0a58ca;
+    color: #0D4C92;
 }
 
 .card-body h6 {

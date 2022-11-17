@@ -1,5 +1,22 @@
 ﻿.user-controls a {
     width: 100%;
+    background-color: #0D4C92;
+    border: none;
+    transition: 100ms;
+}
+
+.user-controls a:hover {
+    background-color: #0079FF;
+}
+
+.user-controls input {
+    background-color: #d52522;
+    border: none;
+    transition: 100ms;
+}
+
+.user-controls input:hover {
+    background-color: #ff2824;
 }
 
 .not-available-container {

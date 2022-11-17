@@ -37,7 +37,7 @@
 
 .review-content a {
     text-decoration: none !important;
-    color: #0c0c0c !important;
+    color: #212529 !important;
     font-weight: 500;
     margin-right: 10px;
 }
@@ -48,7 +48,7 @@
 }
 
 .review-content a p:hover {
-    color: #0d6efd;
+    color: #0D4C92;
 }
 
 .review-date {
@@ -100,7 +100,7 @@
 }
 
 .header-info a:hover {
-    color: #0d6efd;
+    color: #0079FF;
 }
 
 #movie-poster {
@@ -147,6 +147,14 @@
 
 .form-group {
     margin-bottom: 10px;
+}
+
+.form-group input[value="Submit"]{
+    background-color: #0D4C92;
+}
+
+.form-group input[value="Submit"]:hover{
+    background-color: #0079FF;
 }
 
 #no-reviews {
@@ -196,10 +204,11 @@
     border: none;
     padding: 0;
     font-weight: 500;
+    color: #212529;
 }
 
 .filter-controls input:hover {
-    color: #0d6efd;
+    color: #0D4C92;
 }
 
 .form-select::-webkit-scrollbar-track {
@@ -213,7 +222,7 @@
 
 .form-select::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: #cbcbcb;
+    background-color: #0D4C92;
 }
 
 .user-reviews {
@@ -225,6 +234,7 @@
 
 .form-select option {
     padding: 5px;
+
 }
 
 @media screen and (max-width: 573px) {

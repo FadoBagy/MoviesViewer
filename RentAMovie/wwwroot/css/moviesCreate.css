@@ -59,11 +59,11 @@
 }
 
 .genre-item:hover {
-    border: 2px solid #6fc2ff
+    border: 2px solid #0079FF
 }
 
 .active {
-    border: 2px solid #6fc2ff
+    border: 2px solid #0079FF
 }
 
 #genresTip {
@@ -87,7 +87,8 @@
 #clear {
     margin-bottom: 0;
     cursor: pointer;
-    color: #0d6efd;
+    color: #0D4C92;
+    font-weight: 500;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -95,6 +96,14 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.form-group input[type="submit"]{
+    background-color: #0D4C92;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #0079FF;
 }
 
 @media screen and (max-width: 580px) {

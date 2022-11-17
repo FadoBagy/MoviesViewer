@@ -27,6 +27,10 @@ img {
     user-select: none;
 }
 
+.container main {
+    margin-top: 30px;
+}
+
 #navbar-container {
     height: 59px;
 }
@@ -62,8 +66,12 @@ img {
     background-color: #021632 !important;
 }
 
+#nav-dropdown li a{
+    transition: 100ms;
+}
+
 #nav-dropdown li a:hover{
-    background-color: #002860 !important;
+    background-color: #0079FF !important;
 }
 
 .sticky {

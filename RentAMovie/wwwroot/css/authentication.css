@@ -20,6 +20,16 @@
     user-select: none; 
 }
 
+.form-container form button[type="submit"] {
+    background-color: #0D4C92;
+    border: none;
+    transition: 100ms;
+}
+
+.form-container form button[type="submit"]:hover {
+    background-color: #0079FF;
+}
+
 .form-floating {
     text-align: left;
     margin-bottom: 10px;
@@ -33,5 +43,5 @@
 
 .logout form button{
     font-size: 1.8rem;
-    color: #0a58ca !important;
+    color: #0D4C92 !important;
 }
