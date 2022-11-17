@@ -1,6 +1,6 @@
 ﻿let nav = document.querySelector('#navbar-header');
 
-if (window.screenY > 0) {
+if (window.window.pageYOffset > 0) {
     onSrcollActions();
 };
 
@@ -11,4 +11,4 @@ window.addEventListener('scroll', () => {
 function onSrcollActions() {
     nav.classList.toggle('sticky', window.scrollY > 0);
     nav.classList.toggle('no-shadow', window.scrollY > 0);
-}
+};
