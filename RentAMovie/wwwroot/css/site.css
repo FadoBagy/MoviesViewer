@@ -27,15 +27,20 @@ img {
     user-select: none;
 }
 
+#navbar-container {
+    height: 59px;
+}
+
 #navbar-header {
     transition: 600ms;
+    z-index: 10;
 }
 
 .navbar-brand {
     padding-top: 0;
 }
 
-#navbar-header nav {
+#navbar-header {
     background-color: #021632 !important;
     color: #f2f2f2 !important;
     border: none !important;
@@ -43,8 +48,8 @@ img {
     transition: 300ms;
 }
 
-#navbar-header nav a,
-#navbar-header nav button {
+#navbar-header a,
+#navbar-header button {
     color: #f2f2f2 !important;
 }
 
@@ -67,10 +72,6 @@ img {
     top: 0;
     right: 0;
     z-index: 5;
-}
-
-.maring-top {
-    margin-top: 75px;
 }
 
 .no-shadow {
