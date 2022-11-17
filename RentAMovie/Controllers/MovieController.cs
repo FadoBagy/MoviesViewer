@@ -51,7 +51,10 @@
             var genresCollection = new List<Genre>();
             foreach (var genre in newMovieGenres)
             {
-                genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                if (genre != null && genre != "")
+                {
+                    genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                }
             }
 
             var newMovie = new Movie
@@ -171,7 +174,10 @@
                 var genresCollection = new List<Genre>();
                 foreach (var genre in newMovieGenres)
                 {
-                    genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                    if (genre != null && genre != "")
+                    {
+                        genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                    }
                 }
                 movie.GenresCollection = genresCollection;
             }
