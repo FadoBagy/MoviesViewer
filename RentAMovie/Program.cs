@@ -3,6 +3,7 @@ namespace RentAMovie
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
+    using RentAMovie.Services.Person;
 
     public class Program
     {
@@ -24,7 +25,9 @@ namespace RentAMovie
                 options.Password.RequiredLength = 6;
             })
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
-            builder.Services.AddControllersWithViews();     
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddTransient<IPersonService, PersonService>();
 
             var app = builder.Build();
 

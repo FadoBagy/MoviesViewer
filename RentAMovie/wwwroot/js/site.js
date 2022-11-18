@@ -1,6 +1,6 @@
 ﻿let nav = document.querySelector('#navbar-header');
 
-if (window.window.pageYOffset > 0) {
+if (window.pageYOffset > 0) {
     onSrcollActions();
 };
 
