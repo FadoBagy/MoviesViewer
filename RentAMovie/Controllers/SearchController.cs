@@ -1,87 +1,29 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using RentAMovie.Data;
-    using RentAMovie.Models.Genre;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Search;
+    using RentAMovie.Services.Search;
     using System.Linq;
 
     public class SearchController : Controller
     {
-        private readonly ViewMoviesDbContext data;
-        public SearchController(ViewMoviesDbContext data)
+        private readonly ISearchService service;
+        public SearchController(ISearchService service)
         {
-            this.data = data;
+            this.service = service;
         }
 
         [Route("/Search")]
         public IActionResult Index([FromQuery]SearchQueryModel query)
         {
-            var movieQuery = data.Movies.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            var movieQuery = service.ValidateSearchQuery(new SearchServiceModel
             {
-                movieQuery = movieQuery
-                    .Where(m => m.Title.Contains(query.SearchTerm))
-                    .OrderByDescending(m => m.DatePublished);
-            }
-
-            if (query.SortBy != null)
-            {
-                switch (query.SortBy)
-                {
-                    case 1:
-                        movieQuery = movieQuery
-                            .OrderByDescending(m => m.Rating)
-                            .ThenBy(m => m.Title);
-                        break;
-                    case 2:
-                        movieQuery = movieQuery
-                            .OrderBy(m => m.Rating)
-                            .ThenBy(m => m.Title);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        movieQuery = movieQuery
-                            .OrderByDescending(m => m.DatePublished)
-                            .ThenBy(m => m.Title);
-                        break;
-                    case 6:
-                        movieQuery = movieQuery
-                            .OrderBy(m => m.DatePublished)
-                            .ThenBy(m => m.Title);
-                        break;
-                    case 7:
-                        movieQuery = movieQuery
-                            .OrderBy(m => m.Title)
-                            .ThenBy(m => m.DateCreated);
-                        break;
-                    case 8:
-                        movieQuery = movieQuery
-                            .OrderByDescending(m => m.Title)
-                            .ThenBy(m => m.DateCreated);
-                        break;
-                    case 9:
-                        movieQuery = movieQuery
-                            .OrderByDescending(m => m.VoteCount)
-                            .ThenBy(m => m.Title);
-                        break;
-                    case 10:
-                        movieQuery = movieQuery
-                           .OrderBy(m => m.VoteCount)
-                           .ThenBy(m => m.Title);
-                        break;
-                }
-            }
-
-            if (query.Genre != null)
-            {
-                movieQuery = movieQuery
-                    .Where(m => m.GenresCollection.Any(g => g.Id == query.Genre));
-            }
+                CurrentPage = query.CurrentPage,
+                SearchTerm = query.SearchTerm,
+                Genre = query.Genre,
+                SortBy = query.SortBy
+            });
 
             var movies = movieQuery
                 //.Skip((query.CurrentPage - 1) * SearchQueryModel.MoviesPerPage)
@@ -99,20 +41,12 @@
                 })
                 .ToList();
 
-            var genres = data.Genres
-                .OrderBy(g => g.Name)
-                .Select(g => new ViewGenreModel
-                {
-                    Id = g.Id,
-                    Name = g.Name
-                }).ToList();
-
             if (movies != null)
             {
                 query.Movies.AddRange(movies);
             }
             query.SearchTerm = query.SearchTerm;
-            query.AvailableGenres = genres;
+            query.AvailableGenres = service.GetAllGenres();
             return View(query);
         }
     }
