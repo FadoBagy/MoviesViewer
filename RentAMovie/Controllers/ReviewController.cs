@@ -1,24 +1,19 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using RentAMovie.Data;
     using RentAMovie.Data.Models;
-    using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
     using RentAMovie.Models.User;
+    using RentAMovie.Services.Review;
     using System.Security.Claims;
 
     public class ReviewController : Controller
     {
-        private readonly UserManager<User> userManager;
-        private readonly ViewMoviesDbContext data;
-        public ReviewController(ViewMoviesDbContext data, UserManager<User> userManager)
+        private readonly IReviewService service;
+        public ReviewController(IReviewService service)
         {
-            this.data = data;
-            this.userManager = userManager;
+            this.service = service;
         }
 
         [Authorize]
@@ -42,7 +37,7 @@
                     MovieId = review.MovieId
                 });
             }
-            var movie = data.Movies.Find(review.MovieId);
+            var movie = service.GetMovie(review.MovieId);
 
             var newReview = new Review
             {
@@ -52,8 +47,7 @@
             };
 
             movie.Reviews.Add(newReview);
-            data.Reviews.Add(newReview);
-            data.SaveChanges();
+            service.AddReview(newReview);
 
             return RedirectToAction("All", "Review", new { movieId = review.MovieId }); 
         }
@@ -61,14 +55,14 @@
         [Route("/Reviews/{reviewId}")]
         public IActionResult SingleReview(int reviewId)
         {
-            var review = data.Reviews.Find(reviewId);
+            var review = service.GetReview(reviewId);
             if (review == null)
             {
                 TempData["error"] = "Could not find!";
                 return RedirectToAction("Index", "Home");
             }
 
-            var movie = data.Movies.Find(review.MovieId);
+            var movie = service.GetMovie(review.MovieId);
             return View(new ViewReviewModel
             {
                 Id = review.Id,
@@ -89,33 +83,14 @@
         [Route("/Movies/{movieId}/Reviews")]
         public IActionResult All(int movieId)
         {
-            var movie = data.Movies.Include(m => m.Reviews).FirstOrDefault(m => m.Id == movieId);
+            var movie = service.GetMovieWithReviews(movieId);
             if (movie == null)
             {
                 TempData["error"] = "Could not find movie!";
                 return RedirectToAction("Index", "Home");
             }
-            var reviews = data.Reviews
-                .Where(r => r.MovieId == movieId)
-                .OrderByDescending(r => r.CreationDate)
-                .Select(r => new ViewReviewModel
-                {
-                    Id = r.Id,
-                    Content = r.Content,
-                    CreationDate = r.CreationDate,
-                    MovieInfo = new Movie
-                    {
-                        Id = movie.Id,
-                        TmdbId = movie.TmdbId,
-                        Title = movie.Title,
-                        Poster = movie.Poster,
-                        BackdropPath = movie.BackdropPath,
-                        DatePublished = movie.DatePublished
-                    },
-                    UserId = r.UserId
-                })
-                .ToList();
 
+            var reviews = service.GetReviews(movieId);
             if (reviews.Count() == 0)
             {
                 ViewBag.MovieId = movie.Id;
@@ -135,59 +110,20 @@
         [Route("/Reviews/MyReviews")]
         public IActionResult AllUserReview(int reviewedMovies)
         {
+            string userId = GetCurrentUserId();
+            var currentUser = service.GetCurrentUser(userId);
+
             List<ViewReviewModel> reviews = new List<ViewReviewModel>();
             if (reviewedMovies == 0)
             {
-                reviews = data.Reviews
-                    .Where(r => r.UserId == GetCurrentUserId())
-                    .OrderByDescending(r => r.CreationDate)
-                    .Select(r => new ViewReviewModel
-                    {
-                        Id = r.Id,
-                        Content = r.Content,
-                        CreationDate = r.CreationDate,
-                        UserId = GetCurrentUserId(),
-                        MovieInfo = new Movie
-                        {
-                            Id = r.Movie.Id,
-                            Title = r.Movie.Title
-                        }
-                    })
-                    .ToList();
+                reviews = service.GetUserReviews(userId);
             }
             else
             {
-                reviews = data.Reviews
-                    .Where(r => r.UserId == GetCurrentUserId() && r.MovieId == reviewedMovies)
-                    .OrderByDescending(r => r.CreationDate)
-                    .Select(r => new ViewReviewModel
-                    {
-                        Id = r.Id,
-                        Content = r.Content,
-                        CreationDate = r.CreationDate,
-                        UserId = GetCurrentUserId(),
-                        MovieInfo = new Movie
-                        {
-                            Id = r.Movie.Id,
-                            Title = r.Movie.Title
-                        }
-                    })
-                    .ToList();
+                reviews = service.GetUserReviewsForMovie(userId, reviewedMovies);
             }
 
-            var ReviewedMovies = data.Reviews
-                .Where(r => r.UserId == GetCurrentUserId())
-                .Select(r => new ViewMovieModel
-                {
-                    Id = r.Movie.Id,
-                    Title = r.Movie.Title
-                })
-                .OrderByDescending(m => m.Title)
-                .Distinct()
-                .ToList();
-
-            var currentUser = data.Users
-                .FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userReviewedMovies = service.GetReviewedMovies(userId);
 
             return View(new QueryReviewModel
             {
@@ -196,7 +132,7 @@
                     UserName = currentUser.UserName,
                     Photo = currentUser.Photo
                 },
-                ReviewedMovies = ReviewedMovies,
+                ReviewedMovies = userReviewedMovies,
                 Reviews = reviews
             });
         }
@@ -205,7 +141,7 @@
         [Authorize]
         public IActionResult Delete(int reviewId)
         {
-            var review = data.Reviews.Find(reviewId);
+            var review = service.GetReview(reviewId);
             if (review?.UserId != GetCurrentUserId())
             {
                 TempData["error"] = "You cannot delete this review!";
@@ -214,8 +150,7 @@
 
             if (review != null)
             {
-                data.Reviews.Remove(review);
-                data.SaveChanges();
+                service.RemoveReview(review);
             }
 
             return RedirectToAction("All", "Review", new { movieId = review.MovieId });

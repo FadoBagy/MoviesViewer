@@ -5,6 +5,7 @@ namespace RentAMovie
     using RentAMovie.Data.Models;
     using RentAMovie.Services.Home;
     using RentAMovie.Services.Person;
+    using RentAMovie.Services.Review;
     using RentAMovie.Services.Search;
 
     public class Program
@@ -32,6 +33,7 @@ namespace RentAMovie
             builder.Services.AddTransient<IPersonService, PersonService>();
             builder.Services.AddTransient<IHomeService, HomeService>();
             builder.Services.AddTransient<ISearchService, SearchService>();
+            builder.Services.AddTransient<IReviewService, ReviewService>();
 
             var app = builder.Build();
 
