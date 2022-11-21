@@ -3,6 +3,7 @@ namespace RentAMovie
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
+    using RentAMovie.Services.Home;
     using RentAMovie.Services.Person;
 
     public class Program
@@ -28,6 +29,7 @@ namespace RentAMovie
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddTransient<IPersonService, PersonService>();
+            builder.Services.AddTransient<IHomeService, HomeService>();
 
             var app = builder.Build();
 

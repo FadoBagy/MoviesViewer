@@ -2,10 +2,10 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using RentAMovie.Data;
     using RentAMovie.Models;
     using RentAMovie.Models.Home;
     using RentAMovie.Models.MovieModuls;
+    using RentAMovie.Services.Home;
     using System.Diagnostics;
 
     public class HomeController : Controller
@@ -13,10 +13,11 @@
         private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
         private readonly string baseUrl = "https://api.themoviedb.org/3";
 
-        private readonly ViewMoviesDbContext data;
-        public HomeController(ViewMoviesDbContext data)
+        private readonly IHomeService service;
+
+        public HomeController(IHomeService service)
         {
-            this.data = data;
+            this.service = service;
         }
 
         public IActionResult Index()
@@ -43,9 +44,9 @@
             return View(new ViewIndexModel()
             {
                 TopActionMovies = moviesTop5,
-                TotalMovies = data.Movies.Count(),
-                TotalUsers = data.Users.Count(),
-                TotalReviews = data.Reviews.Count()
+                TotalMovies = service.GetMovieCount(),
+                TotalUsers = service.GetUserCount(),
+                TotalReviews = service.GetReviewCount()
             });
         }
 
