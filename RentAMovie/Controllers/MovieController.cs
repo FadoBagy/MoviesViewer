@@ -1,15 +1,13 @@
 ﻿namespace RentAMovie.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
-    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
-    using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.PersonModels;
+    using RentAMovie.Services.Movie;
     using System.Linq;
     using System.Security.Claims;
 
@@ -18,12 +16,10 @@
         private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
         private readonly string baseUrl = "https://api.themoviedb.org/3";
 
-        private readonly UserManager<User> userManager;
-        private readonly ViewMoviesDbContext data;
-        public MovieController(ViewMoviesDbContext data, UserManager<User> userManager)
+        private readonly IMovieService service;
+        public MovieController(IMovieService service)
         {
-            this.data = data;
-            this.userManager = userManager;
+            this.service = service;
         }
 
         [Authorize]
@@ -53,7 +49,7 @@
             {
                 if (genre != null && genre != "")
                 {
-                    genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                    genresCollection.Add(service.GetGenreByName(genre));
                 }
             }
 
@@ -74,18 +70,16 @@
                 GenresCollection = genresCollection
             };
 
-            data.Movies.Add(newMovie);
-            data.SaveChanges();
+            service.AddMovie(newMovie);
 
             return RedirectToAction("Index", "Home");
         }
 
-        // Bugprone
         [Authorize]
         [Route("/Movies/MyMovies/Edit/{id}")]
         public IActionResult Edit(int id)
         {
-            var movie = data.Movies.Find(id);
+            var movie = service.GetMovie(id);
 
             if (movie?.UserId != GetCurrentUserId())
             {
@@ -119,9 +113,7 @@
                 return View(model);
             }
 
-            var movie = data.Movies
-                .Include(m => m.GenresCollection)
-                .FirstOrDefault(m => m.Id == id);
+            var movie = service.GetMovieWithGenresCollection(id);
 
             if (movie?.UserId != GetCurrentUserId())
             {
@@ -160,7 +152,7 @@
                 var genresCollection = new List<Genre>();
                 foreach (var genre in newMovieGenres)
                 {
-                    var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre);
+                    var currentGenre = service.GetGenreByName(genre);
                     if (currentGenre != null)
                     {
                         genresCollection.Add(currentGenre);
@@ -176,13 +168,13 @@
                 {
                     if (genre != null && genre != "")
                     {
-                        genresCollection.Add(data.Genres.FirstOrDefault(g => g.Name == genre));
+                        genresCollection.Add(service.GetGenreByName(genre));
                     }
                 }
                 movie.GenresCollection = genresCollection;
             }
 
-            data.SaveChanges();
+            service.SaveChanges();
 
             return RedirectToAction("UserMovies", "Movie");
         }
@@ -191,7 +183,7 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            var movie = data.Movies.Find(id);
+            var movie = service.GetMovie(id);
             if (movie?.UserId != GetCurrentUserId())
             {
                 TempData["error"] = "You cannot edit this movie!";
@@ -200,8 +192,7 @@
 
             if (movie != null)
             {
-                data.Movies.Remove(movie);
-                data.SaveChanges();
+                service.RemoveMovie(movie);
             }
 
             return RedirectToAction("UserMovies", "Movie");
@@ -211,18 +202,7 @@
         [Route("/Movies/MyMovies")]
         public IActionResult UserMovies()
         {
-            var userMovies = data.Movies
-                .Where(m => m.UserId == GetCurrentUserId())
-                .OrderByDescending(m => m.DateCreated)
-                .Select(m => new ViewUserMovieCardModel
-                {
-                    Title = m.Title,
-                    Description = m.Description,
-                    ReleaseDate = m.DatePublished,
-                    PosterPath = m.Poster,
-                    Id = m.Id
-                })
-                .ToList();
+            var userMovies = service.GetUserMovies(GetCurrentUserId());
 
             return View(userMovies);
         }
@@ -230,17 +210,14 @@
         [Route("/Movies/{movieId}")]
         public IActionResult MovieUser(int movieId)
         {
-            var movie = data.Movies.Find(movieId);
+            var movie = service.GetMovie(movieId);
             if (movie == null || movie.TmdbId != null)
             {
                 TempData["error"] = "Could not find!";
                 return RedirectToAction("Index", "Home");
             }
-            var lastReview = data.Reviews
-                .Where(r => r.MovieId == movieId)
-                .OrderByDescending(r => r.CreationDate)
-                .FirstOrDefault();
 
+            var lastReview = service.GetLastReviewForMovie(movieId);
             var movieModel = new UserSingleMovieModel()
             {
                 Id = movie.Id,
@@ -267,9 +244,7 @@
             var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
 
             var movie = new TmdbSingleMovieModel();
-            var movieToCheck = data.Movies
-                .Include(m => m.GenresCollection)
-                .FirstOrDefault(m => m.TmdbId == id);
+            var movieToCheck = service.GetMovieWithGenresCollectionTmdb(id);
             using (var httpClient = new HttpClient())
             {
                 var endpoint = new Uri(movieDataRequest);
@@ -281,7 +256,7 @@
                 try
                 {
                     ValidateSingleMovieData(movieToCheck, movieData);
-                    data.SaveChanges();
+                    service.SaveChanges();
                 }
                 catch (Exception)
                 {
@@ -289,19 +264,17 @@
                     return RedirectToAction("Error", "Home");
                 }
 
-                movieToCheck = data.Movies
-                    .Include(m => m.GenresCollection)
-                    .FirstOrDefault(m => m.TmdbId == id);
+                movieToCheck = service.GetMovieWithGenresCollectionTmdb(id);
                 movie = GetSingleMovieData(movieData, movieToCheck);
 
-                data.SaveChanges();
+                service.SaveChanges();
             }
 
             if (movie.Actors != null)
             {
                 foreach (var actor in movie.Actors)
                 {
-                    if (!data.Actors.Any(a => a.TmdbId == actor.Id))
+                    if (!service.IsActorPresent(actor.Id))
                     {
                         var newActor = new Actor()
                         {
@@ -311,11 +284,11 @@
                             Photo = actor.Photo
                         };
 
-                        data.Movies.FirstOrDefault(m => m.TmdbId == id).Actors.Add(newActor);
+                        service.AddActorToMovie(id, newActor);
                     }
                 }
             }
-            data.SaveChanges();
+            service.SaveChanges();
 
             return View(movie);
         }
@@ -350,10 +323,7 @@
 
         private TmdbSingleMovieModel GetSingleMovieData(TmdbSingleMovieModel movie, Movie dbMovie)
         {
-            var lastReview = data.Reviews
-                .Where(r => r.MovieId == dbMovie.Id)
-                .OrderByDescending(r => r.CreationDate)
-                .FirstOrDefault();
+            var lastReview = service.GetLastReviewForMovie(dbMovie.Id);
 
             return new TmdbSingleMovieModel()
             {
@@ -389,7 +359,7 @@
                 {
                     foreach (var movie in movieDto.Results)
                     {
-                        var movieToCheck = data.Movies.FirstOrDefault(m => m.TmdbId == movie.TmdbId);
+                        var movieToCheck = service.GetMovieTmdb(movie.TmdbId);
                         if (movieToCheck == null)
                         {
                             var newPopularMovie = new Movie
@@ -402,7 +372,7 @@
                                 TmdbId = movie.TmdbId,
                                 VoteCount = movie.VoteCount
                             };
-                            data.Movies.Add(newPopularMovie);
+                            service.AddMovie(newPopularMovie);
                         }
                         else
                         {
@@ -426,7 +396,7 @@
 
                         movies.Add(movie);
                     }
-                    data.SaveChanges();
+                    service.SaveChanges();
                 }
             }
         }
@@ -444,7 +414,7 @@
                 var genresCollection = new List<Genre>();
                 foreach (var genre in movieData.Genres)
                 {
-                    var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre.Name);
+                    var currentGenre = service.GetGenreByName(genre.Name);
                     if (currentGenre != null)
                     {
                         genresCollection.Add(currentGenre);
@@ -468,7 +438,7 @@
                     Genres = genres,
                     GenresCollection = genresCollection
                 };
-                data.Movies.Add(newTmdbMovie);
+                service.AddMovie(newTmdbMovie);
             }
             else
             {
@@ -523,7 +493,7 @@
                     var genresCollection = new List<Genre>();
                     foreach (var genre in movieData.Genres)
                     {
-                        var currentGenre = data.Genres.FirstOrDefault(g => g.Name == genre.Name);
+                        var currentGenre = service.GetGenreByName(genre.Name);
                         if (currentGenre != null)
                         {
                             genresCollection.Add(currentGenre);
