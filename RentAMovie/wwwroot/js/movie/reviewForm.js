@@ -2,11 +2,9 @@
 const genreEls = document.querySelectorAll('.genre-item');
 const clearEl = document.getElementById('clear');
 
-console.log(genresInputEl.value);
 let genres = [];
 if (genresInputEl.value != '') {
     let genreNames = genresInputEl.value.split(', ');
-    console.log(genreNames);
     genreNames.forEach(genreName => {
         genreEls.forEach(genre => {
             if (genre.firstElementChild.textContent == genreName) {

@@ -9,6 +9,9 @@
         biographyParts = Model.Biography.Split('\r', '\n');
     }
 
+    bool fromWikipedia = false;
+}
+@{
     string? gender;
     string dateOfBirth;
     string deathDay;
@@ -18,7 +21,7 @@
     {
         gender = "-";
     }
-    else if(Model.Gender == 2)
+    else if (Model.Gender == 2)
     {
         gender = "Male";
     }
@@ -53,8 +56,6 @@
     {
         placeOfBirth = Model.PlaceOfBirth;
     }
-
-    bool fromWikipedia = false;
 }
 
 <div class="main-section">
