@@ -36,5 +36,7 @@
         public string? Rating { get; set; }
 
         public Review? Review { get; set; }
+
+        public User? ReviewOwner { get; set; }
     }
 }

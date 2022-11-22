@@ -232,7 +232,8 @@
                 BackdropPath = movie.BackdropPath,
                 Trailer = movie.Trailer,
                 Genres = movie.Genres,
-                Review = lastReview
+                Review = lastReview,
+                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null
             };
 
             return View(movieModel);
@@ -342,7 +343,8 @@
                 Tagline = movie.Tagline,
                 Actors = GetActorModels(movie.TmdbId),
                 Genres = movie.Genres,
-                Review = lastReview
+                Review = lastReview,
+                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null
             };
         }
 

@@ -1,6 +1,4 @@
 ﻿@model TmdbSingleMovieModel
-@inject ViewMoviesDbContext data
-
 @{
     ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
@@ -14,7 +12,7 @@
     User reviewUserOwner = null;
     if (Model.Review != null)
     {
-        reviewUserOwner = data.Users.FirstOrDefault(u => u.Id == Model.Review.UserId);
+        reviewUserOwner = Model.ReviewOwner;
     }
 }
 

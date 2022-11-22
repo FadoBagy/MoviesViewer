@@ -1,6 +1,4 @@
 ﻿@model UserSingleMovieModel
-@inject ViewMoviesDbContext data
-
 @{
     ViewData["Title"] = Model.Title + (Model.DatePublished != null ? $" ({Model.DatePublished.Value.Year})" : "");
 
@@ -12,7 +10,7 @@
     User reviewUserOwner = null;
     if (Model.Review != null)
     {
-        reviewUserOwner = data.Users.FirstOrDefault(u => u.Id == Model.Review.UserId);
+        reviewUserOwner = Model.ReviewOwner;
     }
 }
 

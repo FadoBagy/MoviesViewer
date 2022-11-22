@@ -1,13 +1,11 @@
 ﻿@model ViewReviewModel
-@inject ViewMoviesDbContext data
-@inject ViewMoviesDbContext data
-@using System.Security.Claims
+@inject IMovieService service
 
 @{
     ViewData["Title"] = $"Review for {Model.MovieInfo.Title}";
 
-    var currentReviewOwner = data.Users.FirstOrDefault(u => u.Id == Model.UserId);
-    var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+    var currentReviewOwner = service.GetUserById(Model.UserId);
+    var currentUser = service.GetUserById(User.FindFirstValue(ClaimTypes.NameIdentifier));
 }
 
 <a id="back" asp-controller="Review" asp-action="All" asp-route-movieId="@Model.MovieInfo.Id">

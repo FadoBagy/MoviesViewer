@@ -1,5 +1,5 @@
 ﻿@model List<ViewReviewModel>
-@inject ViewMoviesDbContext data
+@inject IMovieService service
 
 @{
     Movie currentMovie = null;
@@ -85,7 +85,7 @@
     <div class="reviews">
         @foreach (var review in Model)
         {
-            var currentReviewOwner = data.Users.FirstOrDefault(u => u.Id == review.UserId);
+            var currentReviewOwner = service.GetUserById(review.UserId);
 
             <div class="review-section col-9">
                 

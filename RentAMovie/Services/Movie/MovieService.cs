@@ -4,6 +4,7 @@
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
+    using RentAMovie.Models.Review;
     using System.Collections.Generic;
 
     public class MovieService : IMovieService
@@ -54,6 +55,16 @@
                 .ToList();
         }
 
+        public List<Movie> GetUserMoviesForProfile(string userId)
+        {
+            return data.Movies
+                .Where(m => m.UserId == userId)
+                .ToList()
+                .OrderByDescending(m => m.DateCreated)
+                .Take(3)
+                .ToList();
+        }
+
         public void AddMovie(Movie movie)
         {
             data.Movies.Add(movie);
@@ -79,6 +90,25 @@
                 .FirstOrDefault();
         }
 
+        public ViewReviewModel GetLastUserReview(string userId)
+        {
+            return data.Reviews
+                .Where(r => r.UserId == userId)
+                .Select(r => new ViewReviewModel
+                {
+                    Id = r.Id,
+                    Content = r.Content,
+                    CreationDate = r.CreationDate,
+                    MovieInfo = new Movie
+                    {
+                        Id = r.MovieId,
+                        Title = r.Movie.Title
+                    }
+                })
+                .OrderByDescending(r => r.CreationDate)
+                .FirstOrDefault();
+        }
+
         public void AddActorToMovie(int movieId, Actor actor)
         {
             data.Movies.FirstOrDefault(m => m.TmdbId == movieId).Actors.Add(actor);
@@ -92,6 +122,11 @@
         public void SaveChanges()
         {
             data.SaveChanges();
+        }
+
+        public User GetUserById(string id)
+        {
+            return data.Users.FirstOrDefault(u => u.Id == id);
         }
     }
 }

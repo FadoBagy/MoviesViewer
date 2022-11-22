@@ -1,35 +1,16 @@
 ﻿@page
 @model IndexModel
 @using System.Security.Claims
-@inject ViewMoviesDbContext data
-
+@using RentAMovie.Services.Movie
+@inject IMovieService service
 @{
     ViewData["Title"] = "Profile";
-    ViewData["ActivePage"] = ManageNavPages.Index;
-
-    var currentUser = data.Users.FirstOrDefault(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-    var userMovies = data.Movies
-        .Where(m => m.UserId == currentUser.Id)
-        .ToList()
-        .OrderByDescending(m => m.DateCreated)
-        .Take(3)
-        .ToList();
-
-    var userLastReview = data.Reviews
-        .Where(r => r.UserId == currentUser.Id)
-        .Select(r => new ViewReviewModel{
-            Id = r.Id,
-            Content = r.Content,
-            CreationDate = r.CreationDate,
-            MovieInfo = new Movie {
-                Id = r.MovieId,
-                Title = r.Movie.Title
-            }
-        })
-        .OrderByDescending(r => r.CreationDate)
-        .FirstOrDefault();
-        
+    ViewData["ActivePage"] = ManageNavPages.Index;   
+}
+@{
+    var currentUser = service.GetUserById(User.FindFirstValue(ClaimTypes.NameIdentifier));
+    var userMovies = service.GetUserMoviesForProfile(currentUser.Id);
+    var userLastReview = service.GetLastUserReview(currentUser.Id);
 
     var yearsFromCreation = DateTime.UtcNow.Year - currentUser.DateCreated.Year;
     var monthsFromCreation = ((DateTime.UtcNow.Year - currentUser.DateCreated.Year) * 12) + DateTime.UtcNow.Month - currentUser.DateCreated.Month;

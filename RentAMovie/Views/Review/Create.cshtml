@@ -1,9 +1,7 @@
 ﻿@model FormReviewModel
-@using System.Security.Claims
-@inject ViewMoviesDbContext data
-
+@inject IMovieService service
 @{
-    var currentMovie = data.Movies.Find(Model.MovieId);
+    var currentMovie = service.GetMovie(Model.MovieId);
     ViewData["Title"] = $"Review for {currentMovie.Title}";
 
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";

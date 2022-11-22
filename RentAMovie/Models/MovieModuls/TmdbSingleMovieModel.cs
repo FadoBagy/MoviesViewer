@@ -45,5 +45,7 @@
         public ICollection<Genre>? Genres { get; set; }
 
         public Review? Review { get; set; }
+
+        public User? ReviewOwner { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 {
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
+    using RentAMovie.Models.Review;
 
     public interface IMovieService
     {
@@ -15,6 +16,8 @@
 
         List<ViewUserMovieCardModel> GetUserMovies(string userId);
 
+        List<Movie> GetUserMoviesForProfile(string userId);
+
         void AddMovie(Movie movie);
 
         void RemoveMovie(Movie movie);
@@ -23,10 +26,14 @@
 
         Review GetLastReviewForMovie(int movieId);
 
+        ViewReviewModel GetLastUserReview(string userId);
+
         void AddActorToMovie(int movieId, Actor actor);
 
         bool IsActorPresent(int id);
 
         void SaveChanges();
+
+        User GetUserById(string id);
     }
 }
