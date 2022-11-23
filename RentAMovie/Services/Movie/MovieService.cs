@@ -114,9 +114,19 @@
             data.Movies.FirstOrDefault(m => m.TmdbId == movieId).Actors.Add(actor);
         }
 
+        public void AddCrewMemberToMovie(int movieId, Director crewMember)
+        {
+            data.Movies.FirstOrDefault(m => m.TmdbId == movieId).Directors.Add(crewMember);
+        }
+
         public bool IsActorPresent(int id)
         {
             return data.Actors.Any(a => a.TmdbId == id);
+        }
+
+        public bool IsCrewMemberPresent(int id)
+        {
+            return data.Directors.Any(a => a.TmdbId == id);
         }
 
         public void SaveChanges()

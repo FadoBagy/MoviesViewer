@@ -9,12 +9,13 @@
         [Key]
         public int Id { get; set; }
 
+        public int? TmdbId { get; set; }
+
         [Required]
         [StringLength(MaxPersonName,
             MinimumLength = MinPersonName)]
         public string Name { get; set; }
 
-        [Required]
         [StringLength(MaxPersonBiography,
             MinimumLength = MinPersonBiography)]
         public string? Biography { get; set; }
@@ -25,12 +26,13 @@
             ConvertValueInInvariantCulture = true)]
         public int? Gender { get; set; }
 
-        public DateTime? DateOfBirth { get; set; }
+        public string? DateOfBirth { get; set; }
 
-        public DateTime? DeathDay { get; set; }
+        public string? DeathDay { get; set; }
 
         public string? PlaceOfBirth { get; set; }
 
-        public ICollection<Movie> DirectedMovies { get; set; } = new List<Movie>();
+        public ICollection<Movie> DirectedMovies { get; set; }
+            = new List<Movie>();
     }
 }

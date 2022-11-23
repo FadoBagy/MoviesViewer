@@ -9,6 +9,8 @@
         [Key]
         public int Id { get; set; }
 
+        public int? TmdbId { get; set; }
+
         [Required]
         [StringLength(MaxPersonName,
             MinimumLength = MinPersonName)]

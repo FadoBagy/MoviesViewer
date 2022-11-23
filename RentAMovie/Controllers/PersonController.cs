@@ -20,20 +20,21 @@
             var personDataRequest 
                 = ControllerConstants.BaseUrl + $"/person/{id}?" + ControllerConstants.ApiKey;
 
-            ViewTmdbSingleActorModel person;
+            ViewTmdbSinglePersonModel person;
             using (var httpClient = new HttpClient())
             {
                 var endpoint = new Uri(personDataRequest);
                 var result = httpClient.GetAsync(endpoint).Result;
                 var json = result.Content.ReadAsStringAsync().Result;
 
-                var personData = JsonConvert.DeserializeObject<ViewTmdbSingleActorModel>(json);
+                var personData = JsonConvert.DeserializeObject<ViewTmdbSinglePersonModel>(json);
 
-                person = new ViewTmdbSingleActorModel{
+                person = new ViewTmdbSinglePersonModel{
                     Biography = personData.Biography,
                     DateOfBirth = personData.DateOfBirth,
                     DeathDay = personData.DeathDay,
                     Gender = personData.Gender,
+                    Department = personData.Department,
                     Name = personData.Name,
                     PlaceOfBirth = personData.PlaceOfBirth,
                     Photo = personData.Photo,
@@ -41,7 +42,15 @@
                 };
             }
 
-            service.ValidatePersonData(person);
+            if (person.Department == "Acting")
+            {
+                service.ValidateActorData(person);
+
+            }
+            else
+            {
+                service.ValidateDirectorData(person);
+            }
 
             return View(person);
         }

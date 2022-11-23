@@ -89,6 +89,46 @@
                 <h4>Overview</h4>
                 <div id="description">@(Model.Description != "" ? Model.Description : "No description available")</div>
             </div>
+            <div class="crew-info">
+                @{
+                    var director = Model.Crew?.FirstOrDefault(c => c.Job == "Director");
+                    var screenplay = Model.Crew?.FirstOrDefault(c => c.Job == "Screenplay");
+                    var producer = Model.Crew?.FirstOrDefault(c => c.Job == "Producer");
+                }
+                @if (director != null)
+                {
+                    <div class="crew-item">
+                        <p class="crew-role">Director</p>
+                        <p class="crew-person">
+                            <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@director.Id">
+                                @director.Name
+                            </a>
+                        </p>
+                    </div>
+                }
+                @if (screenplay != null)
+                {
+                    <div class="crew-item">
+                        <p class="crew-role">Screenplay</p>
+                        <p class="crew-person">
+                            <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@screenplay.Id">
+                                @screenplay.Name
+                            </a>
+                        </p>
+                    </div>
+                }
+                @if (producer != null)
+                {
+                    <div class="crew-item">
+                        <p class="crew-role">Producer</p>
+                        <p class="crew-person">
+                            <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@producer.Id">
+                                @producer.Name
+                            </a>
+                        </p>
+                    </div>
+                }
+            </div>
         </div>
     </section>
 </div>

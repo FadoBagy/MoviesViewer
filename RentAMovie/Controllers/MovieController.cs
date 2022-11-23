@@ -282,8 +282,25 @@
                             Name = actor.Name,
                             Photo = actor.Photo
                         };
-
                         service.AddActorToMovie(id, newActor);
+                    }
+                }
+            }
+            service.SaveChanges();
+            if (movie.Crew != null)
+            {
+                foreach (var crewMember in movie.Crew)
+                {
+                    if (!service.IsCrewMemberPresent(crewMember.Id))
+                    {
+                        var newCrewMember = new Director()
+                        {
+                            TmdbId = crewMember.Id,
+                            Gender = crewMember.Gender,
+                            Name = crewMember.Name,
+                            Photo = crewMember.Photo
+                        };
+                        service.AddCrewMemberToMovie(id, newCrewMember);
                     }
                 }
             }
@@ -342,6 +359,7 @@
                 Runtime = movie.Runtime,
                 Tagline = movie.Tagline,
                 Actors = GetActorModels(movie.TmdbId),
+                Crew = GetCrewModels(movie.TmdbId),
                 Genres = movie.Genres,
                 Review = lastReview,
                 ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null
@@ -546,6 +564,43 @@
             return actorsModel;
         }
 
+        private ICollection<ProductionTeamCrewModel> GetCrewModels(int? movieId)
+        {
+            var teamDataRequest
+                = ControllerConstants.BaseUrl + $"/movie/{movieId}/casts?" + ControllerConstants.ApiKey;
+
+            var crewMembersModel = new List<ProductionTeamCrewModel>();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(teamDataRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var teamData = JsonConvert.DeserializeObject<ProductionTeamModel>(json);
+
+                if (teamData != null && teamData.Crew != null)
+                {
+                    foreach (var member in teamData.Crew)
+                    {
+                        if (member.Job == "Screenplay" || member.Job == "Director" || member.Job == "Producer")
+                        {
+                            var newCrewMemberModel = new ProductionTeamCrewModel()
+                            {
+                                Gender = member.Gender,
+                                Id = member.Id,
+                                Name = member.Name,
+                                Photo = member.Photo,
+                                Job = member.Job
+                            };
+                            crewMembersModel.Add(newCrewMemberModel);
+                        }
+                    }
+                }
+            }
+
+            return crewMembersModel;
+        }
+
         // Slow don't use
         private ICollection<Actor> GetActorsFromMovie(int movieId)
         {
@@ -575,7 +630,7 @@
                             var resultSingle = httpClient.GetAsync(endpointSingle).Result;
                             var jsonSingle = resultSingle.Content.ReadAsStringAsync().Result;
 
-                            var actorData = JsonConvert.DeserializeObject<ViewTmdbSingleActorModel>(jsonSingle);
+                            var actorData = JsonConvert.DeserializeObject<ViewTmdbSinglePersonModel>(jsonSingle);
 
                             var newActor = new Actor()
                             {

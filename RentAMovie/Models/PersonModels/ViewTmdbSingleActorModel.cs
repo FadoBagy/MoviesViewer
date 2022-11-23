@@ -3,7 +3,7 @@
     using Newtonsoft.Json;
     using RentAMovie.Data.Models;
 
-    public class ViewTmdbSingleActorModel
+    public class ViewTmdbSinglePersonModel
     {
         public string? Biography { get; set; }
 
@@ -17,6 +17,9 @@
 
         [JsonProperty("id")]
         public int TmdbId { get; set; }
+
+        [JsonProperty("known_for_department")]
+        public string Department { get; set; }
 
         public string Name { get; set; }
 

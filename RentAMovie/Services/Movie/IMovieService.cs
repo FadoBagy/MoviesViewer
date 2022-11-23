@@ -30,7 +30,11 @@
 
         void AddActorToMovie(int movieId, Actor actor);
 
+        void AddCrewMemberToMovie(int movieId, Director crewMember);
+
         bool IsActorPresent(int id);
+
+        bool IsCrewMemberPresent(int id);
 
         void SaveChanges();
 

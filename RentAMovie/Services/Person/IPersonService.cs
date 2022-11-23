@@ -4,6 +4,8 @@
 
     public interface IPersonService
     {
-        void ValidatePersonData(ViewTmdbSingleActorModel person);
+        void ValidateActorData(ViewTmdbSinglePersonModel person);
+
+        void ValidateDirectorData(ViewTmdbSinglePersonModel person);
     }
 }
