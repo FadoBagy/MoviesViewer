@@ -13,9 +13,6 @@
 
     public class MovieController : Controller
     {
-        private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
-        private readonly string baseUrl = "https://api.themoviedb.org/3";
-
         private readonly IMovieService service;
         public MovieController(IMovieService service)
         {
@@ -242,7 +239,8 @@
         [Route("/Movies/{id}-tmdb")]
         public IActionResult MovieTmdb(int id)
         {
-            var movieDataRequest = baseUrl + $"/movie/{id}?" + apiKey;
+            var movieDataRequest 
+                = ControllerConstants.BaseUrl + $"/movie/{id}?" + ControllerConstants.ApiKey;
 
             var movie = new TmdbSingleMovieModel();
             var movieToCheck = service.GetMovieWithGenresCollectionTmdb(id);
@@ -298,7 +296,8 @@
         [Route("/Movies/Popular")]
         public IActionResult Popular()
         {
-            string mostPopularRequest = baseUrl + "/discover/movie?sort_by=popularity.desc&" + apiKey;
+            string mostPopularRequest 
+                = ControllerConstants.BaseUrl + "/discover/movie?sort_by=popularity.desc&" + ControllerConstants.ApiKey;
             string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
 
             var movies = new List<PopularMovieResultModule>();
@@ -310,7 +309,8 @@
         [Route("/Movies/TopRated")]
         public IActionResult TopRated()
         {
-            string topRatedRequest = baseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + apiKey;
+            string topRatedRequest 
+                = ControllerConstants.BaseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + ControllerConstants.ApiKey;
             var movies = new List<PopularMovieResultModule>();
             CollectMoviesData(topRatedRequest, movies);
 
@@ -509,7 +509,8 @@
 
         private ICollection<ProductionTeamCastModel> GetActorModels(int? movieId)
         {
-            var teamDataRequest = baseUrl + $"/movie/{movieId}/casts?" + apiKey;
+            var teamDataRequest 
+                = ControllerConstants.BaseUrl + $"/movie/{movieId}/casts?" + ControllerConstants.ApiKey;
 
             var actorsModel = new List<ProductionTeamCastModel>();
             using (var httpClient = new HttpClient())
@@ -548,7 +549,8 @@
         // Slow don't use
         private ICollection<Actor> GetActorsFromMovie(int movieId)
         {
-            var allActorsDataRequest = baseUrl + $"/movie/{movieId}/casts?" + apiKey;
+            var allActorsDataRequest 
+                = ControllerConstants.BaseUrl + $"/movie/{movieId}/casts?" + ControllerConstants.ApiKey;
 
             var actorModels = new List<Actor>();
             using (var httpClient = new HttpClient())
@@ -564,7 +566,8 @@
                 {
                     foreach (var member in teamData.Cast)
                     {
-                        var actorDataRequest = baseUrl + $"/person/{member.Id}?" + apiKey;
+                        var actorDataRequest 
+                            = ControllerConstants.BaseUrl + $"/person/{member.Id}?" + ControllerConstants.ApiKey;
 
                         if (member.Role == "Acting")
                         {

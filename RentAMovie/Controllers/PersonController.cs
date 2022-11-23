@@ -8,9 +8,6 @@
 
     public class PersonController : Controller
     {
-        private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
-        private readonly string baseUrl = "https://api.themoviedb.org/3";
-
         private readonly IPersonService service;
         public PersonController(IPersonService service)
         {
@@ -20,7 +17,8 @@
         [Route("/Person/{id}-tmdb")]
         public IActionResult PersonTmdb(int id)
         {
-            var personDataRequest = baseUrl + $"/person/{id}?" + apiKey;
+            var personDataRequest 
+                = ControllerConstants.BaseUrl + $"/person/{id}?" + ControllerConstants.ApiKey;
 
             ViewTmdbSingleActorModel person;
             using (var httpClient = new HttpClient())

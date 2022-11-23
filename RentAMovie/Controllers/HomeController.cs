@@ -10,9 +10,6 @@
 
     public class HomeController : Controller
     {
-        private readonly string apiKey = "api_key=827b5d3636ed4d470d182016543dc5cf";
-        private readonly string baseUrl = "https://api.themoviedb.org/3";
-
         private readonly IHomeService service;
 
         public HomeController(IHomeService service)
@@ -22,7 +19,8 @@
 
         public IActionResult Index()
         {
-            var topRatedActionsRequest = baseUrl + "/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&" + apiKey;
+            var topRatedActionsRequest 
+                = ControllerConstants.BaseUrl + "/discover/movie?with_genres=28&sort_by=vote_average.desc&vote_count.gte=500&" + ControllerConstants.ApiKey;
             var movies = new List<PopularMovieResultModule>();
             using (var httpClient = new HttpClient())
             {
