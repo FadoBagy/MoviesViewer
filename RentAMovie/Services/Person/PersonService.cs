@@ -113,5 +113,10 @@
             }
             data.SaveChanges();
         }
+
+        public Movie GetMovieTmdb(int id)
+        {
+            return data.Movies.FirstOrDefault(m => m.TmdbId == id);
+        }
     }
 }

@@ -54,5 +54,56 @@
 
             return View(person);
         }
+
+        [Route("/Movies/{movieId}-tmdb/Cast")]
+        public IActionResult List(int movieId)
+        {
+            var teamDataRequest
+                = ControllerConstants.BaseUrl + $"/movie/{movieId}/casts?" + ControllerConstants.ApiKey;
+
+            var actorsModel = new List<ProductionTeamCastModel>();
+            using (var httpClient = new HttpClient())
+            {
+                var endpoint = new Uri(teamDataRequest);
+                var result = httpClient.GetAsync(endpoint).Result;
+                var json = result.Content.ReadAsStringAsync().Result;
+
+                var teamData = JsonConvert.DeserializeObject<ProductionTeamModel>(json);
+
+                if (teamData != null && teamData.Cast != null)
+                {
+                    foreach (var member in teamData.Cast)
+                    {
+                        if (member.Role == "Acting")
+                        {
+                            var newActorModel = new ProductionTeamCastModel()
+                            {
+                                Gender = member.Gender,
+                                Id = member.Id,
+                                Role = member.Role,
+                                Name = member.Name,
+                                Photo = member.Photo,
+                                Character = member.Character
+                            };
+
+                            actorsModel.Add(newActorModel);
+                        }
+                    }
+                }
+            }
+
+            var movie = service.GetMovieTmdb(movieId);
+            if (movie == null)
+            {
+                TempData["error"] = "Could not find!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new ViewAllCastModel
+            {
+                Movie = movie,
+                Actors = actorsModel
+            });
+        }
     }
 }

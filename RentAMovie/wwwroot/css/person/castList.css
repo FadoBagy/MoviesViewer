@@ -1,0 +1,48 @@
+﻿.actors {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+
+.actor-item {
+    max-width: 150px;
+    background-color: white;
+    border: 1px solid #21252922;
+    border-radius: 5px;
+}
+
+.actor-item p {
+    margin: 0;
+}
+
+.actor-item img {
+    width: 150px;
+    border-radius: 5px 5px 0 0;
+    transition: 100ms;
+}
+
+.actor-item img:hover {
+    filter: brightness(90%);
+}
+
+.actor-info {
+    padding: 10px;
+}
+
+.actor-info a {
+    text-decoration: none;
+    color: #212529;
+    font-weight: bold;
+}
+
+.actor-info a:hover {
+    color: #0D4C92;
+}
+
+#no-actors {
+    user-select: none;
+    opacity: 80%;
+    font-size: 1.2rem;
+}

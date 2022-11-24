@@ -173,9 +173,17 @@ body .container {
     color: #0D4C92;
 }
 
+.card-img-top {
+   transition: 100ms;
+}
+
+.card-img-top:hover {
+    filter: brightness(90%);
+}
+
 .media-scroller {
     display: grid;
-    gap: 1.3rem; 
+    gap: 1.3rem;
     grid-auto-flow: column;
     grid-auto-columns: 13%;
     overflow-x: auto;

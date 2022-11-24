@@ -162,7 +162,7 @@
                     if (index == 10)
                     {
                         <div class="more-actors">
-                            <a href="#">View more</a>
+                            <a asp-controller="Person" asp-action="List" asp-route-movieId="@Model.TmdbId">View more</a>
                         </div>
                         break;
                     }
