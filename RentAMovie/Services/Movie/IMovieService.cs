@@ -14,6 +14,10 @@
 
         Movie GetMovieWithGenresCollectionTmdb(int id);
 
+        Movie GetMovieWithCrewMembersTmdb(int id);
+
+        Movie GetMovieWithActorsTmdb(int id);
+
         List<ViewUserMovieCardModel> GetUserMovies(string userId);
 
         List<Movie> GetUserMoviesForProfile(string userId);
@@ -27,6 +31,10 @@
         Review GetLastReviewForMovie(int movieId);
 
         ViewReviewModel GetLastUserReview(string userId);
+
+        Actor GetActorTmdb(int id);
+
+        Director GetCrewMemberTmdb(int id);
 
         void AddActorToMovie(int movieId, Actor actor);
 

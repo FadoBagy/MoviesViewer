@@ -1,8 +1,10 @@
 ﻿namespace RentAMovie.Services.Person
 {
+    using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
+    using System.Collections.Generic;
 
     public class PersonService : IPersonService
     {
@@ -117,6 +119,22 @@
         public Movie GetMovieTmdb(int id)
         {
             return data.Movies.FirstOrDefault(m => m.TmdbId == id);
+        }
+
+        public Actor GetActorWithMovies(int id)
+        {
+            return data.Actors
+                .Include(a => a.PlayedInMovies)
+                .Where(a => a.TmdbId == id)
+                .FirstOrDefault();
+        }
+
+        public Director GetDirectorWithMovies(int id)
+        {
+            return data.Directors
+                .Include(d => d.DirectedMovies)
+                .Where(d => d.TmdbId == id)
+                .FirstOrDefault();
         }
     }
 }

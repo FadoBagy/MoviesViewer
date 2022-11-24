@@ -10,5 +10,9 @@
         void ValidateDirectorData(ViewTmdbSinglePersonModel person);
 
         Movie GetMovieTmdb(int id);
+
+        Actor GetActorWithMovies(int id);
+
+        Director GetDirectorWithMovies(int id);
     }
 }

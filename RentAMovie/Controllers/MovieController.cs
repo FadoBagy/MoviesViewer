@@ -284,6 +284,14 @@
                         };
                         service.AddActorToMovie(id, newActor);
                     }
+                    else 
+                    {
+                        var moiveWithActors = service.GetMovieWithActorsTmdb(movie.TmdbId);
+                        if (!moiveWithActors.Actors.Any(a => a.Id == actor.Id))
+                        {
+                            service.AddActorToMovie(id, service.GetActorTmdb(actor.Id));
+                        }
+                    }
                 }
             }
             service.SaveChanges();
@@ -301,6 +309,14 @@
                             Photo = crewMember.Photo
                         };
                         service.AddCrewMemberToMovie(id, newCrewMember);
+                    }
+                    else
+                    {
+                        var moiveWithCrew = service.GetMovieWithCrewMembersTmdb(movie.TmdbId);
+                        if (!moiveWithCrew.Directors.Any(a => a.Id == crewMember.Id))
+                        {
+                            service.AddCrewMemberToMovie(id, service.GetCrewMemberTmdb(crewMember.Id));
+                        }
                     }
                 }
             }

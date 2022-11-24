@@ -33,6 +33,7 @@
 
         public string? PlaceOfBirth { get; set; }
 
-        public ICollection<Movie> WrittenMovies { get; set; } = new List<Movie>();
+        public ICollection<Movie> WrittenMovies { get; set; } 
+            = new List<Movie>();
     }
 }

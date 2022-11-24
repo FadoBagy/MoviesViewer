@@ -1,12 +1,13 @@
-﻿@model ViewTmdbSinglePersonModel
+﻿@model ViewPersonModel
 @{
-    ViewData["Title"] = Model.Name;
+    ViewData["Title"] = Model.PersonData.Name;
     string photoPath = "https://image.tmdb.org/t/p/w300";
+    string posterPath = "https://image.tmdb.org/t/p/w500";
 
     string[] biographyParts = new string[]{};
-    if (Model.Biography != null)
+    if (Model.PersonData.Biography != null)
     {
-        biographyParts = Model.Biography.Split('\r', '\n');
+        biographyParts = Model.PersonData.Biography.Split('\r', '\n');
     }
 
     bool fromWikipedia = false;
@@ -17,11 +18,11 @@
     string deathDay;
     string placeOfBirth;
 
-    if (Model.Gender == null)
+    if (Model.PersonData.Gender == null)
     {
         gender = "-";
     }
-    else if (Model.Gender == 2)
+    else if (Model.PersonData.Gender == 2)
     {
         gender = "Male";
     }
@@ -30,40 +31,40 @@
         gender = "Female";
     }
 
-    if (Model.DateOfBirth == null)
+    if (Model.PersonData.DateOfBirth == null)
     {
         dateOfBirth = "-";
     }
     else
     {
-        dateOfBirth = Model.DateOfBirth;
+        dateOfBirth = Model.PersonData.DateOfBirth;
     }
 
-    if (Model.DeathDay == null)
+    if (Model.PersonData.DeathDay == null)
     {
         deathDay = "-";
     }
     else
     {
-        deathDay = Model.DeathDay;
+        deathDay = Model.PersonData.DeathDay;
     }
 
-    if (Model.PlaceOfBirth == null)
+    if (Model.PersonData.PlaceOfBirth == null)
     {
         placeOfBirth = "-";
     }
     else
     {
-        placeOfBirth = Model.PlaceOfBirth;
+        placeOfBirth = Model.PersonData.PlaceOfBirth;
     }
 }
 
 <div class="main-section">
     <div class="img-section">
         <span class="blur-color"></span>
-        @if (Model.Photo != null)
+        @if (Model.PersonData.Photo != null)
         {
-            <img src="@(photoPath + Model.Photo)" alt="" />
+            <img src="@(photoPath + Model.PersonData.Photo)" alt="" />
         }
         else
         {
@@ -73,7 +74,7 @@
             <h5>Personal Info</h5>
             <div class="detail">
                 <p>Name</p>
-                <p>@Model.Name</p>
+                <p>@Model.PersonData.Name</p>
             </div>
             
             <div class="detail">
@@ -81,7 +82,7 @@
                 <p>@gender</p>
             </div>
             
-            @if (Model.DeathDay == null)
+            @if (Model.PersonData.DeathDay == null)
             {
                 <div class="detail">
                     <p>Birthday</p>
@@ -128,14 +129,14 @@
         </div>
     </div>
     <div class="info-section">
-        <h2>@Model.Name</h2>
+        <h2>@Model.PersonData.Name</h2>
         <div class="biography">
             <h5>Biography</h5>
         </div>
         <div class="parts">
-            @if (Model.Biography != null)
+            @if (Model.PersonData.Biography != null)
             {
-                if (Model.Biography.Count() > 0)
+                if (Model.PersonData.Biography.Count() > 0)
                 {
                     foreach (var part in biographyParts)
                     {
@@ -152,12 +153,12 @@
                 }
                 else
                 {
-                    <p>Missing biography for @Model.Name</p>
+                    <p>Missing biography for @Model.PersonData.Name</p>
                 }
             }
             else
             {
-                <p>Missing biography for @Model.Name</p>
+                <p>Missing biography for @Model.PersonData.Name</p>
             }
 
             @if (fromWikipedia)
@@ -165,8 +166,29 @@
                 <p id="wikipedia">WIKIPEDIA</p>
             }
         </div>
+        <h5>Known For</h5>
         <div class="movies">
-            <h5>Known For</h5>
+            @foreach (var movie in Model.Movies)
+            {
+                <div class="movie-item">
+                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                        @if (movie.Poster != null)
+                        {
+                            <img src="@(posterPath + movie.Poster)" alt="@movie.Title poster" />
+
+                        }
+                        else
+                        {
+                            <img src="~/images/default-poster1.png" />
+                        }
+                    </a>
+                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                        <p>
+                            @movie.Title
+                        </p>
+                    </a>
+                </div>
+            }
         </div>
     </div>
 </div>

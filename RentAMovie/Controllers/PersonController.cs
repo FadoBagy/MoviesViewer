@@ -2,9 +2,11 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
+    using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
     using RentAMovie.Services.Person;
     using System;
+    using System.Collections;
 
     public class PersonController : Controller
     {
@@ -42,17 +44,37 @@
                 };
             }
 
-            if (person.Department == "Acting")
+            try
             {
-                service.ValidateActorData(person);
-
+                if (person.Department == "Acting")
+                {
+                    service.ValidateActorData(person);
+                    return View(new ViewPersonModel
+                    {
+                        PersonData = person,
+                        Movies = service
+                            .GetActorWithMovies(person.TmdbId).PlayedInMovies
+                            .OrderByDescending(m => m.DatePublished)
+                            .ToList()
+                    });
+                }
+                else
+                {
+                    service.ValidateDirectorData(person);
+                    return View(new ViewPersonModel
+                    {
+                        PersonData = person,
+                        Movies = service
+                            .GetDirectorWithMovies(person.TmdbId).DirectedMovies
+                            .OrderByDescending(m => m.DatePublished)
+                            .ToList()
+                    });
+                }
             }
-            else
+            catch (Exception)
             {
-                service.ValidateDirectorData(person);
+                return RedirectToAction("Error", "Home");
             }
-
-            return View(person);
         }
 
         [Route("/Movies/{movieId}-tmdb/Cast")]

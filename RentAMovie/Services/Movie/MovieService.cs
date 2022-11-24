@@ -39,6 +39,20 @@
                 .FirstOrDefault(m => m.TmdbId == id);
         }
 
+        public Movie GetMovieWithCrewMembersTmdb(int id)
+        {
+            return data.Movies
+                .Include(m => m.Directors)
+                .FirstOrDefault(m => m.TmdbId == id);
+        }
+
+        public Movie GetMovieWithActorsTmdb(int id)
+        {
+            return data.Movies
+                .Include(m => m.Actors)
+                .FirstOrDefault(m => m.TmdbId == id);
+        }
+
         public List<ViewUserMovieCardModel> GetUserMovies(string userId)
         {
             return data.Movies
@@ -107,6 +121,16 @@
                 })
                 .OrderByDescending(r => r.CreationDate)
                 .FirstOrDefault();
+        }
+
+        public Actor GetActorTmdb(int id)
+        {
+            return data.Actors.FirstOrDefault(a => a.TmdbId == id);
+        }
+
+        public Director GetCrewMemberTmdb(int id)
+        {
+            return data.Directors.FirstOrDefault(d => d.TmdbId == id);
         }
 
         public void AddActorToMovie(int movieId, Actor actor)
