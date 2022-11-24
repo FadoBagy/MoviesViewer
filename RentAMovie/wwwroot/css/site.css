@@ -85,3 +85,12 @@ img {
 .no-shadow {
     box-shadow: none !important;
 }
+
+footer a {
+    text-decoration: none;
+    color: #6c757d ;
+}
+
+footer a:hover {
+    color: #0079FF;
+}

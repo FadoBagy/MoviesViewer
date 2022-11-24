@@ -1,0 +1,28 @@
+﻿.sources-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.source-item {
+    text-align: center;
+}
+
+.source-item img {
+    width: 150px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.source-item h3 {
+    margin: 0;
+}
+
+.source-item a {
+    text-decoration: none;
+    color: #212529;
+}
+
+.source-item a:hover {
+    color: #0079FF;
+}
