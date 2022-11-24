@@ -25,6 +25,7 @@ form input[type="submit"] {
     font-weight: 500 !important;
     margin-bottom: 0 !important;
     padding: 0;
+    transition: 100ms;
 }
 
 form input[type="submit"]:hover {
@@ -40,10 +41,11 @@ form input[type="submit"]:hover {
 
 #back p {
     margin-left: 20px;
+    transition: 100ms;
 }
 
 #back:hover {
-    color: #0D4C92 !important;
+    color: #0079FF !important;
 }
 
 @media screen and (max-width: 570px) {

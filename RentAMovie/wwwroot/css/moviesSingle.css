@@ -207,6 +207,12 @@ body .container {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.2rem;
+    color: #0D4C92;
+    transition: 100ms;
+}
+
+.more-actors a:hover {
+    color: #0079FF;
 }
 
 #no-actors {
@@ -290,10 +296,11 @@ body .container {
 .review-content a p ,
 .controls a p {
     margin: 0;
+    transition: 100ms;
 }
 
 .review-content a p:hover {
-    color: #0D4C92;
+    color: #0079FF;
 }
 
 .header-controls {
@@ -328,10 +335,6 @@ body .container {
     background-color: #0079FF;
 }
 
-.more-actors a {
-    color: #0D4C92;
-}
-
 .crew-info {
     width: 100%;
     margin-top: 10px;
@@ -356,10 +359,11 @@ body .container {
 .crew-person a{
     color: #f2f2f2;
     text-decoration: none;
+    transition: 100ms;
 }
 
 .crew-person a:hover{
-    color: #0d6efd;
+    color: #0079FF;
 }
 
 @media screen and (max-width: 990px) {

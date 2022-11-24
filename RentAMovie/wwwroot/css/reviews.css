@@ -43,12 +43,16 @@
 }
 
 .review-content a p,
-.movie-title a p{
+.movie-title a p,
+.movie-title a{
     margin: 0;
+    transition: 100ms;
 }
 
-.review-content a p:hover {
-    color: #0D4C92;
+.review-content a p:hover,
+.movie-title a p:hover,
+.movie-title a:hover{
+    color: #0079FF;
 }
 
 .review-date {
@@ -208,7 +212,7 @@
 }
 
 .filter-controls input:hover {
-    color: #0D4C92;
+    color: #0079FF;
 }
 
 .form-select::-webkit-scrollbar-track {
