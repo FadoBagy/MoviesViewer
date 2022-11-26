@@ -18,11 +18,11 @@
     justify-content: space-between;
 }
 
-.biography h5{
+.biography h5 {
     margin: 0;
 }
 
-.biography p{
+.biography p {
     color: #0D4C92;
     font-weight: 500;
     cursor: pointer;
@@ -53,6 +53,7 @@
     height: fit-content;
     overflow: hidden;
     padding: 10px 0 10px 10px;
+    border-bottom: 1px solid #0e0e0e41;
 }
 
 .blur-color {
@@ -79,7 +80,7 @@
     max-width: 250px;
 }
 
-.detail p{
+.detail p {
     margin: 0;
 }
 
@@ -132,7 +133,73 @@
     color: #f2f2f2;
 }
 
-.movie-item a p{
+.movie-item a p {
     margin-bottom: 10px;
     word-wrap: anywhere;
+}
+
+@media screen and (max-width: 994px) {
+    .movie-item {
+        max-width: 190px;
+    }
+
+    .movie-item img {
+        width: 190px;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .container {
+        max-width: none;
+    }
+
+    .main-section {
+        flex-direction: column;
+    }
+
+    .img-section {
+        display: flex;
+    }
+    
+    .img-section img {
+        margin-bottom: 0;
+        border-radius: 15px 0 0 5px;
+        width: 200px;
+        height: 300px;
+    }
+
+    .detail { 
+        max-width: 400px;
+    }
+
+    .info-section {
+        padding: 0;
+    }
+
+    .info-section h2 {
+        display: none;
+    }
+
+    .biography p {
+        margin-top: 20px;
+    }
+
+    .info-section h5 {
+        margin-top: 20px;
+    }
+
+    .movies {
+        justify-content: space-evenly;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .img-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .img-section img {
+            border-radius: 15px 15px 5px 5px;
+        }
 }
