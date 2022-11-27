@@ -1,5 +1,6 @@
 namespace RentAMovie
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
@@ -28,6 +29,7 @@ namespace RentAMovie
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
             builder.Services.AddControllersWithViews();
 
