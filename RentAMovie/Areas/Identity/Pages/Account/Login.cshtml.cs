@@ -12,11 +12,11 @@ namespace RentAMovie.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<User> signInManager;
 
         public LoginModel(SignInManager<User> signInManager)
         {
-            _signInManager = signInManager;
+            this.signInManager = signInManager;
         }
 
         [BindProperty]
@@ -65,7 +65,7 @@ namespace RentAMovie.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, 
+                var result = await signInManager.PasswordSignInAsync(Input.UserName, Input.Password, 
                     Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {

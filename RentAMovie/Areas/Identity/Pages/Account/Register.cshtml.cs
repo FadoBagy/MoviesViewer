@@ -14,15 +14,12 @@ namespace RentAMovie.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> userManager;
 
         public RegisterModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            UserManager<User> userManager)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         [BindProperty]
@@ -81,7 +78,7 @@ namespace RentAMovie.Areas.Identity.Pages.Account
                     UserName = Input.UserName,
                     Email = Input.Email
                 };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {

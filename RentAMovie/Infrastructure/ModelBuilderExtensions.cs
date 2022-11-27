@@ -4,6 +4,8 @@
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data.Models;
 
+    using static WebConstants;
+
     public static class ModelBuilderExtensions
     {
         public static void SeedAdmin(
@@ -11,8 +13,8 @@
         {
             var adminRole = new IdentityRole
             {
-                Name = "Administrator",
-                NormalizedName = "Administrator".ToUpper()
+                Name = AdministratorRoleName,
+                NormalizedName = AdministratorRoleName.ToUpper()
             };
             modelBuilder
                 .Entity<IdentityRole>()

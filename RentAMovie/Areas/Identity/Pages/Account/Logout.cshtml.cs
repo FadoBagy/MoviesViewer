@@ -11,16 +11,16 @@ namespace RentAMovie.Areas.Identity.Pages.Account
     [Authorize]
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<User> signInManager;
 
         public LogoutModel(SignInManager<User> signInManager)
         {
-            _signInManager = signInManager;
+            this.signInManager = signInManager;
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
+            await signInManager.SignOutAsync();
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

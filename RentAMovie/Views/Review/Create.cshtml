@@ -2,7 +2,7 @@
 @inject IMovieService service
 @{
     var currentMovie = service.GetMovie(Model.MovieId);
-    ViewData["Title"] = $"Review for {currentMovie.Title}";
+    ViewData["Title"] = $"Review {currentMovie.Title}";
 
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     string posterPath = "https://image.tmdb.org/t/p/w500";
