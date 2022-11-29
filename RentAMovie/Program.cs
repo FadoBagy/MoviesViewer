@@ -4,6 +4,7 @@ namespace RentAMovie
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
+    using RentAMovie.Infrastructure;
     using RentAMovie.Services.Home;
     using RentAMovie.Services.Movie;
     using RentAMovie.Services.Person;
@@ -30,6 +31,7 @@ namespace RentAMovie
                 options.Password.RequiredLength = 6;
             })
                 .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
             builder.Services.AddControllersWithViews();
 
@@ -40,6 +42,8 @@ namespace RentAMovie
             builder.Services.AddTransient<IMovieService, MovieService>();
 
             var app = builder.Build();
+
+            app.PrepareDatabase();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

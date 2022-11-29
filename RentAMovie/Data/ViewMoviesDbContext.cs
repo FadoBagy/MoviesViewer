@@ -26,27 +26,8 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.SeedAdmin();
             modelBuilder.SeedGenres();
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder
-            //    .Entity<Movie>()
-            //    .HasOne(m => m.User)
-            //    .WithMany(u => u.UploadedMovies)
-            //    .HasForeignKey(m => m.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder
-            //   .Entity<Director>()
-            //   .Property(x => x.Name)
-            //   .HasColumnType("nvarchar(56)");
-
-            //modelBuilder
-            //     .Entity<StudentCourse>(e =>
-            //     {
-            //         e.HasKey(sc => new { sc.StudentId, sc.CourseId });
-            //     });
         }
     }
 }
