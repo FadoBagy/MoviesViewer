@@ -1,6 +1,24 @@
-﻿#carouselExampleCaptions {
+﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Patrick+Hand&family=Quicksand&display=swap');
+
+#carouselExampleCaptions {
     width: 80%;
     margin: auto;
+}
+
+.carousel-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px;
+}
+
+#carouselExampleCaptions {
+    margin: 0;
+    max-width: 800px;
+}
+
+.carousel-inner {
+    border-radius: 5px;
 }
 
 .carousel-item a {
@@ -19,58 +37,62 @@
     filter: brightness(50%);
 }
 
-.small {
-    width: 500px;
-    box-shadow: 5px 10px 8px #888888;
-}
-
 .carousel-item a:hover {
     color: #1f7aff;
 }
 
-.statistics {
-    position: relative;
-    width: 90%;
-    background-color: #1f1f1f;
-    color: #f2f2f2;
-    border-radius: 5px;
-    margin: auto;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.statistics-item {
-    padding: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
-.statistics-item p{
-    margin: 0;
-}
-
-.statistics-shadow {
-    display: none;
-    position: absolute;
+.hero {
     width: 100%;
-    height: 100%;
-    background-color: #021632;
-    border-radius: 5px;
-    z-index: -1;
-    bottom: -10px;
-    right: -10px;
-    /*animation: background-pan 3s linear infinite;
-    background: linear-gradient(
-        to right,
-        white,
-        black,
-        white,
-        black
+    height: 50vh;
+    background-image: linear-gradient(
+        to bottom, 
+        #021632, 
+        #4E56A4
     );
-    background-size: 200%;*/
+    color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.hero h3 {
+    font-weight: bold;
+    font-size: 3.2rem;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.hero a {
+    font-size: 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: #0D4C92;
+    color: #f2f2f2;
+    padding: 10px;
+    margin-top: 20px;
+    transition: 100ms;
+}
+
+.hero a:hover {
+    background-color: #0079FF;
+}
+
+.animation {
+    animation: background-pan 3s linear infinite;
+    background: linear-gradient( 
+        to right,
+        #F778C5, 
+        #A667BD, 
+        #D06FC3, 
+        #A667BD, 
+        #F778C5
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200%;
 }
 
 @keyframes background-pan {
@@ -83,50 +105,57 @@
     }
 }
 
-.main-section {
-    width: 100%;
-    margin-bottom: 30px;
-}
-
-.main-section-item {
-    background-color: #212529;
-    color: #f2f2f2;
-    border-radius: 5px;
+.tab-sections {
+    margin-top: 80px;
     padding: 10px;
-    margin-bottom: 5px;
     display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+}
+
+.tab {
+    display: flex;
+    justify-content: space-evenly;
     align-items: center;
-    justify-content: space-between;
+    border-radius: 5px;
+    border: 1px solid #21252915;
+    padding: 5px;
 }
 
-.main-section-item h3{
-    margin: 0;
+.tab img {
+    width: 150px;
 }
 
-.main-section-item a{
-    padding: 9px;
-    background-color: #0D4C92;
-    border-radius: 10px;
+.tab-controls {
+    text-align: center;
+}
+
+.tab-controls a {
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 5px;
     text-decoration: none;
-    color: #f2f2f2;
+    color: #0D4C92;
+    padding: 10px;
     transition: 100ms;
 }
 
-.main-section-item a:hover {
-    background-color: #0079FF;
+.tab-controls a:hover {
+    color: #0079FF;
 }
 
-.carousel-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-#carouselExampleCaptions {
+.tab p {
     margin: 0;
-    max-width: 800px;
+    font-size: 1.3rem;
 }
 
-.carousel-inner {
-    border-radius: 5px;
+@media screen and (max-width: 573px) {
+    .container {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tab-sections {
+        padding: 0;
+    }
 }

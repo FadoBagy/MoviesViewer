@@ -94,3 +94,9 @@ footer a {
 footer a:hover {
     color: #0079FF;
 }
+
+@media screen and (max-width: 573px) {
+    footer {
+        text-align: center;
+    }
+}

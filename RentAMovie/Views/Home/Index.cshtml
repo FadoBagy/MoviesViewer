@@ -13,26 +13,35 @@
     }
 </div>
 
-<div class="main-section">
-    <div class="main-section-item">
-        <h3>Explore from more than @(((int)Math.Round(Model.TotalMovies / 10.0)) * 10) movies</h3>
-        <a asp-controller="Movie" asp-action="Popular">See what's popular</a>
+<div class="hero">
+    <h3>Get into the world of <spam class="animation">movies</spam></h3>
+    <a asp-controller="Movie" asp-action="Popular">See what's popular</a>
+</div>
+<div class="tab-sections">
+    <div class="tab">
+        <p>Explore from more than @(((int)Math.Round(Model.TotalMovies / 10.0)) * 10)+ movies</p>
+        <img src="~/images/home/moive.png"/>
     </div>
-    <div class="main-section-item">
-        <h3>View and write reviews</h3>
-        <a asp-controller="Review" asp-action="AllUserReview">Your reviews</a>
+    <div class="tab">
+        <img src="~/images/home/reviews.png" />
+        <div class="tab-controls">
+            <p>View and write reviews</p>
+            <a asp-controller="Review" asp-action="AllUserReview">Your reviews</a>
+        </div>
     </div>
     @if (!SignInManager.IsSignedIn(User))
     {
-        <div class="main-section-item">
-            <h3>Don't have an account yet</h3>
-            <a asp-area="Identity" asp-page="/Account/Register">Join us</a>
+        <div class="tab">
+            <div class="tab-controls">
+                <p>Don't have an account yet?</p>
+                <a asp-area="Identity" asp-page="/Account/Register">Join us</a>
+            </div>
+            <img src="~/images/home/join.png" />
         </div>
     }
 </div>
 
 <div class="carousel-section">
-    <h4>Top rated action movies</h4>
     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -85,22 +94,6 @@
         </button>
     </div>
 </div>
-
-@*<div class="statistics">
-    <div class="statistics-item">
-        <h5>Uploaded Movies</h5>
-        <p>@Model.TotalMovies</p>
-    </div>
-    <div class="statistics-item">
-        <h5>Written Reviews</h5>
-        <p>@Model.TotalReviews</p>
-    </div>
-    <div class="statistics-item">
-        <h5>Registered Users</h5>
-        <p>@Model.TotalUsers</p>
-    </div>
-    <span class="statistics-shadow"></span>
-</div>*@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" />
