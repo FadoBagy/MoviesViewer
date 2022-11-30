@@ -7,5 +7,9 @@
         int GetUserCount();
 
         int GetReviewCount();
+
+        int GetActorCount();
+
+        int GetCastCount();
     }
 }

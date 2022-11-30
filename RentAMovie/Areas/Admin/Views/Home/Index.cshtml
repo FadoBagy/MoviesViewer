@@ -1,9 +1,33 @@
-﻿@{
+﻿@using RentAMovie.Areas.Admin.Models.Home;
+@model ViewHomeModel
+@{
 	ViewData["Title"] = "Admin Dashboard";
 }
 
 <h1>Admin Dashboard</h1>
-<p>_ movies</p>
-<p>_ reviws</p>
-<p>_ accounts</p>
-<p>_ actors</p>
+<table class="stats">
+    <tr class="stats-item">
+		<td>Movies</td>
+		<td>@Model.TotalMovies</td>
+    </tr>
+	<tr class="stats-item">
+		<td>Reviws</td>
+		<td>@Model.TotalReviews</td>
+    </tr>
+	<tr class="stats-item">
+		<td>Users</td>
+		<td>@Model.TotalUsers</td>
+	</tr>
+	<tr class="stats-item">
+		<td>Actors</td>
+		<td>@Model.TotalActors</td>
+	</tr>
+	<tr class="stats-item">
+		<td>Cast</td>
+		<td>@Model.TotalCast</td>
+	</tr>
+</table>
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/admin/home.css" />
+}

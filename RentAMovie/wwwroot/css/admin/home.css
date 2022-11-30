@@ -1,0 +1,35 @@
+﻿h1 {
+    text-align: center;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.stats {
+    margin: auto;
+    margin-top: 30px;
+}
+
+.stats-item td {
+    font-size: 1.3rem;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center
+}
+
+.stats tr {
+    transition: 100ms;
+}
+
+.stats tr:nth-child(even) {
+    background-color: #e6e6e6;
+}
+
+.stats tr:hover {
+    color: #f2f2f2;
+    background-color: #212529;
+    cursor: default;
+}

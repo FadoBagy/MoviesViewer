@@ -10,8 +10,8 @@
         {
             this.data = data;
         }
-
-        public int GetMovieCount()
+		
+		public int GetMovieCount()
         {
             return data.Movies.Count();
         }
@@ -25,5 +25,15 @@
         {
             return data.Users.Count();
         }
-    }
+
+		public int GetActorCount()
+		{
+			return data.Actors.Count();
+		}
+
+		public int GetCastCount()
+		{
+			return data.Directors.Count();
+		}
+	}
 }
