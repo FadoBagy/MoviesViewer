@@ -4,7 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data.Models;
 
-    using static WebConstants;
+    using static Areas.Admin.AdminConstants;
 
     public static class ModelBuilderExtensions
     {
