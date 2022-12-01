@@ -1,5 +1,45 @@
-﻿@{
-	ViewData["Title"] = "Account Dashboard";
+﻿@using RentAMovie.Areas.Admin.Models.Account;
+@model List<ViewUserModel>
+@{
+	ViewData["Title"] = "User Dashboard";
 }
 
-<h1>Account dashboard</h1>
+<h3>Created users</h3>
+<div class="users">
+    @if (Model != null && Model.Count() > 0)
+    {
+        @foreach (var user in Model)
+        {
+            <div class="user">
+                @if (user.Photo != null && user.Photo != "")
+                {
+                    <img src="@user.Photo" />
+                }
+                else
+                {
+                    <img src="~/images/default-user-icon.png" />
+                }
+                <div class="user-info">
+                    <p>@user.Username</p>
+                    <p>Registered on @user.DateCreated.Value.ToString("MMM dd, yyyy")</p>
+                    <div class="user-controls">
+                        <form asp-area="Admin" asp-controller="Account" asp-action="Delete" asp-route-userId="@user.Id">
+                            <div>
+                                <input type="submit" value="Delete"
+                               onclick="return confirm('Are you sure you want to DELETE this user: @user.Username')" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="no-users">No available users</p>
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/users.css" />
+}
