@@ -5,11 +5,14 @@
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
     using RentAMovie.Data.Models;
+    using RentAMovie.Infrastructure;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.PersonModels;
     using RentAMovie.Services.Movie;
     using System.Linq;
     using System.Security.Claims;
+
+    using static Areas.Admin.AdminConstants;
 
     public class MovieController : Controller
     {
@@ -78,7 +81,7 @@
         {
             var movie = service.GetMovie(id);
 
-            if (movie?.UserId != GetCurrentUserId())
+            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -112,7 +115,7 @@
 
             var movie = service.GetMovieWithGenresCollection(id);
 
-            if (movie?.UserId != GetCurrentUserId())
+            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -173,6 +176,10 @@
 
             service.SaveChanges();
 
+            if (User.IsAdmin())
+            {
+				return RedirectToAction("Index", "Movie", new { area =  AdministratorAreaName});
+			}
             return RedirectToAction("UserMovies", "Movie");
         }
 
@@ -181,7 +188,7 @@
         public IActionResult Delete(int id)
         {
             var movie = service.GetMovie(id);
-            if (movie?.UserId != GetCurrentUserId())
+            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -192,7 +199,11 @@
                 service.RemoveMovie(movie);
             }
 
-            return RedirectToAction("UserMovies", "Movie");
+			if (User.IsAdmin())
+			{
+				return RedirectToAction("Index", "Movie", new { area = AdministratorAreaName });
+			}
+			return RedirectToAction("UserMovies", "Movie");
         }
 
         [Authorize]

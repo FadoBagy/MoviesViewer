@@ -1,7 +1,8 @@
 ﻿namespace RentAMovie.Services.Movie
 {
     using Microsoft.EntityFrameworkCore;
-    using RentAMovie.Data;
+	using RentAMovie.Areas.Admin.Models.Movie;
+	using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
@@ -79,7 +80,38 @@
                 .ToList();
         }
 
-        public void AddMovie(Movie movie)
+		public List<CardMovieModel> GetAllUsersMovies()
+		{
+			return data.Movies
+                .Where(m => m.TmdbId == null)
+                .OrderByDescending(m => m.DateCreated)
+                .Select(m => new CardMovieModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Poster = m.Poster,
+                    DatePublished = m.DatePublished
+                })
+                .ToList();
+		}
+
+		public List<CardMovieModel> GetAllTmdbMovies()
+		{
+			return data.Movies
+				.Where(m => m.TmdbId != null)
+				.OrderByDescending(m => m.DateCreated)
+				.Select(m => new CardMovieModel
+				{
+					Id = m.Id,
+                    TmdbId = m.TmdbId,
+					Title = m.Title,
+                    Poster = m.Poster,
+					DatePublished = m.DatePublished
+				})
+				.ToList();
+		}
+
+		public void AddMovie(Movie movie)
         {
             data.Movies.Add(movie);
             data.SaveChanges();
@@ -162,5 +194,5 @@
         {
             return data.Users.FirstOrDefault(u => u.Id == id);
         }
-    }
+	}
 }

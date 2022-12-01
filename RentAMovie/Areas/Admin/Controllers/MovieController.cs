@@ -1,12 +1,24 @@
 ﻿namespace RentAMovie.Areas.Admin.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using RentAMovie.Areas.Admin.Models.Movie;
+    using RentAMovie.Services.Movie;
 
     public class MovieController : AdminController
     {
-        public IActionResult Index()
+		private readonly IMovieService service;
+		public MovieController(IMovieService service)
+		{
+			this.service = service;
+		}
+
+		public IActionResult Index()
         {
-            return View();
+            return View(new MovieViewModel
+            {
+                UsersMovies = service.GetAllUsersMovies(),
+                TmdbMovies = service.GetAllTmdbMovies()
+            });
         }
     }
 }

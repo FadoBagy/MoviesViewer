@@ -1,5 +1,6 @@
 ﻿namespace RentAMovie.Services.Movie
 {
+    using RentAMovie.Areas.Admin.Models.Movie;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
@@ -21,6 +22,10 @@
         List<ViewUserMovieCardModel> GetUserMovies(string userId);
 
         List<Movie> GetUserMoviesForProfile(string userId);
+
+        List<CardMovieModel> GetAllUsersMovies();
+
+        List<CardMovieModel> GetAllTmdbMovies();
 
         void AddMovie(Movie movie);
 

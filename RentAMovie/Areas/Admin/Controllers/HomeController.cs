@@ -12,6 +12,7 @@
 		{
 			this.service = service;
 		}
+
 		public IActionResult Index()
 		{
 			return View(new ViewHomeModel

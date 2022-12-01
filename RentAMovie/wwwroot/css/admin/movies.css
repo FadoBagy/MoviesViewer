@@ -1,0 +1,100 @@
+﻿h3 {
+    margin-top: 50px;
+}
+
+.moives {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.moive {
+    width: 400px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    border: 1px solid #2424241d;
+    word-wrap: anywhere;
+}
+
+.moive img {
+    width: 100px;
+    height: 160px;
+    border-radius: 5px;
+}
+
+#user-img {
+    object-fit: cover;
+    object-position: center;
+}
+
+.movie-info p,
+.movie-info h4 {
+    margin: 0;
+}
+
+.movie-controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px;
+}
+
+.movie-controls a {
+    color: #f2f2f2;
+    text-decoration: none;
+
+}
+
+.movie-controls a:nth-child(1) p,
+.movie-controls a:nth-child(2) p {
+    background-color: #0D4C92;
+    transition: 100ms;
+}
+
+.movie-controls a:nth-child(1) p:hover,
+.movie-controls a:nth-child(2) p:hover {
+    background-color: #0079FF;
+}
+
+.movie-controls form {
+    margin: 0 !important;
+}
+
+.movie-controls form input {
+    background-color: #d52522;
+    transition: 100ms;
+    color: #f2f2f2;
+    width: 70px;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+}
+
+.movie-controls input:hover {
+    background-color: #ff2824;
+}
+
+.movie-controls a p{
+    width: 70px;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+
+}
+
+#no-moives {
+    font-size: 1.1rem;
+    opacity: 80%;
+    margin-left: 10px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
