@@ -1,7 +1,8 @@
 ﻿namespace RentAMovie.Services.Review
 {
     using Microsoft.EntityFrameworkCore;
-    using RentAMovie.Data;
+	using RentAMovie.Areas.Admin.Models.Review;
+	using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
@@ -111,7 +112,24 @@
                 .ToList();
         }
 
-        public void AddReview(Review review)
+		public List<CardReviewModel> GetAllReviews()
+		{
+			return data.Reviews
+                .OrderByDescending(r => r.CreationDate)
+                .Select(r => new CardReviewModel
+                {
+                    Id = r.Id,
+                    Content = r.Content,
+                    CreationDate = r.CreationDate,
+                    MovieInfo = r.Movie,
+                    UserId = r.UserId,
+                    UserUsername = r.User.UserName,
+                    UserPhoto = r.User.Photo
+                })
+                .ToList();
+		}
+
+		public void AddReview(Review review)
         {
             data.Reviews.Add(review);
             data.SaveChanges();
@@ -127,5 +145,5 @@
         {
             return data.Users.FirstOrDefault(u => u.Id == userId);
         }
-    }
+	}
 }

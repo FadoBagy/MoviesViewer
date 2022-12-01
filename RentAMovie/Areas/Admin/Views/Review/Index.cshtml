@@ -1,5 +1,54 @@
-﻿@{
+﻿@using RentAMovie.Areas.Admin.Models.Review;
+@model List<CardReviewModel>
+@{
 	ViewData["Title"] = "Review Dashboard";
 }
 
-<h1>Review dashboard</h1>
+<h3>Created reviews</h3>
+<div class="reviews">
+    @if (Model != null && Model.Count() > 0)
+    {
+        @foreach (var review in Model)
+        {
+            <div class="review">
+                @if (review.UserPhoto != null && review.UserPhoto != "")
+                {
+                    <img src="@review.UserPhoto" />
+                }
+                else
+                {
+                    <img src="~/images/default-user-icon.png" />
+                }
+                <div class="review-content">
+                    <h5>@review.UserUsername</h5>
+                    <p class="review-movie">
+                        For movie - @review.MovieInfo.Title
+                    </p>
+                    <p class="review-date">
+                        Written on @review.CreationDate.ToString("MMM d, yyyy")
+                    </p>
+                    <p class="review-text">
+                        @review.Content
+                    </p>
+                    <div class="review-controls">
+                        <a asp-area="" asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
+                            <p>View</p>
+                        </a>
+                        <form asp-area="" asp-controller="Review" asp-action="Delete" asp-route-reviewId="@review.Id">
+                            <input type="submit" value="Delete"
+                           onclick="return confirm('Are you sure you want to permanently DELETE this review?')" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p id="no-reviews">No available review</p>
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin/reviews.css" />
+}

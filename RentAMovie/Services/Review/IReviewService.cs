@@ -1,5 +1,6 @@
 ﻿namespace RentAMovie.Services.Review
 {
+    using RentAMovie.Areas.Admin.Models.Review;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
@@ -19,6 +20,8 @@
         List<ViewReviewModel> GetUserReviewsForMovie(string userId, int movieId);
 
         List<ViewMovieModel> GetReviewedMovies(string userId);
+
+        List<CardReviewModel> GetAllReviews();
 
         void AddReview(Review review);
 

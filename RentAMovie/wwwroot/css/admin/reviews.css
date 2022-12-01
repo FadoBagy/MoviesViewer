@@ -1,0 +1,116 @@
+﻿h3 {
+    margin-top: 50px;
+}
+
+.reviews {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+    row-gap: 10px;
+    margin-top: 30px;
+}
+
+.review {
+    width: 500px;
+    display: flex;
+    gap: 5px;
+    border-radius: 5px;
+    border: 1px solid #2424241d;
+    padding: 10px;
+}
+
+.review img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.review-content p {
+    margin: 0;
+}
+
+.review-movie,
+.review-date {
+    opacity: 80%;
+    font-size: 0.9rem;
+}
+
+.review-text {
+    max-height: 150px;
+    overflow:auto;
+    word-wrap: anywhere;
+    padding: 5px;
+}
+
+.review-text::-webkit-scrollbar-track {
+    background-color: #c2c2c29c;
+}
+
+.review-text::-webkit-scrollbar {
+    width: 8px;
+}
+
+.review-text::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #0D4C92;
+}
+
+.review-text::-webkit-scrollbar-thumb:hover {
+    background-color: #0079FF;
+}
+
+.review-controls  {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.review-controls a {
+    color: #f2f2f2;
+    text-decoration: none;
+}
+
+.review-controls a p {
+    width: 70px;
+    background-color: #0D4C92;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    transition: 100ms;
+}
+
+.review-controls a p:hover {
+    background-color: #0079FF;
+}
+
+.review-controls form input {
+    width: 70px;
+    background-color: #d52522;
+    color: #f2f2f2;
+    transition: 100ms;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+}
+
+.review-controls input:hover {
+    background-color: #ff2824;
+}
+
+#no-reviews {
+    font-size: 1.1rem;
+    opacity: 80%;
+    margin-left: 10px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

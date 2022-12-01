@@ -24,5 +24,5 @@
 				TotalCast = service.GetCastCount()
 			});
 		}
-	}
+    }
 }

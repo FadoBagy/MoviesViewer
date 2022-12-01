@@ -3,10 +3,13 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RentAMovie.Data.Models;
+    using RentAMovie.Infrastructure;
     using RentAMovie.Models.Review;
     using RentAMovie.Models.User;
     using RentAMovie.Services.Review;
     using System.Security.Claims;
+
+    using static Areas.Admin.AdminConstants;
 
     public class ReviewController : Controller
     {
@@ -19,6 +22,13 @@
         [Authorize]
         public IActionResult Create(int movieId)
         {
+            var movie = service.GetMovie(movieId);
+            if (movie == null)
+            {
+                TempData["error"] = "Not found";
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(new FormReviewModel
             {
                 MovieId = movieId,
@@ -29,6 +39,13 @@
         [Authorize]
         public IActionResult Create(FormReviewModel review)
         {
+            var movie = service.GetMovie(review.MovieId);
+            if (movie == null)
+            {
+                TempData["error"] = "Not found";
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(new FormReviewModel
@@ -37,7 +54,6 @@
                     MovieId = review.MovieId
                 });
             }
-            var movie = service.GetMovie(review.MovieId);
 
             var newReview = new Review
             {
@@ -142,7 +158,7 @@
         public IActionResult Delete(int reviewId)
         {
             var review = service.GetReview(reviewId);
-            if (review?.UserId != GetCurrentUserId())
+            if (review?.UserId != GetCurrentUserId() && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot delete this review!";
                 return RedirectToAction("Index", "Home");
@@ -153,6 +169,10 @@
                 service.RemoveReview(review);
             }
 
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Index", "Review", new { area = AdministratorAreaName });
+            }
             return RedirectToAction("All", "Review", new { movieId = review.MovieId });
         }
 
