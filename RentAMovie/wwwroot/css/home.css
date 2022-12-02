@@ -18,7 +18,7 @@
 }
 
 .carousel-inner {
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .carousel-item a {
@@ -56,7 +56,7 @@
     flex-direction: column;
     text-align: center;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 .hero h3 {
