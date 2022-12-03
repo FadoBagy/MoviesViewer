@@ -35,6 +35,8 @@ namespace RentAMovie
                 .AddEntityFrameworkStores<ViewMoviesDbContext>();
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddAutoMapper(typeof(Program));
+
             builder.Services.AddTransient<IPersonService, PersonService>();
             builder.Services.AddTransient<IHomeService, HomeService>();
             builder.Services.AddTransient<ISearchService, SearchService>();

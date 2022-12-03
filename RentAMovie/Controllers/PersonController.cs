@@ -2,11 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
     using RentAMovie.Services.Person;
     using System;
-    using System.Collections;
 
     public class PersonController : Controller
     {

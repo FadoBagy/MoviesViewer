@@ -1,17 +1,19 @@
 ﻿namespace RentAMovie.Services.Person
 {
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.PersonModels;
-    using System.Collections.Generic;
 
     public class PersonService : IPersonService
     {
         private readonly ViewMoviesDbContext data;
-        public PersonService(ViewMoviesDbContext data)
+        private readonly IMapper mapper;
+        public PersonService(ViewMoviesDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper;
         }
 
         public void ValidateActorData(ViewTmdbSinglePersonModel person)
@@ -19,17 +21,8 @@
             var personOtCheck = data.Actors.FirstOrDefault(a => a.TmdbId == person.TmdbId);
             if (personOtCheck == null)
             {
-                data.Actors.Add(new Actor()
-                {
-                    Name = person.Name,
-                    Biography = person.Biography,
-                    Photo = person.Photo,
-                    Gender = person.Gender,
-                    DateOfBirth = person.DateOfBirth,
-                    DeathDay = person.DeathDay,
-                    PlaceOfBirth = person.PlaceOfBirth,
-                    TmdbId = person.TmdbId
-                });
+                var actor = mapper.Map<Actor>(person);
+                data.Actors.Add(actor);
             }
             else
             {
@@ -70,17 +63,8 @@
             var personOtCheck = data.Directors.FirstOrDefault(a => a.TmdbId == person.TmdbId);
             if (personOtCheck == null)
             {
-                data.Directors.Add(new Director()
-                {
-                    Name = person.Name,
-                    Biography = person.Biography,
-                    Photo = person.Photo,
-                    Gender = person.Gender,
-                    DateOfBirth = person.DateOfBirth,
-                    DeathDay = person.DeathDay,
-                    PlaceOfBirth = person.PlaceOfBirth,
-                    TmdbId = person.TmdbId
-                });
+                var director = mapper.Map<Director>(person);
+                data.Directors.Add(director);
             }
             else
             {
@@ -118,7 +102,8 @@
 
         public Movie GetMovieTmdb(int id)
         {
-            return data.Movies.FirstOrDefault(m => m.TmdbId == id);
+            return data.Movies
+                .FirstOrDefault(m => m.TmdbId == id);
         }
 
         public Actor GetActorWithMovies(int id)
