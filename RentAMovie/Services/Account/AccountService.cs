@@ -1,5 +1,7 @@
 ﻿namespace RentAMovie.Services.Account
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using RentAMovie.Areas.Admin.Models.Account;
     using RentAMovie.Data;
     using RentAMovie.Data.Models;
@@ -8,10 +10,12 @@
     public class AccountService : IAccountService
     {
         private readonly ViewMoviesDbContext data;
+        private readonly IMapper mapper;
 
-        public AccountService(ViewMoviesDbContext data)
+        public AccountService(ViewMoviesDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper;
         }
 
         public User GetUser(string id)
@@ -24,13 +28,7 @@
         {
             return data.Users
                 .OrderByDescending(u => u.DateCreated)
-                .Select(u => new ViewUserModel
-                {
-                    Id = u.Id,
-                    Username = u.UserName,
-                    DateCreated = u.DateCreated,
-                    Photo = u.Photo
-                })
+                .ProjectTo<ViewUserModel>(mapper.ConfigurationProvider)
                 .ToList();
         }
 
