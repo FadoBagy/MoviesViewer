@@ -2,11 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
-    using RentAMovie.Models;
     using RentAMovie.Models.Home;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Services.Home;
-    using System.Diagnostics;
 
     public class HomeController : Controller
     {
@@ -38,10 +36,9 @@
                 }
             }
 
-            var moviesTop5 = movies.Take(5);
             return View(new ViewIndexModel()
             {
-                TopActionMovies = moviesTop5,
+                TopActionMovies = movies.Take(5),
                 TotalMovies = service.GetMovieCount(),
                 TotalUsers = service.GetUserCount(),
                 TotalReviews = service.GetReviewCount()
@@ -53,11 +50,10 @@
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [Route("/Error")]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
