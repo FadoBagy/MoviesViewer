@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using RentAMovie.Controllers;
     using RentAMovie.Models.Home;
+    using RentAMovie.Models.MovieModuls;
     using RentAMovie.Test.Mocks;
 
     public class HomeControllerTest
@@ -40,13 +41,17 @@
             var result = homeController.Index();
 
             Assert.NotNull(result);
+
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<ViewIndexModel>(viewResult.ViewData.Model);
-            Assert.Equal(15, model.TotalReviews);
-            Assert.Equal(10, model.TotalMovies);
-            Assert.Equal(1, model.TotalUsers);
-            Assert.NotNull(model.TopActionMovies);
-            Assert.NotEmpty(model.TopActionMovies);
+            var model = viewResult.Model;
+
+            var viewIndexModel = Assert.IsType<ViewIndexModel>(model);
+            Assert.Equal(15, viewIndexModel.TotalReviews);
+            Assert.Equal(10, viewIndexModel.TotalMovies);
+            Assert.Equal(1, viewIndexModel.TotalUsers);
+
+            Assert.NotNull(viewIndexModel.TopActionMovies);
+            Assert.NotEmpty(viewIndexModel.TopActionMovies);
         }
     }
 }

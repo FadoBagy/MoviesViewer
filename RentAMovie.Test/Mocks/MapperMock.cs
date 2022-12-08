@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using Moq;
+    using RentAMovie.Infrastructure;
 
     public static class MapperMock
     {
@@ -9,8 +10,11 @@
         {
             get
             {
-                var mapperMock = new Mock<IMapper>();
-                return mapperMock.Object;
+                var mapperConfiguration = new MapperConfiguration(config =>
+                {
+                    config.AddProfile<MappingProfile>();
+                });
+                return new Mapper(mapperConfiguration);
             }
         }
     }

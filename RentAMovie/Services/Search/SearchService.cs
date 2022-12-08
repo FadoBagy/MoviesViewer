@@ -48,10 +48,10 @@
                             .OrderBy(m => m.Rating)
                             .ThenBy(m => m.Title);
                         break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
+                    //case 3:
+                    //    break;
+                    //case 4:
+                    //    break;
                     case 5:
                         movieQuery = movieQuery
                             .OrderByDescending(m => m.DatePublished)
