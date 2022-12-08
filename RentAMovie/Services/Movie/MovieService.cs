@@ -122,7 +122,7 @@
             data.Movies.Remove(movie);
             data.SaveChanges();
         }
-        //
+        
         public Genre GetGenreByName(string name)
         {
             return data.Genres.FirstOrDefault(g => g.Name == name);
