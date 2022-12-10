@@ -65,7 +65,7 @@
                 Poster = movie.Poster,
                 BackdropPath = movie.Backdrop,
                 Trailer = movie.Trailer,
-                UserId = GetCurrentUserId(),
+                UserId = GetCurrentUserId() ?? "1",
                 Genres = genres,
                 GenresCollection = genresCollection
             };
@@ -80,8 +80,9 @@
         public IActionResult Edit(int id)
         {
             var movie = service.GetMovie(id);
+            var userId = GetCurrentUserId() ?? "1";
 
-            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
+            if (movie?.UserId != userId && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -114,8 +115,8 @@
             }
 
             var movie = service.GetMovieWithGenresCollection(id);
-
-            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
+            var userId = GetCurrentUserId() ?? "1";
+            if (movie?.UserId != userId && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -188,7 +189,8 @@
         public IActionResult Delete(int id)
         {
             var movie = service.GetMovie(id);
-            if (movie?.UserId != GetCurrentUserId() && !User.IsAdmin())
+            var userid = GetCurrentUserId() ?? "1";
+            if (movie?.UserId != userid && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot edit this movie!";
                 return RedirectToAction("Index", "Home");
@@ -363,7 +365,7 @@
 
         private string GetCurrentUserId()
         {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private TmdbSingleMovieModel GetSingleMovieData(TmdbSingleMovieModel movie, Movie dbMovie)

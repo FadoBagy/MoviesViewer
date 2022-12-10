@@ -10,13 +10,10 @@
     using RentAMovie.Services.Person;
     using RentAMovie.Test.Mocks;
 
+    using static TestConstants;
+
     public class PersonControllerTest
     {
-        private readonly int validActorId = 1136406;
-        private readonly int validDirectorId = 525;
-        private readonly int invalidId = 0000;
-        private readonly int validMovieTmdb = 155;
-
         [Fact]
         public void PersonTmdbShouldNotReturnNullView()
         {
@@ -136,7 +133,7 @@
             var service = new PersonService(data, MapperMock.Instance);
             var personController = new PersonController(service);
 
-            var result = personController.PersonTmdb(validMovieTmdb);
+            var result = personController.PersonTmdb(validMovieTmdbId);
 
             Assert.IsType<ViewResult>(result);
         }
@@ -148,7 +145,7 @@
             var service = new PersonService(data, MapperMock.Instance);
             var personController = new PersonController(service);
 
-            var result = personController.List(validMovieTmdb);
+            var result = personController.List(validMovieTmdbId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<ViewAllCastModel>(viewResult.Model);
@@ -161,7 +158,7 @@
             var service = new PersonService(data, MapperMock.Instance);
             var personController = new PersonController(service);
 
-            var result = personController.List(validMovieTmdb);
+            var result = personController.List(validMovieTmdbId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = viewResult.Model;
@@ -175,7 +172,7 @@
             var data = DatabaseMock.Instance;
             data.Movies.Add(new Movie
             {
-                TmdbId = validMovieTmdb,
+                TmdbId = validMovieTmdbId,
                 Title = "test",
                 Description = "test"
             });
