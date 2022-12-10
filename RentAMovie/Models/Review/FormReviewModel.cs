@@ -1,6 +1,5 @@
 ﻿namespace RentAMovie.Models.Review
 {
-    using RentAMovie.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
     using static Data.DataConstants.Review;

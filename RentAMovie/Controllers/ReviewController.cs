@@ -58,7 +58,7 @@
             var newReview = new Review
             {
                 Content = review.Content,
-                UserId = GetCurrentUserId(),
+                UserId = GetCurrentUserId() ?? "1",
                 MovieId = review.MovieId
             };
 
@@ -126,7 +126,7 @@
         [Route("/Reviews/MyReviews")]
         public IActionResult AllUserReview(int reviewedMovies)
         {
-            string userId = GetCurrentUserId();
+            string userId = GetCurrentUserId() ?? "1";
             var currentUser = service.GetCurrentUser(userId);
 
             List<ViewReviewModel> reviews = new List<ViewReviewModel>();
@@ -158,7 +158,8 @@
         public IActionResult Delete(int reviewId)
         {
             var review = service.GetReview(reviewId);
-            if (review?.UserId != GetCurrentUserId() && !User.IsAdmin())
+            var userId = GetCurrentUserId() ?? "2";
+            if (review?.UserId != userId && !User.IsAdmin())
             {
                 TempData["error"] = "You cannot delete this review!";
                 return RedirectToAction("Index", "Home");
@@ -178,7 +179,7 @@
 
         private string GetCurrentUserId()
         {
-            return User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

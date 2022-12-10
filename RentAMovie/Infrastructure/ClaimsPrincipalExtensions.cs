@@ -8,7 +8,7 @@
     {
         public static bool IsAdmin(this ClaimsPrincipal user )
         {
-            return user.IsInRole(AdministratorRoleName);
+            return user != null ? user.IsInRole(AdministratorRoleName) : false;
         }
     }
 }
