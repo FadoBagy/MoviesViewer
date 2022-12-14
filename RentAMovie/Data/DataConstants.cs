@@ -10,6 +10,9 @@
             public const int MaxMovieDescription = 800;
             public const int MinMovieDescription = 3;
 
+            public const int MaxMovieTagline = 200;
+            public const int MinMovieTagline = 0;
+
             public const string MaxMovieRuntime = "880";
             public const string MinMovieRuntime = "0";
 

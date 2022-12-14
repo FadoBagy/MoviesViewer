@@ -23,6 +23,8 @@
             MinimumLength = MinMovieDescription)]
         public string? Description { get; set; }
 
+        [StringLength(MaxMovieTagline,
+            MinimumLength = MinMovieTagline)]
         public string? Tagline { get; set; }
 
         [Range(typeof(int), MinMovieRuntime, MaxMovieRuntime,
