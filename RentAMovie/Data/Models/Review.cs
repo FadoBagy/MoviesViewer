@@ -16,6 +16,8 @@
 
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
+        public bool IsSpoiler { get; set; } = false;
+
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
         public User User { get; set; }

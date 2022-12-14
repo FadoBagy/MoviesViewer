@@ -13,6 +13,9 @@
         [Display(Name = "Review")]
         public string Content { get; init; }
 
+        [Display(Name = "This review contains spoilers")]
+        public bool IsSpoiler { get; init; }
+
         public int MovieId { get; set; }
     }
 }

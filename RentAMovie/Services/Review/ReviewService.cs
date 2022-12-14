@@ -44,6 +44,7 @@
                     Id = r.Id,
                     Content = r.Content,
                     CreationDate = r.CreationDate,
+                    IsSpoiler = r.IsSpoiler,
                     MovieInfo = new Movie
                     {
                         Id = movie.Id,

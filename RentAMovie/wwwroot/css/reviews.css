@@ -67,11 +67,42 @@
 }
 
 .review-text {
+    position: relative;
     margin-bottom: 5px;
     max-width: 630px;
     max-height: 165px;
     overflow: hidden;
     word-wrap: anywhere;
+    transition: 200ms;
+}
+
+.spoilers-container {
+    position: relative;
+}
+
+.spoiler-controls {
+    position: absolute;
+    top: calc(50% - 24px);
+    left: calc(50% - 130px);
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-align: center;
+    z-index: 5;
+}
+
+.spoiler-controls p{
+    margin: 0;
+}
+
+.spoiler-controls p:nth-child(2) {
+    width: fit-content;
+    margin: auto;
+    cursor: pointer;
+    transition: 100ms;
+}
+
+.spoiler-controls p:nth-child(2):hover {
+    color: #0079FF;
 }
 
 .buttons {

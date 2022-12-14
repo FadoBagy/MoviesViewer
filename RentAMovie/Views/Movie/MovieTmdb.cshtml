@@ -208,9 +208,24 @@
                     <div class="review-content">
                         <h5>@reviewUserOwner.UserName</h5>
                         <p class="review-date">Written on @Model.Review.CreationDate.ToString("MMM d, yyyy")</p>
-                        <p class="review-text">
-                            @Model.Review.Content
-                        </p>
+                        @if (!Model.Review.IsSpoiler)
+                        {
+                            <p class="review-text">
+                                @Model.Review.Content
+                            </p>
+                        }
+                        else
+                        {
+                            <div class="spoilers-container">
+                                <div class="spoiler-controls">
+                                    <p>Review may contain spoilers</p>
+                                    <p>Show it</p>
+                                </div>
+                                <p class="review-text">
+                                    @Model.Review.Content
+                                </p>
+                            </div>
+                        }
                         <div class="buttons">
                             <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@Model.Review.Id">
                                 <p>Open review</p>
@@ -245,4 +260,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/moviesSingle.css" />
+}
+@section Scripts {
+    <script src="~/js/reviews/spoilers.js"></script>
+    <script src="~/js/reviews/reviewShortener.js"></script>
 }

@@ -77,6 +77,10 @@
                         <textarea asp-for="Content" class="form-control" autocomplete="off" rows="5"></textarea>
                         <span asp-validation-for="Content" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="IsSpoiler" class="control-label"></label>
+                        <input asp-for="IsSpoiler" />
+                    </div>
                     <div class="form-group d-none">
                         <label asp-for="MovieId" class="control-label"></label>
                         <input asp-for="MovieId" class="form-control" />

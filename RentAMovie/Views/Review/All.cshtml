@@ -17,7 +17,6 @@
     string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 
-
 @if (Model != null && Model.Count() > 0)
 {
     <div class="header-info">
@@ -85,6 +84,7 @@
         @foreach (var review in Model)
         {
             var currentReviewOwner = service.GetUserById(review.UserId);
+            var containSpoiler = review.IsSpoiler;
 
             <div class="review-section col-9">
                 
@@ -99,9 +99,24 @@
                 <div class="review-content">
                     <h5>@currentReviewOwner.UserName</h5>
                     <p class="review-date">Written on @review.CreationDate.ToString("MMM d, yyyy")</p>
-                    <p class="review-text">
-                        @review.Content
-                    </p>
+                    @if (!containSpoiler)
+                    {
+                        <p class="review-text">
+                            @review.Content
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="spoilers-container">
+                            <div class="spoiler-controls">
+                                <p>Review may contain spoilers</p>
+                                <p>Show it</p>
+                            </div>
+                            <p class="review-text">
+                                @review.Content
+                            </p>
+                        </div>
+                    }
                     <div class="buttons">
                         <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@review.Id">
                             <p>Open review</p>
@@ -182,4 +197,8 @@ else
 
 @section Styles {
     <link rel="stylesheet" href="~/css/reviews.css" />
+}
+@section Scripts {
+    <script src="~/js/reviews/spoilers.js"></script>
+    <script src="~/js/reviews/reviewShortener.js"></script>
 }

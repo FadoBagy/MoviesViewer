@@ -58,6 +58,7 @@
             var newReview = new Review
             {
                 Content = review.Content,
+                IsSpoiler = review.IsSpoiler,
                 UserId = GetCurrentUserId() ?? "1",
                 MovieId = review.MovieId
             };

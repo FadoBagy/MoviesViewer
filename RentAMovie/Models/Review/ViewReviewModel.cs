@@ -9,6 +9,8 @@
 
         public DateTime CreationDate { get; set; }
 
+        public bool IsSpoiler { get; set; }
+
         public string UserId { get; set; }
 
         public Movie MovieInfo { get; set; }

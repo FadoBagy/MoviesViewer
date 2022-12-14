@@ -145,7 +145,7 @@
                             For movie - @userLastReview.MovieInfo.Title
                         </p>
                         <p class="review-date">Written on @userLastReview.CreationDate.ToString("MMM d, yyyy")</p>
-                        <p class="review-text">
+                        <p class="review-text review-text-profile">
                             @userLastReview.Content
                         </p>
                         <div class="buttons">
@@ -167,4 +167,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/profile.js"></script>
+    <script src="~/js/reviews/reviewShortener.js"></script>
 }
