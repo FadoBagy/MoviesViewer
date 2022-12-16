@@ -346,6 +346,7 @@
             {
                 model.CurrentPage = 1;
             }
+
 			string mostPopularRequest
 				= ControllerConstants.BaseUrl + $"/discover/movie?sort_by=popularity.desc&page={model.CurrentPage}&" + ControllerConstants.ApiKey;
 
@@ -360,14 +361,23 @@
 		}
 
 		[Route("/Movies/TopRated")]
-        public IActionResult TopRated()
+        public IActionResult TopRated(TopRatedViewModel model)
         {
-            string topRatedRequest 
-                = ControllerConstants.BaseUrl + "/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&" + ControllerConstants.ApiKey;
+			if (model.CurrentPage <= 0)
+			{
+				model.CurrentPage = 1;
+			}
+
+			string topRatedRequest 
+                = ControllerConstants.BaseUrl + $"/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&page={model.CurrentPage}&" + ControllerConstants.ApiKey;
             var movies = new List<PopularMovieResultModule>();
             CollectMoviesData(topRatedRequest, movies);
 
-            return View(movies);
+            return View(new TopRatedViewModel
+            {
+                Movies = movies,
+                CurrentPage = model.CurrentPage
+            });
         }
 
         private string GetCurrentUserId()

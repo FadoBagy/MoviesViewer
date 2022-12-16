@@ -14,7 +14,7 @@ main .container {
     justify-content: center;
 }
 
-.card{
+.card {
     width: 13rem;
     padding: 0;
     margin: 0 5px 5px 0;
@@ -36,11 +36,11 @@ main .container {
     user-select: none; 
 }
 
-.card a img:hover{
+.card a img:hover {
     filter: brightness(90%);
 }
 
-.card-body{
+.card-body {
     padding: 5px;
     text-align: left;
     position: relative;
@@ -81,7 +81,7 @@ main .container {
     padding: 0;
 }
 
-.green{
+.green {
     color: #37b700;
 }
 
@@ -129,7 +129,7 @@ main .container {
     z-index: 101;
 }
 
-.top-nav{
+.top-nav {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,4 +141,35 @@ main .container {
 
 .top-nav button {
     margin: 0 5px 0 0; 
+}
+
+.page-control {
+    margin-top: 30px;
+}
+
+.page-control nav {
+    width: fit-content;
+    margin: auto;
+}
+
+.page-control ul li {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.page-control ul li a {
+   border-color: rgba(0,0,0,.125);
+   transition: 100ms;
+    color: #212529; 
+}
+
+.page-control ul li a:hover {
+    color: #f2f2f2;
+    background-color: #0a58ca;
+}
+
+.active-page-number {
+    color: #f2f2f2 !important;
+    background-color: #0a58ca;
 }
