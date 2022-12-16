@@ -25,8 +25,8 @@
                                 Movies
                             </a>
                             <ul id="nav-dropdown" class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li><a class="dropdown-item" asp-controller="Movie" asp-action="Popular">Popular</a></li>
-                                <li><a class="dropdown-item" asp-controller="Movie" asp-action="TopRated">Top rated</a></li>
+                                <li><a class="dropdown-item" asp-controller="Movie" asp-action="Popular" asp-route-CurrentPage="1">Popular</a></li>
+                                <li><a class="dropdown-item" asp-controller="Movie" asp-action="TopRated" asp-route-CurrentPage="1">Top rated</a></li>
                                 <li><a class="dropdown-item" asp-controller="Movie" asp-action="UserMovies">My movies</a></li>
                             </ul>
                         </li>
