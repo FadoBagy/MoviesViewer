@@ -446,7 +446,7 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.Popular();
+            var result = movieController.Popular(new PopularViewModel());
 
             Assert.NotNull(result);
         }
@@ -458,7 +458,7 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.Popular();
+            var result = movieController.Popular(new PopularViewModel());
 
             Assert.IsType<ViewResult>(result);
         }
@@ -470,10 +470,10 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.Popular();
+            var result = movieController.Popular(new PopularViewModel());
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<List<PopularMovieResultModule>>(viewResult.Model);
+            Assert.IsType<PopularViewModel>(viewResult.Model);
         }
 
         [Fact]
@@ -483,7 +483,7 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.TopRated();
+            var result = movieController.TopRated(new TopRatedViewModel());
 
             Assert.NotNull(result);
         }
@@ -495,7 +495,7 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.TopRated();
+            var result = movieController.TopRated(new TopRatedViewModel());
 
             Assert.IsType<ViewResult>(result);
         }
@@ -507,10 +507,10 @@
             var service = new MovieService(data);
             var movieController = new MovieController(service);
 
-            var result = movieController.TopRated();
+            var result = movieController.TopRated(new TopRatedViewModel());
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<List<PopularMovieResultModule>>(viewResult.Model);
+            Assert.IsType<TopRatedViewModel>(viewResult.Model);
         }
 
         private ViewMoviesDbContext PrepareDb()
