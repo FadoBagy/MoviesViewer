@@ -340,19 +340,26 @@
 
         [ActionName("Popular")]
         [Route("/Movies/Popular")]
-        public IActionResult Popular()
+        public IActionResult Popular(PopularViewModel model)
         {
-            string mostPopularRequest 
-                = ControllerConstants.BaseUrl + "/discover/movie?sort_by=popularity.desc&" + ControllerConstants.ApiKey;
-            string pages = "api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&page=2&api_key=827b5d3636ed4d470d182016543dc5cf";
+            if (model.CurrentPage <= 0)
+            {
+                model.CurrentPage = 1;
+            }
+			string mostPopularRequest
+				= ControllerConstants.BaseUrl + $"/discover/movie?sort_by=popularity.desc&page={model.CurrentPage}&" + ControllerConstants.ApiKey;
 
-            var movies = new List<PopularMovieResultModule>();
-            CollectMoviesData(mostPopularRequest, movies);
+			var movies = new List<PopularMovieResultModule>();
+			CollectMoviesData(mostPopularRequest, movies);
 
-            return View(movies);
-        }
+			return View(new PopularViewModel
+			{
+				Movies = movies,
+				CurrentPage = model.CurrentPage
+			});
+		}
 
-        [Route("/Movies/TopRated")]
+		[Route("/Movies/TopRated")]
         public IActionResult TopRated()
         {
             string topRatedRequest 

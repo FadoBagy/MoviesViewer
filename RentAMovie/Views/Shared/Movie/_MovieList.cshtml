@@ -5,7 +5,7 @@
 
 <div class="container">
 	<div class="row">
-		@foreach (var movie in Model)
+		@foreach (var movie in Model.Movies)
 		{
 			string rating = "0.0";
 			if (movie.Rating != null)
