@@ -74,6 +74,9 @@
         public string? UserId { get; set; }
         public User? User { get; set; }
 
+        public ICollection<UserMovie> WatchlistedByUsers { get; set; }
+            = new List<UserMovie>();
+
         //public ICollection<string> Images { get; set; } = new List<string>();
     }
 }

@@ -24,9 +24,24 @@
 
         public DbSet<Genre> Genres { get; set; }
 
+        public DbSet<UserMovie> UsersMovies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.SeedGenres();
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.UploadedMovies)
+                .WithOne(m => m.User)
+                .HasForeignKey(m => m.UserId);
+
+            modelBuilder
+                 .Entity<UserMovie>(e =>
+                 {
+                     e.HasKey(um => new { um.UserId, um.MovieId });
+                 });
+
             base.OnModelCreating(modelBuilder);
         }
     }
