@@ -9,7 +9,7 @@ You can clone or download the repository.  After that you should be able to star
 
 ## Contributing
 
-The project is ready and presented, so any contributions is welcome if you find something to fix or add. Or you can also just open a new issue.
+The project is ready and presented, so any contributions are welcome if you find something to fix or add. Or you can also just open a new issue.
 
 ## License
 
