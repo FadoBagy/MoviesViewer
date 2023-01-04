@@ -1,0 +1,9 @@
+﻿@using RentAMovie.Areas.Admin.Models.Movie
+@model List<CardMovieModel>
+
+<h1>My watchlist</h1>
+
+@foreach (var movie in Model)
+{
+	<h3>@movie.Title</h3>
+}

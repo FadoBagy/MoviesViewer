@@ -27,9 +27,17 @@
 
         List<CardMovieModel> GetAllTmdbMovies();
 
+        List<CardMovieModel> GetWatchlistedMovies(string userId);
+
         void AddMovie(Movie movie);
 
         void RemoveMovie(Movie movie);
+
+        void AddToWatchlist(string userId, int movieId);
+
+        void RemoveFromWatchlist(string userId, int movieId);
+
+        bool IsWatchlisted(string userId, int movieId);
 
         Genre GetGenreByName(string name);
 

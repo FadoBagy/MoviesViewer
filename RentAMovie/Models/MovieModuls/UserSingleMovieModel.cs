@@ -38,5 +38,7 @@
         public Review? Review { get; set; }
 
         public User? ReviewOwner { get; set; }
+
+        public bool IsWatchlistedByUser { get; set; }
     }
 }

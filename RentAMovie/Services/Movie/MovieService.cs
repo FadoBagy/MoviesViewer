@@ -1,8 +1,8 @@
 ﻿namespace RentAMovie.Services.Movie
 {
     using Microsoft.EntityFrameworkCore;
-	using RentAMovie.Areas.Admin.Models.Movie;
-	using RentAMovie.Data;
+    using RentAMovie.Areas.Admin.Models.Movie;
+    using RentAMovie.Data;
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.Review;
@@ -111,7 +111,22 @@
 				.ToList();
 		}
 
-		public void AddMovie(Movie movie)
+        public List<CardMovieModel> GetWatchlistedMovies(string userId)
+        {
+            return data.UsersMovies
+                    .Where(um => um.UserId == userId)
+                    .Select(um => new CardMovieModel
+                    {
+                        Id = um.Movie.Id,
+                        TmdbId= um.Movie.TmdbId,
+                        Title = um.Movie.Title,
+                        Poster = um.Movie.Poster,
+                        DatePublished = um.Movie.DatePublished
+                    })
+                    .ToList();
+        }
+
+        public void AddMovie(Movie movie)
         {
             data.Movies.Add(movie);
             data.SaveChanges();
@@ -122,7 +137,38 @@
             data.Movies.Remove(movie);
             data.SaveChanges();
         }
-        
+
+        public void AddToWatchlist(string userId, int movieId)
+        {
+            data.UsersMovies.Add(new UserMovie
+            {
+                UserId = userId,
+                MovieId = movieId
+            });
+            data.SaveChanges();
+        }
+
+        public void RemoveFromWatchlist(string userId, int movieId)
+        {
+            var userMovie = data.UsersMovies
+                .Where(um => um.UserId == userId && um.MovieId == movieId)
+                .FirstOrDefault();
+            data.UsersMovies.Remove(userMovie);
+            data.SaveChanges();
+        }
+
+        public bool IsWatchlisted(string userId, int movieId)
+        {
+            if (data.UsersMovies.Any(um => um.UserId == userId && um.MovieId == movieId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public Genre GetGenreByName(string name)
         {
             return data.Genres.FirstOrDefault(g => g.Name == name);
@@ -194,5 +240,5 @@
         {
             return data.Users.FirstOrDefault(u => u.Id == id);
         }
-	}
+    }
 }

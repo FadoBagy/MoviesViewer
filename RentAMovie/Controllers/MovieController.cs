@@ -221,6 +221,7 @@
         public IActionResult MovieUser(int movieId)
         {
             var movie = service.GetMovie(movieId);
+            var userId = GetCurrentUserId();
             if (movie == null || movie.TmdbId != null)
             {
                 TempData["error"] = "Could not find!";
@@ -243,7 +244,8 @@
                 Trailer = movie.Trailer,
                 Genres = movie.Genres,
                 Review = lastReview,
-                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null
+                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null,
+                IsWatchlistedByUser = service.IsWatchlisted(userId, movieId)
             };
 
             return View(movieModel);
@@ -380,6 +382,62 @@
             });
         }
 
+        [Authorize]
+        [Route("/Watchlist")]
+        public IActionResult UserWatchlist()
+        {
+            var movies = service.GetWatchlistedMovies(GetCurrentUserId());
+            return View(movies);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddToWatchlist(int movieId)
+        {
+            var movie = service.GetMovie(movieId);
+            var userId = GetCurrentUserId();
+
+            if (movie != null)
+            {
+                service.AddToWatchlist(userId, movieId);
+
+                if (movie.TmdbId == null)
+                {
+                    return Redirect($"/Movies/{movieId}");
+                }
+                else
+                {
+                    return Redirect($"/Movies/{movie.TmdbId}-tmdb");
+                }
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult RemoveFromWatchlist(int movieId)
+        {
+            var movie = service.GetMovie(movieId);
+            var userId = GetCurrentUserId();
+
+            if (movie != null)
+            {
+                service.RemoveFromWatchlist(userId, movieId);
+
+                if (movie.TmdbId == null)
+                {
+                    return Redirect($"/Movies/{movieId}");
+                }
+                else
+                {
+                    return Redirect($"/Movies/{movie.TmdbId}-tmdb");
+                }
+            }
+
+            return NotFound();
+        }
+
         private string GetCurrentUserId()
         {
             return User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -408,8 +466,9 @@
                 Crew = GetCrewModels(movie.TmdbId),
                 Genres = movie.Genres,
                 Review = lastReview,
-                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null
-            };
+                ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null,
+                IsWatchlistedByUser = service.IsWatchlisted(GetCurrentUserId(), dbMovie.Id)
+			};
         }
 
         private void CollectMoviesData(string Url, List<PopularMovieResultModule> movies)
