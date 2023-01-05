@@ -111,19 +111,21 @@
 				.ToList();
 		}
 
-        public List<CardMovieModel> GetWatchlistedMovies(string userId)
+        public List<SearchMovieModel> GetWatchlistedMovies(string userId)
         {
             return data.UsersMovies
                     .Where(um => um.UserId == userId)
-                    .Select(um => new CardMovieModel
-                    {
+                    .Select(um => new SearchMovieModel
+					{
                         Id = um.Movie.Id,
                         TmdbId= um.Movie.TmdbId,
                         Title = um.Movie.Title,
-                        Poster = um.Movie.Poster,
-                        DatePublished = um.Movie.DatePublished
+                        PosterPath = um.Movie.Poster,
+                        Rating = um.Movie.Rating.ToString(),
+                        ReleaseDate = um.Movie.DatePublished,
+                        VoteCount = um.Movie.VoteCount
                     })
-                    .OrderByDescending(m => m.DatePublished)
+                    .OrderByDescending(m => m.ReleaseDate)
                     .ToList();
         }
 

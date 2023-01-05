@@ -9,6 +9,7 @@
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Models.PersonModels;
     using RentAMovie.Services.Movie;
+    using RentAMovie.Services.Review;
     using System.Linq;
     using System.Security.Claims;
 
@@ -17,9 +18,11 @@
     public class MovieController : Controller
     {
         private readonly IMovieService service;
-        public MovieController(IMovieService service)
+        private readonly IReviewService reviewService;
+        public MovieController(IMovieService service, IReviewService reviewService)
         {
             this.service = service;
+            this.reviewService = reviewService;
         }
 
         [Authorize]
@@ -245,7 +248,8 @@
                 Genres = movie.Genres,
                 Review = lastReview,
                 ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null,
-                IsWatchlistedByUser = service.IsWatchlisted(userId, movieId)
+                IsWatchlistedByUser = service.IsWatchlisted(userId, movie.Id),
+                ReviewCount = reviewService.GetReviews(movie.Id).Count()
             };
 
             return View(movieModel);
@@ -474,8 +478,9 @@
                 Genres = movie.Genres,
                 Review = lastReview,
                 ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null,
-                IsWatchlistedByUser = service.IsWatchlisted(GetCurrentUserId(), dbMovie.Id)
-			};
+                IsWatchlistedByUser = service.IsWatchlisted(GetCurrentUserId(), dbMovie.Id),
+                ReviewCount = reviewService.GetReviews(dbMovie.Id).Count()
+            };
         }
 
         private void CollectMoviesData(string Url, List<PopularMovieResultModule> movies)

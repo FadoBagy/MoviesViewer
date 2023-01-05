@@ -267,11 +267,13 @@ body .container {
 }
 
 .review-content {
+    position: relative;
     width: 100%;
     padding-left: 20px;
 }
 
 .review-content h5 {
+    max-width: 250px;
     margin: 0;
     font-size: 1.3rem;
 }
@@ -344,6 +346,7 @@ body .container {
 }
 
 .header-controls {
+    position: relative;
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
@@ -435,6 +438,27 @@ body .container {
     opacity: 100%;
 }
 
+#latest-review {
+    position: absolute;
+    right: 0;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    background-color: #212529;
+    color: #f2f2f2;
+    padding: 3px 9px 3px 9px;
+    border-radius: 5px;
+    border-bottom-right-radius: 8px;
+}
+
+#review-count {
+    position: absolute;
+    left: 170px;
+    top: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    opacity: 80%;
+}
+
 @media screen and (max-width: 990px) {
     .container, .main-container {
         max-width: none;
@@ -515,6 +539,11 @@ body .container {
         height: 70px;
         top: 0px;
     }
+
+    #review-count {
+        left: 140px;
+        top: 3px;
+    }
 }
 
 @media screen and (max-width: 573px) {
@@ -531,5 +560,14 @@ body .container {
 
     .info-main {
         margin: 20px 0 0 0;
+    }
+
+    #latest-review {
+        display: none;
+    }
+
+    #review-count {
+        left: 130px;
+        top: 2px;
     }
 }

@@ -27,7 +27,7 @@
 
         List<CardMovieModel> GetAllTmdbMovies();
 
-        List<CardMovieModel> GetWatchlistedMovies(string userId);
+        List<SearchMovieModel> GetWatchlistedMovies(string userId);
 
         void AddMovie(Movie movie);
 

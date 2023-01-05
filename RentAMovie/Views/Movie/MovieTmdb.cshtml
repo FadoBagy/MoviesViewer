@@ -193,7 +193,11 @@
         <hr />
         <div class="reviews">
             <div class="header-controls">
-                <h3>Latest review</h3>
+                @if (Model.ReviewCount > 0)
+                {
+                    <span id="review-count">(@Model.ReviewCount)</span>
+                }
+                <h3>User reviews</h3>
                 <div class="controls">
                     <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Id">
                         <p>View all reviews</p>
@@ -221,6 +225,7 @@
                         <img src="~/images/default-user-icon.png" />
                     }
                     <div class="review-content">
+                        <span id="latest-review">LATEST REVIEW</span>
                         <h5>@reviewUserOwner.UserName</h5>
                         <p class="review-date">Written on @Model.Review.CreationDate.ToString("MMM d, yyyy")</p>
                         @if (!Model.Review.IsSpoiler)

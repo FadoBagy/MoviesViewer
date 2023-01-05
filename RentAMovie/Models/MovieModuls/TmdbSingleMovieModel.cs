@@ -51,5 +51,7 @@
         public User? ReviewOwner { get; set; }
 
 		public bool IsWatchlistedByUser { get; set; }
-	}
+
+        public int ReviewCount { get; set; }
+    }
 }

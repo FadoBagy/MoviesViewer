@@ -8,6 +8,7 @@
     using RentAMovie.Data.Models;
     using RentAMovie.Models.MovieModuls;
     using RentAMovie.Services.Movie;
+    using RentAMovie.Services.Review;
     using RentAMovie.Test.Mocks;
 
     using static TestConstants;
@@ -19,7 +20,8 @@
         {
             using var data = DatabaseMock.Instance;
             var service = new MovieService(data);
-            var movieController = new MovieController(service);
+            var reviewService = new ReviewService(data);
+            var movieController = new MovieController(service, reviewService);
 
             var result = movieController.Create();
 
@@ -30,10 +32,11 @@
         public void CreateShouldReturnCorrectView()
         {
             using var data = DatabaseMock.Instance;
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Create();
+			var result = movieController.Create();
 
             Assert.IsType<ViewResult>(result);
         }
@@ -42,9 +45,10 @@
         public void CreatePostShouldReturnCorrectViewWhenModelStateIsNotValid()
         {
             using var data = DatabaseMock.Instance;
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            movieController.ModelState.AddModelError("Content", "Content is mandatory");
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			movieController.ModelState.AddModelError("Content", "Content is mandatory");
 
             var result = movieController.Create(new FormMovieModule());
 
@@ -58,7 +62,8 @@
         {
             using var data = PrepareDb();
             var service = new MovieService(data);
-            var movieController = new MovieController(service);
+            var reviewService = new ReviewService(data);
+            var movieController = new MovieController(service, reviewService);
 
             var result = movieController.Create(new FormMovieModule 
             {
@@ -82,10 +87,11 @@
         public void CreatePostShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Create(new FormMovieModule
+			var result = movieController.Create(new FormMovieModule
             {
                 Title = "test2",
                 Description = "test2",
@@ -99,10 +105,11 @@
         public void EditShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(1);
+			var result = movieController.Edit(1);
 
             Assert.NotNull(result);
         }
@@ -111,10 +118,11 @@
         public void EditShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(1);
+			var result = movieController.Edit(1);
 
             Assert.IsType<ViewResult>(result);
         }
@@ -123,10 +131,11 @@
         public void EditShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(1);
+			var result = movieController.Edit(1);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<FormMovieModule>(viewResult.Model);
@@ -136,9 +145,10 @@
         public void EditShouldReturnErrorView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            var mockTempData = new Mock<ITempDataDictionary>();
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
             movieController.TempData = mockTempData.Object;
 
             var result = movieController.Edit(2);
@@ -152,9 +162,10 @@
         public void EditPostShouldReturnValidModelWhenModelStateIsNotValid()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            movieController.ModelState.AddModelError("Content", "Content is mandatory");
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			movieController.ModelState.AddModelError("Content", "Content is mandatory");
 
             var result = movieController.Edit(1, new FormMovieModule
             {
@@ -171,10 +182,11 @@
         public void EditPostShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(1, new FormMovieModule
+			var result = movieController.Edit(1, new FormMovieModule
             {
                 Title = "test2",
                 Description = "test2",
@@ -188,10 +200,11 @@
         public void EditPostShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(1, new FormMovieModule
+			var result = movieController.Edit(1, new FormMovieModule
             {
                 Title = "test2",
                 Description = "test2",
@@ -207,9 +220,10 @@
         public void EditPostShouldReturnErrorView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            var mockTempData = new Mock<ITempDataDictionary>();
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
             movieController.TempData = mockTempData.Object;
 
             var result = movieController.Edit(2, new FormMovieModule
@@ -228,10 +242,11 @@
         public void EditPostShouldReturnCorrectViewWhenNoGenres()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Edit(3, new FormMovieModule
+			var result = movieController.Edit(3, new FormMovieModule
             {
                 Title = "test2",
                 Description = "test2",
@@ -247,10 +262,11 @@
         public void DeleteShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Delete(1);
+			var result = movieController.Delete(1);
 
             Assert.NotNull(result);
         }
@@ -259,10 +275,11 @@
         public void DeleteShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Delete(1);
+			var result = movieController.Delete(1);
 
             Assert.IsType<RedirectToActionResult>(result);
         }
@@ -271,9 +288,10 @@
         public void DeleteShouldNotDeleteMovie()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            var mockTempData = new Mock<ITempDataDictionary>();
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
             movieController.TempData = mockTempData.Object;
 
             var result = movieController.Delete(2);
@@ -287,10 +305,11 @@
         public void UserMoviesShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.UserMovies();
+			var result = movieController.UserMovies();
 
             Assert.NotNull(result);
         }
@@ -299,10 +318,11 @@
         public void UserMoviesShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.UserMovies();
+			var result = movieController.UserMovies();
 
             Assert.IsType<ViewResult>(result);
         }
@@ -311,10 +331,11 @@
         public void UserMoviesShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.UserMovies();
+			var result = movieController.UserMovies();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<List<ViewUserMovieCardModel>>(viewResult.Model);
@@ -324,9 +345,10 @@
         public void MovieUserShouldReturnErrorView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            var mockTempData = new Mock<ITempDataDictionary>();
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
             movieController.TempData = mockTempData.Object;
 
             var result = movieController.MovieUser(0);
@@ -340,10 +362,11 @@
         public void MovieUserShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieUser(1);
+			var result = movieController.MovieUser(1);
 
             Assert.NotNull(result);
         }
@@ -352,10 +375,11 @@
         public void MovieUserShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieUser(1);
+			var result = movieController.MovieUser(1);
 
             Assert.IsType<ViewResult>(result);
         }
@@ -364,10 +388,11 @@
         public void MovieUserShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieUser(1);
+			var result = movieController.MovieUser(1);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<UserSingleMovieModel>(viewResult.Model);
@@ -377,10 +402,11 @@
         public void MovieTmdbShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieTmdb(validMovieTmdbId);
+			var result = movieController.MovieTmdb(validMovieTmdbId);
 
             Assert.NotNull(result);
         }
@@ -389,10 +415,11 @@
         public void MovieTmdbShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieTmdb(validMovieTmdbId);
+			var result = movieController.MovieTmdb(validMovieTmdbId);
 
             Assert.IsType<ViewResult>(result);
         }
@@ -401,10 +428,11 @@
         public void MovieTmdbShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieTmdb(validMovieTmdbId);
+			var result = movieController.MovieTmdb(validMovieTmdbId);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<TmdbSingleMovieModel>(viewResult.Model);
@@ -414,10 +442,11 @@
         public void MovieTmdbShouldReturnCorrectViewModelWhenMovieIsThere()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.MovieTmdb(120);
+			var result = movieController.MovieTmdb(120);
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<TmdbSingleMovieModel>(viewResult.Model);
@@ -427,9 +456,10 @@
         public void MovieTmdbShouldReturnErrorView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
-            var mockTempData = new Mock<ITempDataDictionary>();
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
             movieController.TempData = mockTempData.Object;
 
             var result = movieController.MovieTmdb(invalidId);
@@ -443,10 +473,11 @@
         public void PopularShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Popular(new PopularViewModel());
+			var result = movieController.Popular(new PopularViewModel());
 
             Assert.NotNull(result);
         }
@@ -455,10 +486,11 @@
         public void PopularShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Popular(new PopularViewModel());
+			var result = movieController.Popular(new PopularViewModel());
 
             Assert.IsType<ViewResult>(result);
         }
@@ -467,10 +499,11 @@
         public void PopularShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.Popular(new PopularViewModel());
+			var result = movieController.Popular(new PopularViewModel());
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<PopularViewModel>(viewResult.Model);
@@ -480,10 +513,11 @@
         public void TopRatedShouldNotReturnNullView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.TopRated(new TopRatedViewModel());
+			var result = movieController.TopRated(new TopRatedViewModel());
 
             Assert.NotNull(result);
         }
@@ -492,10 +526,11 @@
         public void TopRatedShouldReturnCorrectView()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.TopRated(new TopRatedViewModel());
+			var result = movieController.TopRated(new TopRatedViewModel());
 
             Assert.IsType<ViewResult>(result);
         }
@@ -504,10 +539,11 @@
         public void TopRatedShouldReturnCorrectViewModel()
         {
             using var data = PrepareDb();
-            var service = new MovieService(data);
-            var movieController = new MovieController(service);
+			var service = new MovieService(data);
+			var reviewService = new ReviewService(data);
+			var movieController = new MovieController(service, reviewService);
 
-            var result = movieController.TopRated(new TopRatedViewModel());
+			var result = movieController.TopRated(new TopRatedViewModel());
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<TopRatedViewModel>(viewResult.Model);
