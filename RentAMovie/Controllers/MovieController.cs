@@ -399,15 +399,18 @@
 
             if (movie != null)
             {
-                service.AddToWatchlist(userId, movieId);
+                if (service.IsWatchlisted(userId, movieId) == false)
+                {
+                    service.AddToWatchlist(userId, movieId);
+                }
 
                 if (movie.TmdbId == null)
                 {
-                    return Redirect($"/Movies/{movieId}");
+                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId });
                 }
                 else
                 {
-                    return Redirect($"/Movies/{movie.TmdbId}-tmdb");
+                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId });
                 }
             }
 
@@ -423,15 +426,19 @@
 
             if (movie != null)
             {
-                service.RemoveFromWatchlist(userId, movieId);
+                if (service.IsWatchlisted(userId, movieId) == true)
+                {
+                    service.RemoveFromWatchlist(userId, movieId);
+
+                }
 
                 if (movie.TmdbId == null)
                 {
-                    return Redirect($"/Movies/{movieId}");
+                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId });
                 }
                 else
                 {
-                    return Redirect($"/Movies/{movie.TmdbId}-tmdb");
+                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId });
                 }
             }
 

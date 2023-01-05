@@ -97,21 +97,6 @@ main .container {
     color: #212529;
 }
 
-.info {
-    position: absolute;
-    width: 20px;
-    bottom: 10px;
-    right: 10px;
-    cursor: pointer;
-
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
 #dark {
     display: none;
     position: absolute;
@@ -120,13 +105,6 @@ main .container {
     background-color: #212529;
     z-index: 100;
     opacity: 30%;
-}
-
-.info-tab {
-    width: 500px;
-    height: 500px;
-    background-color: darkslateblue;
-    z-index: 101;
 }
 
 .top-nav {

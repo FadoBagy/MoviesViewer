@@ -40,6 +40,7 @@ body .container {
 }
 
 .info-img {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -395,14 +396,43 @@ body .container {
     margin-left: 5px;
 }
 
-.crew-person a{
+.crew-person a {
     color: #f2f2f2;
     text-decoration: none;
     transition: 100ms;
 }
 
-.crew-person a:hover{
+.crew-person a:hover {
     color: #0079FF;
+}
+
+.bookmark-form {
+    position: absolute;
+    width: 60px;
+    height: 80px;
+    left: 0;
+    top: 25px;
+    cursor: pointer;
+}
+
+.bookmark-form input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    opacity: 0%;
+    z-index: 10;
+}
+
+.bookmark {
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 85%;
+    transition: 150ms;
+}
+
+.bookmark-form:hover .bookmark {
+    opacity: 100%;
 }
 
 @media screen and (max-width: 990px) {
@@ -478,6 +508,12 @@ body .container {
     .info-main {
         height: fit-content;
         margin: 50px 10px 50px 0;
+    }
+
+    .bookmark-form {
+        width: 50px;
+        height: 70px;
+        top: 0px;
     }
 }
 

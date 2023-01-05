@@ -39,14 +39,16 @@
 
             @if (Model.IsWatchlistedByUser == false)
             {
-                <form asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
-                    <input type="submit" value="Add" />
+                <form class="bookmark-form" asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
+                    <input type="submit" />
+                    <img class="bookmark" src="~/images/bookmark/bookmark.png" />
                 </form>
             }
             else
             {
-                <form asp-controller="Movie" asp-action="RemoveFromWatchlist" asp-route-movieId="@Model.Id">
-                    <input type="submit" value="Remove" />
+                <form class="bookmark-form" asp-controller="Movie" asp-action="RemoveFromWatchlist" asp-route-movieId="@Model.Id">
+                    <input type="submit" />
+                    <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
                 </form>
             }
         </div>

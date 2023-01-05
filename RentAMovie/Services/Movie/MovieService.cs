@@ -123,6 +123,7 @@
                         Poster = um.Movie.Poster,
                         DatePublished = um.Movie.DatePublished
                     })
+                    .OrderByDescending(m => m.DatePublished)
                     .ToList();
         }
 
