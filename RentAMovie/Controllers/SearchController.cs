@@ -49,5 +49,11 @@
             query.AvailableGenres = service.GetAllGenres();
             return View(query);
         }
+
+        //[HttpPost]
+        //public IActionResult IndexRedirect()
+        //{
+        //    return RedirectToAction("Index", "Search", new SearchQueryModel { SearchTerm = "a" });
+        //}
     }
 }

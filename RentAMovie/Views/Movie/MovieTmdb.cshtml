@@ -1,4 +1,5 @@
-﻿@model TmdbSingleMovieModel
+﻿@inject SignInManager<User> SignInManager
+@model TmdbSingleMovieModel
 @{
     ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
@@ -39,10 +40,20 @@
 
             @if (Model.IsWatchlistedByUser == false)
             {
-                <form class="bookmark-form" asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
-                    <input type="submit" />
-                    <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-                </form>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <form class="bookmark-form" asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
+                        <input type="submit" />
+                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+                    </form>
+                }
+                else
+                {
+                    <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
+                        <input type="submit" />
+                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+                    </form>
+                }
             }
             else
             {

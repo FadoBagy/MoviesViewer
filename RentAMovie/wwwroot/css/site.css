@@ -73,10 +73,6 @@ img {
     gap: 2px;
 }
 
-/*.nav-link::after {
-    transform: rotate(270deg);
-}*/
-
 #nav-dropdown {
     background-color: #021632 !important;
 }
