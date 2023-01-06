@@ -5,13 +5,20 @@
     string posterPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     bool firstSlide = true;
 }
-
-<div style="background-color: #ff6459; border-radius: 5px;">
-    @if (TempData["error"] != null)
-    {
-        <p style="text-align: center; color: #f2f2f2; padding: 5px; font-size: 1.1rem;">@TempData["error"]</p>
-    }
-</div>
+@if (TempData["error"] != null)
+{
+    <div class="red-alert">
+        <p>@TempData["error"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
+@if (TempData["created"] != null)
+{
+    <div class="green-alert">
+        <p>@TempData["created"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
 
 <div class="hero">
     <h3>Get into the world of <spam class="animation">movies</spam></h3>
@@ -97,4 +104,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/home.css" />
+    <link rel="stylesheet" href="~/css/alert/alert.css" />
+}
+@section Scripts {
+    <script src="~/js/alert/alert.js"></script>
 }

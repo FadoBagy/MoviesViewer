@@ -4,6 +4,21 @@
 	string ratingColor;
 }
 
+@if (TempData["delete"] != null)
+{
+    <div class="green-alert">
+        <p>@TempData["delete"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
+@if (TempData["edit"] != null)
+{
+    <div class="green-alert">
+		<p>@TempData["edit"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
+
 <div class="row">
 	@if (Model != null && Model.Count() > 0)
 	{
@@ -76,4 +91,8 @@
 @section Styles {
 	<link rel="stylesheet" href="~/css/movies.css" />
 	<link rel="stylesheet" href="~/css/userMovies.css" />
+	<link rel="stylesheet" href="~/css/alert/alert.css" />
+}
+@section Scripts {
+	<script src="~/js/alert/alert.js"></script>
 }

@@ -40,6 +40,10 @@ img {
     z-index: 10;
 }
 
+.container-fluid {
+    padding: 0 50px 0 50px;
+}
+
 .navbar-brand {
     padding-top: 0;
 }
@@ -61,6 +65,17 @@ img {
     width: 26.25px;
     height: 26.25px;
 }
+
+.nav-link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2px;
+}
+
+/*.nav-link::after {
+    transform: rotate(270deg);
+}*/
 
 #nav-dropdown {
     background-color: #021632 !important;
@@ -98,5 +113,9 @@ footer a:hover {
 @media screen and (max-width: 573px) {
     footer {
         text-align: center;
+    }
+
+    .container-fluid {
+        padding: 0 10px 0 10px;
     }
 }

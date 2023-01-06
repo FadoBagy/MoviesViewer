@@ -5,6 +5,21 @@
 	string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 
+@if (TempData["delete"] != null)
+{
+    <div class="green-alert">
+        <p>@TempData["delete"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
+@if (TempData["edit"] != null)
+{
+    <div class="green-alert">
+		<p>@TempData["edit"]</p>
+        <img src="~/images/button/x.png" />
+    </div>
+}
+
 <h3>User uploaded moives</h3>
 <div class="moives">
 	@if (Model.UsersMovies != null && Model.UsersMovies.Count() > 0)
@@ -92,4 +107,8 @@
 
 @section Styles {
 	<link rel="stylesheet" href="~/css/admin/movies.css" />
+	<link rel="stylesheet" href="~/css/alert/alert.css" />
+}
+@section Scripts {
+	<script src="~/js/alert/alert.js"></script>
 }

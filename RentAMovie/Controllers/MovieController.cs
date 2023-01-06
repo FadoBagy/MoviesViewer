@@ -75,7 +75,8 @@
 
             service.AddMovie(newMovie);
 
-            return RedirectToAction("Index", "Home");
+			TempData["created"] = "Movie created successfully, wait for approval!";
+			return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
@@ -180,7 +181,8 @@
 
             service.SaveChanges();
 
-            if (User.IsAdmin())
+			TempData["edit"] = "Movie edit successfully saved!";
+			if (User.IsAdmin())
             {
 				return RedirectToAction("Index", "Movie", new { area =  AdministratorAreaName});
 			}
@@ -204,7 +206,8 @@
                 service.RemoveMovie(movie);
             }
 
-			if (User.IsAdmin())
+            TempData["delete"] = "Movie deleted successfully!";
+            if (User.IsAdmin())
 			{
 				return RedirectToAction("Index", "Movie", new { area = AdministratorAreaName });
 			}
