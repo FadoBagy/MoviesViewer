@@ -3,6 +3,7 @@
     using RentAMovie.Areas.Admin.Models.Movie;
     using RentAMovie.Data;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class HomeService : IHomeService
     {
@@ -58,6 +59,7 @@
         {
             return data.UsersMovies
                 .Where(um => um.UserId == userId)
+                .OrderByDescending(um => um.Movie.Rating)
                 .Select(um => new CardMovieModel
                 {
                     Id = um.Movie.Id,
