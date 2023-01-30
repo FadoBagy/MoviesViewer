@@ -45,3 +45,31 @@
     font-size: 1.8rem;
     color: #0D4C92 !important;
 }
+
+.validation-summary-errors ul {
+    list-style: none;
+}
+
+.secondary-redirect {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.secondary-redirect p {
+    margin: 0;
+    color: #000000ff !important; 
+    margin-right: 10px;
+}
+
+.secondary-redirect a {
+    color: #0D4C92 !important; 
+    padding: 0;
+    font-weight: 500;
+    transition: 100ms;
+}
+
+.secondary-redirect a:hover {
+    color: #0079FF !important;
+}

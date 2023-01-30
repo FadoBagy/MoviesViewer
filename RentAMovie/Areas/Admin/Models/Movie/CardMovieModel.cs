@@ -10,6 +10,8 @@
 
 		public string? Poster { get; set; }
 
-		public DateTime? DatePublished { get; set; }
+        public string? Rating { get; set; }
+
+        public DateTime? DatePublished { get; set; }
 	}
 }

@@ -5,12 +5,12 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Welcome back!</h1>
 <div class="row form-container">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h2>Sign in to an existing account.</h2>
+                <h2>Sign in to your account</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
@@ -27,6 +27,10 @@
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
                 </div>
             </form>
+            <div class="secondary-redirect">
+                <p>Don't have an account yet?</p>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Sign up now</a>
+            </div>
         </section>
     </div>
 </div>

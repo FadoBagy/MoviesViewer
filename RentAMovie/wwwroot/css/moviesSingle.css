@@ -184,9 +184,8 @@ body .container {
 
 .media-scroller {
     display: grid;
-    gap: 1.3rem;
+    gap: 5px;
     grid-auto-flow: column;
-    grid-auto-columns: 13%;
     overflow-x: auto;
     padding: 10px;
 }
@@ -210,6 +209,7 @@ body .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }
 
 .more-actors a {
@@ -464,10 +464,6 @@ body .container {
         max-width: none;
         width: 100%;
         padding: 0;
-    }
-
-    .media-scroller {
-        gap: 90px;
     }
 }
 

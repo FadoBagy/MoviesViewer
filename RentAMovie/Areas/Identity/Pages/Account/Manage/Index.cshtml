@@ -32,28 +32,22 @@
             }
             <div class="user-details">
                 <p class="username">@User?.Identity?.Name</p>
-                @if (differenceInYear == 1 && yearsFromCreation > 0)
-                {
-                    <p class="date">
-                        Member for @yearsFromCreation @(yearsFromCreation > 1 ? "years" : "year")@(differenceInYear > 0 ? ", " + differenceInYear : "") month
-                    </p>
-                }
-                else if (differenceInYear > 1 && yearsFromCreation > 0)
-                {
-                    <p class="date">
-                        Member for @yearsFromCreation @(yearsFromCreation > 1 ? "years" : "year")@(differenceInYear > 0 ? ", " + differenceInYear : "") months
-                    </p>
-                }
-                else if (yearsFromCreation <= 0 && monthsFromCreation <= 0)
+                @if (yearsFromCreation <= 0 && monthsFromCreation <= 0)
                 {
                     <p class="date">
                         Member for @daysFromCreation @(daysFromCreation > 1 ? "days" : "day")
                     </p>
                 }
-                else
+                else if (monthsFromCreation > 0 && monthsFromCreation <= 12)
                 {
                     <p class="date">
                         Member for @monthsFromCreation @(monthsFromCreation > 1 ? "months" : "month")
+                    </p>
+                }
+                else if (yearsFromCreation > 0)
+                {
+                    <p class="date">
+                        Member for @yearsFromCreation @(yearsFromCreation > 1 ? "years" : "year")@(differenceInYear > 0 ? $", {differenceInYear} months" : "")
                     </p>
                 }
             </div>

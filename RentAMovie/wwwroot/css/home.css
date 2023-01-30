@@ -1,20 +1,15 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Patrick+Hand&family=Quicksand&display=swap');
 
 #carouselExampleCaptions {
-    width: 80%;
+    width: 100%;
     margin: auto;
+    margin: 0;
 }
 
 .carousel-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 80px;
-}
-
-#carouselExampleCaptions {
-    margin: 0;
-    max-width: 800px;
 }
 
 .carousel-inner {
@@ -24,6 +19,10 @@
 .carousel-item a {
     color: #fff;
     text-decoration: none;
+}
+
+.carousel-item a:hover {
+    color: #1f7aff;
 }
 
 .carouselImg {
@@ -37,18 +36,11 @@
     filter: brightness(50%);
 }
 
-.carousel-item a:hover {
-    color: #1f7aff;
-}
-
 .hero {
+    position: relative;
     width: 100%;
     height: 50vh;
-    background-image: linear-gradient(
-        to bottom, 
-        #021632, 
-        #4E56A4
-    );
+    min-height: 230px;
     color: #F2F2F2;
     display: flex;
     justify-content: center;
@@ -56,7 +48,32 @@
     flex-direction: column;
     text-align: center;
     padding: 10px;
+}
+
+.hero img {
+    position: absolute;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
     border-radius: 15px;
+    filter: blur(1.3px);
+}
+
+.background-color {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-image: linear-gradient(
+        to bottom, 
+        #021632, 
+        #4E56A4
+    );
+    z-index: -1;
+    opacity: 80%;
+    border-radius: 15px;
+    filter: brightness(30%);
 }
 
 .hero h3 {
@@ -106,11 +123,11 @@
 }
 
 .tab-sections {
-    margin-top: 80px;
+    margin-top: 50px;
     padding: 10px;
     display: flex;
     flex-direction: column;
-    row-gap: 50px;
+    row-gap: 30px;
 }
 
 .tab {
@@ -149,13 +166,83 @@
     font-size: 1.3rem;
 }
 
+.featured-section,
+.featured-section-carousel {
+    margin-top: 50px;
+}
+
+.featured-section h2,
+.featured-section-carousel h2 {
+    margin-bottom: 10px;
+    border-left: 5px solid #0D4C92;
+    border-radius: 4px;
+    padding-left: 10px;
+}
+
+.featured-cards {
+    display: grid;
+    gap: 0px;
+    grid-auto-flow: column;
+    overflow: scroll;
+    padding: 10px;
+}
+
+.featured-cards::-webkit-scrollbar-track {
+    padding: 2px 0;
+    background-color: inherit;
+}
+
+.featured-cards::-webkit-scrollbar {
+    height: 10px;
+}
+
+.featured-cards::-webkit-scrollbar-thumb {
+    height: 2px;
+    border-radius: 5px;
+    background-color: #0D4C92;
+}
+
+@media screen and (max-width: 990px) {
+    .featured-cards::-webkit-scrollbar-track {
+        padding: 0;
+        background-color: inherit;
+    }
+
+    .featured-cards::-webkit-scrollbar {
+        height: 0;
+    }
+
+    .featured-cards::-webkit-scrollbar-thumb {
+        height: 0;
+        border-radius: 0;
+        background-color: inherit;
+    }
+}
+
 @media screen and (max-width: 573px) {
     .container {
         margin: 0;
         padding: 0;
     }
 
+    .container main {
+        margin: 0;
+    }
+
+    .hero img {
+        border-radius: 0;
+    }
+
+    .background-color {
+        border-radius: 0;
+    }
+
     .tab-sections {
         padding: 0;
+    }
+
+    .featured-section,
+    .featured-section-carousel {
+        padding: 10px;
     }
 }
