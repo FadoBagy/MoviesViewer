@@ -505,7 +505,7 @@
                             var newPopularMovie = new Movie
                             {
                                 Title = movie.Title,
-                                Description = movie.Description,
+                                Description = movie.Description.Length > 800 ? movie.Description[..800] : movie.Description,
                                 DatePublished = movie.ReleaseDate,
                                 Poster = movie.PosterPath,
                                 Rating = float.Parse(movie.Rating),
@@ -564,7 +564,7 @@
                 var newTmdbMovie = new Movie
                 {
                     Title = movieData.Title,
-                    Description = movieData.Description,
+                    Description = movieData.Description.Length > 800 ? movieData.Description[..800] : movieData.Description,
                     DatePublished = movieData.ReleaseDate,
                     Poster = movieData.PosterPath,
                     Rating = float.Parse(movieData.Rating),
