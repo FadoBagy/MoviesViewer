@@ -92,7 +92,10 @@
                     }
                     else
                     {
-                        <p>@(DateTime.Parse(dateOfBirth).ToString("dd-MM-yyyy") + $" ({DateTime.UtcNow.Year - DateTime.Parse(dateOfBirth).Year} years old)")</p>
+                        <p>
+                            @(DateTime.Parse(dateOfBirth).ToString("dd-MM-yyyy") + 
+                                $" ({Math.Floor((decimal)(DateTime.UtcNow.Subtract(DateTime.Parse(dateOfBirth)).Days / 365))} years old)")
+                        </p>
                     }
                 </div>
             }

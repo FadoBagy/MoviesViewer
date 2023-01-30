@@ -12,7 +12,7 @@
     var userMovies = service.GetUserMoviesForProfile(currentUser.Id);
     var userLastReview = service.GetLastUserReview(currentUser.Id);
 
-    var yearsFromCreation = DateTime.UtcNow.Year - currentUser.DateCreated.Year;
+    var yearsFromCreation = Math.Floor((decimal)(DateTime.UtcNow.Subtract(currentUser.DateCreated).Days / 365));
     var monthsFromCreation = ((DateTime.UtcNow.Year - currentUser.DateCreated.Year) * 12) + DateTime.UtcNow.Month - currentUser.DateCreated.Month;
     var daysFromCreation = (DateTime.UtcNow - currentUser.DateCreated).Days;
     var differenceInYear = monthsFromCreation - (yearsFromCreation * 12);
@@ -47,7 +47,7 @@
                 else if (yearsFromCreation > 0)
                 {
                     <p class="date">
-                        Member for @yearsFromCreation @(yearsFromCreation > 1 ? "years" : "year")@(differenceInYear > 0 ? $", {differenceInYear} months" : "")
+                        Member for @yearsFromCreation @(yearsFromCreation > 1 ? "years" : "year")@(differenceInYear > 0 ? $", {differenceInYear} " + (differenceInYear > 1 ? "months" : "month") : "")
                     </p>
                 }
             </div>
