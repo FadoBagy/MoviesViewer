@@ -69,10 +69,12 @@
 					<h6>@(movie.ReleaseDate != null ? movie.ReleaseDate.Value.ToString("MMM dd, yyyy") : "-")</h6>
 				</div>
 				<div class="user-controls">
-					<a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">Edit</a>
+					<a asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary">
+						Change details
+					</a>
 					<form class="mt-2" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
 						<div class="d-grid gap-2">
-							<input type="submit" value="Delete" class="btn btn-danger mb-2"
+							<input type="submit" value="Delete permanently" class="btn btn-danger mb-2"
 						   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
 						</div>
 					</form>
