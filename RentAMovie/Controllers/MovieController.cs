@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Routing;
     using Microsoft.CodeAnalysis;
     using Newtonsoft.Json;
     using RentAMovie.Data.Models;
@@ -223,8 +224,8 @@
             return View(userMovies);
         }
 
-        [Route("/Movies/{movieId}")]
-        public IActionResult MovieUser(int movieId)
+        [Route("/Movies/{movieId}/{movieInfo?}")]
+        public IActionResult MovieUser(int movieId, string movieInfo)
         {
             var movie = service.GetMovie(movieId);
             var userId = GetCurrentUserId();
@@ -244,7 +245,7 @@
                 Runtime = movie.Runtime,
                 Revenue = movie.Revenue,
                 Budget = movie.Budget,
-                DatePublished = movie.DatePublished,
+                ReleaseDate = movie.DatePublished,
                 Poster = movie.Poster,
                 BackdropPath = movie.BackdropPath,
                 Trailer = movie.Trailer,
@@ -255,11 +256,26 @@
                 ReviewCount = reviewService.GetReviews(movie.Id).Count()
             };
 
+            int? publishYear;
+            if (movieModel.ReleaseDate != null)
+            {
+                publishYear = movieModel.ReleaseDate.Value.Year;
+            }
+            else
+            {
+                publishYear = null;
+            }
+
+            if (movieInfo != WebUtilities.SimplifyMovieUrlInformation(movieModel.Title, publishYear))
+            {
+                return BadRequest();
+            }
+
             return View(movieModel);
         }
 
-        [Route("/Movies/{id}-tmdb")]
-        public IActionResult MovieTmdb(int id)
+        [Route("/Movies/{id}-tmdb/{movieInfo?}")]
+        public IActionResult MovieTmdb(int id, string movieInfo)
         {
             var movieDataRequest 
                 = ControllerConstants.BaseUrl + $"/movie/{id}?" + ControllerConstants.ApiKey;
@@ -273,6 +289,11 @@
                 var json = result.Content.ReadAsStringAsync().Result;
 
                 var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
+
+                if (movieInfo != WebUtilities.SimplifyMovieUrlInformation(movieData.Title, movieData.ReleaseDate.Value.Year))
+                {
+                    return BadRequest();
+                }
 
                 try
                 {
@@ -399,7 +420,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult AddToWatchlist(int movieId)
+        public IActionResult AddToWatchlist(int movieId, string movieInfo)
         {
             var movie = service.GetMovie(movieId);
             var userId = GetCurrentUserId();
@@ -413,11 +434,11 @@
 
                 if (movie.TmdbId == null)
                 {
-                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId });
+                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId, movieInfo = movieInfo });
                 }
                 else
                 {
-                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId });
+                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId, movieInfo = movieInfo });
                 }
             }
 
@@ -426,7 +447,7 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult RemoveFromWatchlist(int movieId)
+        public IActionResult RemoveFromWatchlist(int movieId, string movieInfo)
         {
             var movie = service.GetMovie(movieId);
             var userId = GetCurrentUserId();
@@ -441,11 +462,11 @@
 
                 if (movie.TmdbId == null)
                 {
-                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId });
+                    return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId, movieInfo = movieInfo });
                 }
                 else
                 {
-                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId });
+                    return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId, movieInfo = movieInfo });
                 }
             }
 

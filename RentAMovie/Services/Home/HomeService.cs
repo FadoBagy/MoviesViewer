@@ -49,7 +49,8 @@
                         TmdbId = m.TmdbId,
                         Poster = m.Poster,
                         Title = m.Title,
-                        Rating = (m.Rating).ToString()
+                        Rating = (m.Rating).ToString(),
+                        DatePublished = m.DatePublished
                     })
                     .Take(20)
                     .ToList();
@@ -66,7 +67,8 @@
                     TmdbId = um.Movie.TmdbId,
                     Title = um.Movie.Title,
                     Poster = um.Movie.Poster,
-                    Rating = (um.Movie.Rating).ToString()
+                    Rating = (um.Movie.Rating).ToString(),
+                    DatePublished = um.Movie.DatePublished
                 })
                 .Take(15)
                 .ToList();

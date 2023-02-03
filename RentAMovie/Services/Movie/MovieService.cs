@@ -120,7 +120,7 @@
                         Id = um.Movie.Id,
                         TmdbId= um.Movie.TmdbId,
                         Title = um.Movie.Title,
-                        PosterPath = um.Movie.Poster,
+                        Poster = um.Movie.Poster,
                         Rating = um.Movie.Rating.ToString(),
                         ReleaseDate = um.Movie.DatePublished,
                         VoteCount = um.Movie.VoteCount

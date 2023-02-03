@@ -5,6 +5,17 @@
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     string posterPath = "https://image.tmdb.org/t/p/w500";
 }
+@{
+    int? yearPublished;
+    if (Model.Movie.DatePublished != null)
+    {
+        yearPublished = Model.Movie.DatePublished.Value.Year;
+    }
+    else
+    {
+        yearPublished = null;
+    }
+}
 
 <div class="header-info">
     @if (Model.Movie.Poster != null)
@@ -52,13 +63,21 @@
 
         @if (Model.Movie.TmdbId != null)
         {
-            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@Model.Movie.TmdbId">
+            <a 
+            asp-controller="Movie"
+            asp-action="MovieTmdb"
+            asp-route-id="@Model.Movie.TmdbId"
+            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, yearPublished)">
                 Back to movie
             </a>
         }
         else
         {
-            <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@Model.Movie.Id">
+            <a 
+            asp-controller="Movie" 
+            asp-action="MovieUser"
+            asp-route-movieId="@Model.Movie.Id"
+            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, yearPublished)">
                 Back to movie
             </a>
         }
@@ -97,8 +116,8 @@
     {
         <p id="no-actors">No actors available</p>
     }
-    
 </div>
+
 @section Styles {
     <link rel="stylesheet" href="~/css/reviews.css" />
     <link rel="stylesheet" href="~/css/person/castList.css" />

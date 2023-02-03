@@ -173,8 +173,22 @@
         <div class="movies">
             @foreach (var movie in Model.Movies)
             {
+                int? yearPublished;
+                if (movie.DatePublished != null)
+                {
+                    yearPublished = movie.DatePublished.Value.Year;
+                }
+                else
+                {
+                    yearPublished = null;
+                }
+                
                 <div class="movie-item">
-                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                    <a 
+                    asp-controller="Movie" 
+                    asp-action="MovieTmdb" 
+                    asp-route-id="@movie.TmdbId"
+                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, yearPublished)">
                         @if (movie.Poster != null)
                         {
                             <img src="@(posterPath + movie.Poster)" alt="@movie.Title poster" />
@@ -185,7 +199,11 @@
                             <img src="~/images/default-poster1.png" />
                         }
                     </a>
-                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                    <a 
+                    asp-controller="Movie" 
+                    asp-action="MovieTmdb" 
+                    asp-route-id="@movie.TmdbId"
+                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, yearPublished)">
                         <p>
                             @movie.Title
                         </p>

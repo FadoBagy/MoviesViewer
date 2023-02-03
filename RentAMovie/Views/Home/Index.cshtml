@@ -3,8 +3,6 @@
 @{
     ViewData["Title"] = "Home";
     string posterPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-    string posterPathCard = "https://image.tmdb.org/t/p/w500";
-    string ratingColor;
     bool firstSlide = true;
 }
 @if (TempData["error"] != null)
@@ -33,49 +31,7 @@
     <div class="featured-cards">
         @foreach (var movie in Model.NowPlayingMovies)
         {
-            string rating = "0.0";
-            if (movie.Rating != null)
-            {
-                rating = movie.Rating;
-            }
-
-            if (float.Parse(rating) >= 8)
-            {
-                ratingColor = "green";
-            }
-            else if (float.Parse(rating) >= 5)
-            {
-                ratingColor = "orange";
-            }
-            else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-            {
-                ratingColor = "red";
-            }
-            else
-            {
-                ratingColor = "black";
-            }
-
-            <div class="card">
-                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-                        @if (movie.PosterPath != null)
-                        {
-                        <img src="@(movie.TmdbId != null ? posterPathCard + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
-                        }
-                        else
-                        {
-                            <img src="~/images/default-poster1.png" />
-                        }
-                    </a>
-                <div class="card-body">
-                    <div class="rating @ratingColor">
-                        <p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
-                    </div>
-                    <h5 class="card-title">
-                        <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
-                    </h5>
-                </div>
-            </div>
+            <partial name="~/Views/Shared/Movie/_MovieSingleCardTmdb.cshtml" model="movie" />
         }
     </div>
 </div>
@@ -120,11 +76,19 @@
                     {
                         firstSlide = false;
                         <div class="carousel-item active">
-                            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                            <a 
+                                asp-controller="Movie" 
+                                asp-action="MovieTmdb" 
+                                asp-route-id="@movie.TmdbId"
+                                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
                                 <div class="carouselImg" style="background-image: url(@(posterPath + movie.PosterPath));"></div>
                             </a>
                             <div class="carousel-caption d-none d-md-block">
-                                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                                <a 
+                                    asp-controller="Movie" 
+                                    asp-action="MovieTmdb" 
+                                    asp-route-id="@movie.TmdbId"
+                                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
                                     <h5>@movie.Title (@movie.ReleaseDate.ToString("yyy"))</h5>
                                 </a>
                                 <p>@movie.Description.Substring(0, 200)...</p>
@@ -134,11 +98,19 @@
                     else
                     {
                         <div class="carousel-item">
-                            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                            <a 
+                                asp-controller="Movie"
+                                asp-action="MovieTmdb"
+                                asp-route-id="@movie.TmdbId"
+                                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
                                 <div class="carouselImg" style="background-image: url(@(posterPath + movie.PosterPath));"></div>
                             </a>
                             <div class="carousel-caption d-none d-md-block">
-                                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
+                                <a 
+                                    asp-controller="Movie" 
+                                    asp-action="MovieTmdb" 
+                                    asp-route-id="@movie.TmdbId"
+                                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
                                     <h5>@movie.Title (@movie.ReleaseDate.ToString("yyy"))</h5>
                                 </a>
                                 <p>@movie.Description.Substring(0, 200)...</p>
@@ -163,49 +135,7 @@
     <div class="featured-cards">
         @foreach (var movie in Model.TrendingMovies)
         {
-            string rating = "0.0";
-            if (movie.Rating != null)
-            {
-                rating = movie.Rating;
-            }
-
-            if (float.Parse(rating) >= 8)
-            {
-                ratingColor = "green";
-            }
-            else if (float.Parse(rating) >= 5)
-            {
-                ratingColor = "orange";
-            }
-            else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-            {
-                ratingColor = "red";
-            }
-            else
-            {
-                ratingColor = "black";
-            }
-
-            <div class="card">
-                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-                        @if (movie.PosterPath != null)
-                        {
-                            <img src="@(movie.TmdbId != null ? posterPathCard + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
-                        }
-                        else
-                        {
-                            <img src="~/images/default-poster1.png" />
-                        }
-                    </a>
-                <div class="card-body">
-                    <div class="rating @ratingColor">
-                        <p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
-                    </div>
-                    <h5 class="card-title">
-                        <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
-                    </h5>
-                </div>
-            </div>
+            <partial name="~/Views/Shared/Movie/_MovieSingleCardTmdb.cshtml" model="movie" />
         }
     </div>
 </div>
@@ -214,72 +144,7 @@
     <div class="featured-cards">
         @foreach (var movie in Model.LatestMovies)
         {
-            string rating = "0.0";
-            if (movie.Rating != null)
-            {
-                rating = movie.Rating;
-            }
-
-            if (float.Parse(rating) >= 8)
-            {
-                ratingColor = "green";
-            }
-            else if (float.Parse(rating) >= 5)
-            {
-                ratingColor = "orange";
-            }
-            else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-            {
-                ratingColor = "red";
-            }
-            else
-            {
-                ratingColor = "black";
-            }
-
-            <div class="card">
-                @if (movie.TmdbId != null)
-                {
-                    <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-                        @if (movie.Poster != null)
-                        {
-                            <img src="@(movie.TmdbId != null ? posterPathCard + movie.Poster : movie.Poster)" class="card-img-top" alt="@movie.Title poster">
-                        }
-                        else
-                        {
-                            <img src="~/images/default-poster1.png" />
-                        }
-                    </a>
-                }
-                else
-                {
-                    <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
-                        @if (movie.Poster != null)
-                        {
-                            <img src="@(movie.TmdbId != null ? posterPathCard + movie.Poster : movie.Poster)" class="card-img-top" alt="@movie.Title poster">
-                        }
-                        else
-                        {
-                            <img src="~/images/default-poster1.png" />
-                        }
-                    </a>
-                }
-                <div class="card-body">
-                    <div class="rating @ratingColor">
-                        <p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
-                    </div>
-                    <h5 class="card-title">
-                        @if (movie.TmdbId != null)
-                        {
-                            <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
-                        }
-                        else
-                        {
-                            <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
-                        }
-                    </h5>
-                </div>
-            </div>
+            <partial name="~/Views/Shared/Movie/_MovieSingleCardMixed.cshtml" model="movie" />
         }
     </div>
 </div>
@@ -290,72 +155,7 @@
         <div class="featured-cards">
             @foreach (var movie in Model.WatchlistMovies)
             {
-                string rating = "0.0";
-                if (movie.Rating != null)
-                {
-                    rating = movie.Rating;
-                }
-
-                if (float.Parse(rating) >= 8)
-                {
-                    ratingColor = "green";
-                }
-                else if (float.Parse(rating) >= 5)
-                {
-                    ratingColor = "orange";
-                }
-                else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-                {
-                    ratingColor = "red";
-                }
-                else
-                {
-                    ratingColor = "black";
-                }
-
-                <div class="card">
-                    @if (movie.TmdbId != null)
-                    {
-                        <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">
-                            @if (movie.Poster != null)
-                            {
-                                <img src="@(movie.TmdbId != null ? posterPathCard + movie.Poster : movie.Poster)" class="card-img-top" alt="@movie.Title poster">
-                            }
-                            else
-                            {
-                                <img src="~/images/default-poster1.png" />
-                            }
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
-                            @if (movie.Poster != null)
-                            {
-                                <img src="@(movie.TmdbId != null ? posterPathCard + movie.Poster : movie.Poster)" class="card-img-top" alt="@movie.Title poster">
-                            }
-                            else
-                            {
-                                <img src="~/images/default-poster1.png" />
-                            }
-                        </a>
-                    }
-                    <div class="card-body">
-                        <div class="rating @ratingColor">
-                            <p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
-                        </div>
-                        <h5 class="card-title">
-                            @if (movie.TmdbId != null)
-                            {
-                                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@movie.TmdbId">@movie.Title</a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
-                            }
-                        </h5>
-                    </div>
-                </div>
+                <partial name="~/Views/Shared/Movie/_MovieSingleCardMixed.cshtml" model="movie" />
             }
         </div>
     </div>

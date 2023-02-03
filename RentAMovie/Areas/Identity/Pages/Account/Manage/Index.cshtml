@@ -1,6 +1,7 @@
 ﻿@page
 @model IndexModel
 @using System.Security.Claims
+@using RentAMovie.Infrastructure;
 @using RentAMovie.Services.Movie
 @inject IMovieService service
 @{
@@ -91,8 +92,22 @@
                 {
                     @foreach (var movie in userMovies)
                     {
+                        int? publishYear;
+                        if (movie?.DatePublished != null)
+                        {
+                            publishYear = movie.DatePublished.Value.Year;
+                        }
+                        else
+                        {
+                            publishYear = null;
+                        }
+
                         <div class="movie-item">
-                            <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">
+                            <a 
+                            asp-controller="Movie" 
+                            asp-action="MovieUser" 
+                            asp-route-movieId="@movie.Id"
+                            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
                                 @if (movie.Poster != null)
                                 {
                                     <img src="@movie.Poster" />
@@ -103,7 +118,13 @@
                                 }
                             </a>
                             <div class="movie-info">
-                                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@movie.Id">@movie.Title</a>
+                                <a 
+                                asp-controller="Movie"
+                                asp-action="MovieUser"
+                                asp-route-movieId="@movie.Id"
+                                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+                                    @movie.Title
+                                </a>
                             </div>
                         </div>
                     }

@@ -16,6 +16,27 @@
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     string posterPath = "https://image.tmdb.org/t/p/w500";
 }
+@{
+    int? yearPublished;
+    if (currentMovie?.DatePublished != null)
+    {
+        yearPublished = currentMovie.DatePublished.Value.Year;
+    }
+    else
+    {
+        yearPublished = null;
+    }
+
+    int? yearPublishedViewBag;
+    if (ViewBag.MovieDatePublished != null)
+    {
+        yearPublishedViewBag = ViewBag.MovieDatePublished.Year;
+    }
+    else
+    {
+        yearPublishedViewBag = null;
+    }
+}
 
 @if (Model != null && Model.Count() > 0)
 {
@@ -65,13 +86,21 @@
 
             @if (currentMovie.TmdbId != null)
             {
-                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@currentMovie.TmdbId">
+                <a 
+                asp-controller="Movie"
+                asp-action="MovieTmdb"
+                asp-route-id="@currentMovie.TmdbId"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(currentMovie.Title, yearPublished)">
                     Back to movie
                 </a>
             }
             else
             {
-                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@currentMovie.Id">
+                <a 
+                asp-controller="Movie" 
+                asp-action="MovieUser" 
+                asp-route-movieId="@currentMovie.Id"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(currentMovie.Title, yearPublished)">
                     Back to movie
                 </a>
             }
@@ -175,13 +204,21 @@ else
 
             @if (ViewBag.MovieTmdbId != null)
             {
-                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@ViewBag.MovieTmdbId">
+                <a 
+                asp-controller="Movie"
+                asp-action="MovieTmdb" 
+                asp-route-id="@ViewBag.MovieTmdbId"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(ViewBag.MovieTitle, yearPublishedViewBag)">
                     Back to movie
                 </a>
             }
             else
             {
-                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@ViewBag.MovieId">
+                <a 
+                asp-controller="Movie" 
+                asp-action="MovieUser" 
+                asp-route-movieId="@ViewBag.MovieId"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(ViewBag.MovieTitle, yearPublishedViewBag)">
                     Back to movie
                 </a>
             }

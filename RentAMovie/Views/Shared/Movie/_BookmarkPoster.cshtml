@@ -1,0 +1,45 @@
+﻿@inject SignInManager<User> SignInManager
+@{
+    int? publishYear;
+    if (Model?.ReleaseDate != null)
+    {
+        publishYear = Model.ReleaseDate.Year;
+    }
+    else
+    {
+        publishYear = null;
+    }
+}
+
+@if (Model.IsWatchlistedByUser == false)
+{
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <form class="bookmark-form"
+        asp-controller="Movie"
+        asp-action="AddToWatchlist"
+        asp-route-movieId="@Model.Id"
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+            <input type="submit" />
+            <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+        </form>
+    }
+    else
+    {
+        <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
+            <input type="submit" />
+            <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+        </form>
+    }
+}
+else
+{
+    <form class="bookmark-form"
+    asp-controller="Movie"
+    asp-action="RemoveFromWatchlist"
+    asp-route-movieId="@Model.Id"
+    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+        <input type="submit" />
+        <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
+    </form>
+}

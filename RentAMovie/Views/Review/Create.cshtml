@@ -7,6 +7,17 @@
     string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     string posterPath = "https://image.tmdb.org/t/p/w500";
 }
+@{
+    int? yearPublished;
+    if (currentMovie.DatePublished != null)
+    {
+        yearPublished = currentMovie.DatePublished.Value.Year;
+    }
+    else
+    {
+        yearPublished = null;
+    }
+}
 
 <div>
     <div class="header-info">
@@ -55,13 +66,21 @@
 
             @if (currentMovie.TmdbId != null)
             {
-                <a asp-controller="Movie" asp-action="MovieTmdb" asp-route-id="@currentMovie.TmdbId">
+                <a 
+                asp-controller="Movie"
+                asp-action="MovieTmdb" 
+                asp-route-id="@currentMovie.TmdbId"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(currentMovie.Title, yearPublished)">
                     Back to movie
                 </a>
             }
             else
             {
-                <a asp-controller="Movie" asp-action="MovieUser" asp-route-movieId="@currentMovie.Id">
+                <a 
+                asp-controller="Movie" 
+                asp-action="MovieUser" 
+                asp-route-movieId="@currentMovie.Id"
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(currentMovie.Title, yearPublished)">
                     Back to movie
                 </a>
             }

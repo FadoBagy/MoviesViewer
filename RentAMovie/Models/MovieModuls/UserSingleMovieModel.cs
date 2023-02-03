@@ -19,7 +19,7 @@
 
         public long? Budget { get; set; }
 
-        public DateTime? DatePublished { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public string? Poster { get; set; }
 

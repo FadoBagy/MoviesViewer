@@ -1,7 +1,6 @@
-﻿@inject SignInManager<User> SignInManager
-@model UserSingleMovieModel
+﻿@model UserSingleMovieModel
 @{
-    ViewData["Title"] = Model.Title + (Model.DatePublished != null ? $" ({Model.DatePublished.Value.Year})" : "");
+    ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
 
     int hours = Convert.ToInt32(Model.Runtime / 60);
     double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
@@ -35,31 +34,7 @@
             {
                 <img src="~/images/default-poster1.png" />
             }
-            
-            @if (Model.IsWatchlistedByUser == false)
-            {
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <form class="bookmark-form" asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
-                        <input type="submit" />
-                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-                    </form>
-                }
-                else
-                {
-                    <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
-                        <input type="submit" />
-                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-                    </form>
-                }
-            }
-            else
-            {
-                <form class="bookmark-form" asp-controller="Movie" asp-action="RemoveFromWatchlist" asp-route-movieId="@Model.Id">
-                    <input type="submit" />
-                    <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
-                </form>
-            }
+            <partial name="~/Views/Shared/Movie/_BookmarkPoster.cshtml" />
         </div>
         <div class="info-main">
             <div class="header-info">
@@ -68,9 +43,9 @@
                 </div>
                 <div>
                     <ul>
-                        @if (Model.DatePublished != null)
+                        @if (Model.ReleaseDate != null)
                         {
-                            <li>@Model.DatePublished.Value.Year</li>
+                            <li>@Model.ReleaseDate.Value.Year</li>
                         }
                         @if (minutes != 0 && hours != 0)
                         {

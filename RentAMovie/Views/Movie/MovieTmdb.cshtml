@@ -37,31 +37,7 @@
             {
                 <img src="~/images/default-poster1.png" />
             }
-
-            @if (Model.IsWatchlistedByUser == false)
-            {
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <form class="bookmark-form" asp-controller="Movie" asp-action="AddToWatchlist" asp-route-movieId="@Model.Id">
-                        <input type="submit" />
-                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-                    </form>
-                }
-                else
-                {
-                    <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
-                        <input type="submit" />
-                        <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-                    </form>
-                }
-            }
-            else
-            {
-                <form class="bookmark-form" asp-controller="Movie" asp-action="RemoveFromWatchlist" asp-route-movieId="@Model.Id">
-                    <input type="submit" />
-                    <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
-                </form>
-            }
+            <partial name="~/Views/Shared/Movie/_BookmarkPoster.cshtml" />
         </div>
         <div class="info-main">
             <div class="header-info">

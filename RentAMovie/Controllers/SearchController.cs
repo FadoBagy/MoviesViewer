@@ -37,7 +37,7 @@
                     TmdbId = (int)m.TmdbId,
                     Id = m.Id,
                     VoteCount = (int)m.VoteCount,
-                    PosterPath = m.Poster
+                    Poster = m.Poster
                 })
                 .ToList();
 
