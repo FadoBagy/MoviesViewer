@@ -26,12 +26,23 @@
         ratingColor = "black";
     }
 }
+@{
+    int? publishYear;
+    if (Model?.ReleaseDate != null)
+    {
+        publishYear = Model.ReleaseDate.Year;
+    }
+    else
+    {
+        publishYear = null;
+    }
+}
 
 <div class="card">
     <a asp-controller="Movie"
        asp-action="MovieTmdb"
        asp-route-id="@Model.TmdbId"
-       asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, Model.ReleaseDate.Year)">
+       asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
         @if (Model.PosterPath != null)
         {
             <img src="@(Model.TmdbId != null ? posterPathCard + Model.PosterPath : Model.PosterPath)" class="card-img-top" alt="@Model.Title poster">
@@ -51,7 +62,7 @@
             <a asp-controller="Movie"
                asp-action="MovieTmdb"
                asp-route-id="@Model.TmdbId"
-               asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, Model.ReleaseDate.Year)">
+               asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
                 @Model.Title
             </a>
         </h5>

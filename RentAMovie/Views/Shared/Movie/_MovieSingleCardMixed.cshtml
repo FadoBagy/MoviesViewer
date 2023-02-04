@@ -44,7 +44,7 @@
         <a asp-controller="Movie"
         asp-action="MovieTmdb"
         asp-route-id="@Model.TmdbId"
-        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, Model.DatePublished.Value.Year)">
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
             @if (Model.Poster != null)
             {
                 <img src="@(Model.TmdbId != null ? posterPathCard + Model.Poster : Model.Poster)" class="card-img-top" alt="@Model.Title poster">
@@ -83,7 +83,7 @@
                     <a asp-controller="Movie"
                     asp-action="MovieTmdb"
                     asp-route-id="@Model.TmdbId"
-                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, Model.DatePublished.Value.Year)">
+                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
                         @Model.Title
                     </a>
                 }

@@ -290,7 +290,12 @@
 
                 var movieData = JsonConvert.DeserializeObject<TmdbSingleMovieModel>(json);
 
-                if (movieInfo != WebUtilities.SimplifyMovieUrlInformation(movieData.Title, movieData.ReleaseDate.Value.Year))
+                int? publishYear = null;
+                if (movieData.ReleaseDate != null)
+                {
+                    publishYear = movieData.ReleaseDate.Value.Year;
+				}
+                if (movieInfo != WebUtilities.SimplifyMovieUrlInformation(movieData.Title, publishYear))
                 {
                     return BadRequest();
                 }
