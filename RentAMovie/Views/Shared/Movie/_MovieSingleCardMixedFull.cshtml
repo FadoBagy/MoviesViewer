@@ -1,41 +1,4 @@
 ﻿@model SearchMovieModel
-@{
-    string posterPathCard = "https://image.tmdb.org/t/p/w500";
-    string ratingColor;
-
-    string rating = "0.0";
-    if (Model.Rating != null)
-    {
-        rating = Model.Rating;
-    }
-
-    if (float.Parse(rating) >= 8)
-    {
-        ratingColor = "green";
-    }
-    else if (float.Parse(rating) >= 5)
-    {
-        ratingColor = "orange";
-    }
-    else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-    {
-        ratingColor = "red";
-    }
-    else
-    {
-        ratingColor = "black";
-    }
-
-    int? publishYear;
-    if (Model?.ReleaseDate != null)
-    {
-        publishYear = Model.ReleaseDate.Value.Year;
-    }
-    else
-    {
-        publishYear = null;
-    }
-}
 
 <div class="card">
     @if (Model.TmdbId != null)
@@ -43,10 +6,10 @@
         <a asp-controller="Movie"
         asp-action="MovieTmdb"
         asp-route-id="@Model.TmdbId"
-        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
             @if (Model.Poster != null)
             {
-                <img src="@(Model.TmdbId != null ? posterPathCard + Model.Poster : Model.Poster)" class="card-img-top" alt="@Model.Title poster">
+                <img src="@(Model.TmdbId != null ? WebConstants.PosterPathCard + Model.Poster : Model.Poster)" class="card-img-top" alt="@Model.Title poster">
             }
             else
             {
@@ -59,10 +22,10 @@
         <a asp-controller="Movie"
         asp-action="MovieUser"
         asp-route-movieId="@Model.Id"
-        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
             @if (Model.Poster != null)
             {
-                <img src="@(Model.TmdbId != null ? posterPathCard + Model.Poster : Model.Poster)" class="card-img-top" alt="@Model.Title poster">
+                <img src="@(Model.TmdbId != null ? WebConstants.PosterPathCard + Model.Poster : Model.Poster)" class="card-img-top" alt="@Model.Title poster">
             }
             else
             {
@@ -71,7 +34,7 @@
         </a>
     }
     <div class="card-body">
-        <div class="rating @ratingColor">
+        <div class="rating @WebUtilities.GetRatingColor(Model.Rating)">
             <p>
                 @(Model.Rating != null && float.Parse(Model.Rating) != 0 ? float.Parse(Model.Rating).ToString("0.0") : "NR")
             </p>
@@ -82,7 +45,7 @@
                 <a asp-controller="Movie"
                 asp-action="MovieTmdb"
                 asp-route-id="@Model.TmdbId"
-                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
                     @Model.Title
                 </a>
             }
@@ -91,7 +54,7 @@
                 <a asp-controller="Movie"
                 asp-action="MovieUser"
                 asp-route-movieId="@Model.Id"
-                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
                     @Model.Title
                 </a>
             }

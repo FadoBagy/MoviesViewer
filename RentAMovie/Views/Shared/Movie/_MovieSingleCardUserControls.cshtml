@@ -1,48 +1,11 @@
 ﻿@model ViewUserMovieCardModel
-@{
-    string ratingColor;
-
-    string rating = "0.0";
-    if (Model.Rating != null)
-    {
-        rating = Model.Rating;
-    }
-
-    if (float.Parse(rating) >= 8)
-    {
-        ratingColor = "green";
-    }
-    else if (float.Parse(rating) >= 5)
-    {
-        ratingColor = "orange";
-    }
-    else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-    {
-        ratingColor = "red";
-    }
-    else
-    {
-        ratingColor = "black";
-    }
-}
-@{
-    int? publishYear;
-    if (Model?.ReleaseDate != null)
-    {
-        publishYear = Model.ReleaseDate.Value.Year;
-    }
-    else
-    {
-        publishYear = null;
-    }
-}
 
 <div class="card">
     <a 
     asp-controller="Movie"
     asp-action="MovieUser" 
     asp-route-movieId="@Model.Id"
-    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
         @if (Model.PosterPath != null)
         {
             <img src="@Model.PosterPath" class="card-img-top" alt="@Model.Title poster">
@@ -53,7 +16,7 @@
         }
     </a>
     <div class="card-body">
-        <div class="rating @ratingColor">
+        <div class="rating @WebUtilities.GetRatingColor(Model.Rating)">
             <p>@(Model.Rating != null && float.Parse(Model.Rating) != 0 ? float.Parse(Model.Rating).ToString("0.0") : "NR")</p>
         </div>
         <h5 class="card-title">
@@ -61,7 +24,7 @@
             asp-controller="Movie"
             asp-action="MovieUser" 
             asp-route-movieId="@Model.Id"
-            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, publishYear)">
+            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
                 @Model.Title
             </a>
         </h5>

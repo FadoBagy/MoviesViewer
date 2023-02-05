@@ -1,54 +1,16 @@
-﻿@{
-	string posterPath = "https://image.tmdb.org/t/p/w500";
-	string ratingColor;
-}
-
-<div class="container">
+﻿<div class="container">
 	<div class="row">
 		@foreach (var movie in Model.Movies)
 		{
-			string rating = "0.0";
-			if (movie.Rating != null)
-			{
-				rating = movie.Rating;
-			}
-
-			if (float.Parse(rating) >= 8)
-			{
-				ratingColor = "green";
-			}
-			else if (float.Parse(rating) >= 5)
-			{
-				ratingColor = "orange";
-			}
-			else if (float.Parse(rating) < 5 && float.Parse(rating) > 0)
-			{
-				ratingColor = "red";
-			}
-			else
-			{
-				ratingColor = "black";
-			}
-
-			int? publishYear;
-			if (movie?.DatePublished != null)
-			{
-				publishYear = movie.ReleaseDate.Year;
-			}
-			else
-			{
-				publishYear = null;
-			}
-
 			<div class="card">
 				<a 
 				asp-controller="Movie"
 				asp-action="MovieTmdb"
 				asp-route-id="@movie.TmdbId"
-				asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+				asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.ReleaseDate))">
 					@if (movie.PosterPath != null)
 					{
-						<img src="@(posterPath + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+						<img src="@(WebConstants.PosterPathCard + movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
 					}
 					else
 					{
@@ -56,14 +18,14 @@
 					}
 				</a>
 				<div class="card-body">
-					<div class="rating @ratingColor">
+					<div class="rating @WebUtilities.GetRatingColor(movie.Rating)">
 						<p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>
 					</div>
 					<h5 class="card-title">
 						<a asp-controller="Movie" 
 						asp-action="MovieTmdb" 
 						asp-route-id="@movie.TmdbId"
-					   asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.ReleaseDate))">
 							@movie.Title
 						</a>
 					</h5>

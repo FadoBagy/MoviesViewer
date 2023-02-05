@@ -12,9 +12,6 @@
     {
         ViewData["Title"] = $"Reviews for {ViewBag.MovieTitle}";
     }
-
-    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-    string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 @{
     int? yearPublished;
@@ -45,7 +42,7 @@
         {
             @if (currentMovie.TmdbId != null)
             {
-                <img id="movie-poster" src="@(posterPath + currentMovie.Poster)" />
+                <img id="movie-poster" src="@(WebConstants.PosterPathCard + currentMovie.Poster)" />
             }
             else
             {
@@ -62,7 +59,7 @@
             {
                 @if (currentMovie.TmdbId != null)
                 {
-                    <span class="backdrop" style="background-image: url(@(backDropPath + currentMovie.BackdropPath))"></span>
+                    <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + currentMovie.BackdropPath))"></span>
                 }
                 else
                 {
@@ -163,7 +160,7 @@ else
         {
             @if (ViewBag.MovieTmdbId != null)
             {
-                <img id="movie-poster" src="@(posterPath + ViewBag.MoviePoster)" />
+                <img id="movie-poster" src="@(WebConstants.PosterPathCard + ViewBag.MoviePoster)" />
             }
             else
             {
@@ -180,7 +177,7 @@ else
             {
                 @if (ViewBag.MovieTmdbId != null)
                 {
-                    <span class="backdrop" style="background-image: url(@(backDropPath + ViewBag.MovieBackdropPath))"></span>
+                    <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + ViewBag.MovieBackdropPath))"></span>
                 }
                 else
                 {

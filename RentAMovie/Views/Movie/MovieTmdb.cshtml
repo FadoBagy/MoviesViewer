@@ -2,8 +2,6 @@
 @model TmdbSingleMovieModel
 @{
     ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
-    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-    string posterPath = "https://image.tmdb.org/t/p/w500";
 
     int hours = Convert.ToInt32(Model.Runtime / 60);
     double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
@@ -20,7 +18,7 @@
 <div class="main-container">
     @if (Model.BackdropPath != null)
     {
-        <span class="backdrop" style="background-image: url(@(backDropPath + @Model.BackdropPath));"></span>
+        <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + @Model.BackdropPath));"></span>
     }
     else
     {
@@ -31,7 +29,7 @@
         <div class="info-img">
             @if (Model.PosterPath != null)
             {
-                <img src="@(posterPath + Model.PosterPath)" />
+                <img src="@(WebConstants.PosterPathCard + Model.PosterPath)" />
             }
             else
             {
@@ -146,7 +144,7 @@
                         <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
                             @if (actor.Photo != null)
                             {
-                                <img src="@(posterPath + actor.Photo)" class="card-img-top">
+                                <img src="@(WebConstants.PosterPathCard + actor.Photo)" class="card-img-top">
                             }
                             else
                             {

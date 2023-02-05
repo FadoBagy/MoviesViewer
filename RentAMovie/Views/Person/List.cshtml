@@ -1,20 +1,6 @@
 ﻿@model ViewAllCastModel
 @{
     ViewData["Title"] = $"Cast {Model.Movie.Title}";
-
-    string backDropPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-    string posterPath = "https://image.tmdb.org/t/p/w500";
-}
-@{
-    int? yearPublished;
-    if (Model.Movie.DatePublished != null)
-    {
-        yearPublished = Model.Movie.DatePublished.Value.Year;
-    }
-    else
-    {
-        yearPublished = null;
-    }
 }
 
 <div class="header-info">
@@ -22,7 +8,7 @@
     {
         @if (Model.Movie.TmdbId != null)
         {
-            <img id="movie-poster" src="@(posterPath + Model.Movie.Poster)" />
+            <img id="movie-poster" src="@(WebConstants.PosterPathCard + Model.Movie.Poster)" />
         }
         else
         {
@@ -39,7 +25,7 @@
         {
             @if (Model.Movie.TmdbId != null)
             {
-                <span class="backdrop" style="background-image: url(@(backDropPath + Model.Movie.BackdropPath))"></span>
+                <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + Model.Movie.BackdropPath))"></span>
             }
             else
             {
@@ -67,7 +53,7 @@
             asp-controller="Movie"
             asp-action="MovieTmdb"
             asp-route-id="@Model.Movie.TmdbId"
-            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, yearPublished)">
+            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.DatePublished))">
                 Back to movie
             </a>
         }
@@ -77,7 +63,7 @@
             asp-controller="Movie" 
             asp-action="MovieUser"
             asp-route-movieId="@Model.Movie.Id"
-            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, yearPublished)">
+            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.DatePublished))">
                 Back to movie
             </a>
         }
@@ -92,7 +78,7 @@
                 <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
                     @if (actor.Photo != null)
                     {
-                        <img src="@(posterPath + actor.Photo)">
+                        <img src="@(WebConstants.PosterPathCard + actor.Photo)">
                     }
                     else
                     {

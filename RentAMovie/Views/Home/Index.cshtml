@@ -2,7 +2,6 @@
 @inject SignInManager<User> SignInManager
 @{
     ViewData["Title"] = "Home";
-    string posterPath = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
     bool firstSlide = true;
 }
 @if (TempData["error"] != null)
@@ -81,7 +80,7 @@
                                 asp-action="MovieTmdb" 
                                 asp-route-id="@movie.TmdbId"
                                 asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
-                                <div class="carouselImg" style="background-image: url(@(posterPath + movie.PosterPath));"></div>
+                                <div class="carouselImg" style="background-image: url(@(WebConstants.BackdropPath + movie.PosterPath));"></div>
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <a 
@@ -103,7 +102,7 @@
                                 asp-action="MovieTmdb"
                                 asp-route-id="@movie.TmdbId"
                                 asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, movie.ReleaseDate.Year)">
-                                <div class="carouselImg" style="background-image: url(@(posterPath + movie.PosterPath));"></div>
+                                <div class="carouselImg" style="background-image: url(@(WebConstants.BackdropPath + movie.PosterPath));"></div>
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 <a 

@@ -1,8 +1,6 @@
 ﻿@model ViewPersonModel
 @{
     ViewData["Title"] = Model.PersonData.Name;
-    string photoPath = "https://image.tmdb.org/t/p/w300";
-    string posterPath = "https://image.tmdb.org/t/p/w500";
 
     string[] biographyParts = new string[]{};
     if (Model.PersonData.Biography != null)
@@ -64,7 +62,7 @@
         <span class="blur-color"></span>
         @if (Model.PersonData.Photo != null)
         {
-            <img src="@(photoPath + Model.PersonData.Photo)" alt="" />
+            <img src="@(WebConstants.PosterPathCard + Model.PersonData.Photo)" alt="" />
         }
         else
         {
@@ -191,7 +189,7 @@
                     asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, yearPublished)">
                         @if (movie.Poster != null)
                         {
-                            <img src="@(posterPath + movie.Poster)" alt="@movie.Title poster" />
+                            <img src="@(WebConstants.PosterPathCard + movie.Poster)" alt="@movie.Title poster" />
 
                         }
                         else
