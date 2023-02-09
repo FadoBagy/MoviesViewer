@@ -92,22 +92,12 @@
                 {
                     @foreach (var movie in userMovies)
                     {
-                        int? publishYear;
-                        if (movie?.DatePublished != null)
-                        {
-                            publishYear = movie.DatePublished.Value.Year;
-                        }
-                        else
-                        {
-                            publishYear = null;
-                        }
-
                         <div class="movie-item">
                             <a 
                             asp-controller="Movie" 
                             asp-action="MovieUser" 
                             asp-route-movieId="@movie.Id"
-                            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+                            asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
                                 @if (movie.Poster != null)
                                 {
                                     <img src="@movie.Poster" />
@@ -122,7 +112,7 @@
                                 asp-controller="Movie"
                                 asp-action="MovieUser"
                                 asp-route-movieId="@movie.Id"
-                                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+                                asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
                                     @movie.Title
                                 </a>
                             </div>

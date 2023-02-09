@@ -13,6 +13,10 @@
             {
                 movieTitle = movieTitle.Replace(":", "");
             }
+            if (movieTitle.Contains("&"))
+            {
+                movieTitle = movieTitle.Replace("&", "and");
+            }
 
             if (movieYear != null)
             {

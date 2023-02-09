@@ -2,7 +2,6 @@
 @model MovieViewModel
 @{
 	ViewData["Title"] = "Movie Dashboard";
-	string posterPath = "https://image.tmdb.org/t/p/w500";
 }
 
 @if (TempData["delete"] != null)
@@ -26,16 +25,6 @@
 	{
 		@foreach (var movie in Model.UsersMovies)
 		{
-			int? publishYear;
-			if (movie?.DatePublished != null)
-			{
-			    publishYear = movie.DatePublished.Value.Year;
-			}
-			else
-			{
-			    publishYear = null;
-			}
-
 			<div class="moive">
 				@if (movie.Poster != null)
 				{
@@ -54,7 +43,7 @@
 						asp-controller="Movie" 
 						asp-action="MovieUser" 
 						asp-route-movieId="@movie.Id"
-						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
 							<p>View</p>
 						</a>
 						<a asp-area="" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
@@ -84,20 +73,10 @@
 	{
 		@foreach (var movie in Model.TmdbMovies)
 		{
-			int? publishYear;
-			if (movie?.DatePublished != null)
-			{
-				publishYear = movie.DatePublished.Value.Year;
-			}
-			else
-			{
-				publishYear = null;
-			}
-
 			<div class="moive">
 				@if (movie.Poster != null)
 				{
-					<img src="@(posterPath + movie.Poster)" alt="@movie.Title poster">
+					<img src="@(WebConstants.PosterPathCard + movie.Poster)" alt="@movie.Title poster">
 				}
 				else
 				{
@@ -112,7 +91,7 @@
 						asp-controller="Movie"
 						asp-action="MovieTmdb"
 						asp-route-id="@movie.TmdbId"
-						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, publishYear)">
+						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
 							<p>View</p>
 						</a>
 						<a class="d-none">
