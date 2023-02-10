@@ -55,6 +55,8 @@
 
         public string? Genres { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public ICollection<Genre> GenresCollection { get; set; } 
             = new List<Genre>();
 

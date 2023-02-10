@@ -15,5 +15,7 @@
         public int? VoteCount { get; set; }
 
         public int Id { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }

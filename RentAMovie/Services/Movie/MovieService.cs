@@ -65,7 +65,8 @@
                     Description = m.Description,
                     ReleaseDate = m.DatePublished,
                     PosterPath = m.Poster,
-                    Id = m.Id
+                    Id = m.Id,
+                    IsPublic = m.IsPublic
                 })
                 .ToList();
         }
@@ -80,10 +81,26 @@
                 .ToList();
         }
 
-		public List<CardMovieModel> GetAllUsersMovies()
+        public List<CardMovieModel> GetAllUnapprovedMovies()
+        {
+            return data.Movies
+                .Where(m => m.IsPublic == false)
+                .OrderByDescending(m => m.DateCreated)
+                .Select(m => new CardMovieModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Poster = m.Poster,
+                    DatePublished = m.DatePublished,
+                    TmdbId = m.TmdbId
+                })
+                .ToList();
+        }
+
+        public List<CardMovieModel> GetAllUsersMovies()
 		{
 			return data.Movies
-                .Where(m => m.TmdbId == null)
+                .Where(m => m.TmdbId == null && m.IsPublic == true)
                 .OrderByDescending(m => m.DateCreated)
                 .Select(m => new CardMovieModel
                 {
@@ -98,7 +115,7 @@
 		public List<CardMovieModel> GetAllTmdbMovies()
 		{
 			return data.Movies
-				.Where(m => m.TmdbId != null)
+				.Where(m => m.TmdbId != null && m.IsPublic == true)
 				.OrderByDescending(m => m.DateCreated)
 				.Select(m => new CardMovieModel
 				{
@@ -114,7 +131,7 @@
         public List<SearchMovieModel> GetWatchlistedMovies(string userId)
         {
             return data.UsersMovies
-                    .Where(um => um.UserId == userId)
+                    .Where(um => um.UserId == userId && um.Movie.IsPublic == true)
                     .Select(um => new SearchMovieModel
 					{
                         Id = um.Movie.Id,
@@ -172,7 +189,24 @@
             }
         }
 
-        public Genre GetGenreByName(string name)
+		public void ChangeVisibility(int id)
+        {
+            var movie = data.Movies.FirstOrDefault(m => m.Id == id);
+            if (movie != null)
+            {
+				if (movie.IsPublic == false)
+				{
+					movie.IsPublic = true;
+				}
+				else
+				{
+					movie.IsPublic = false;
+				}
+			}
+            data.SaveChanges();
+        }
+
+		public Genre GetGenreByName(string name)
         {
             return data.Genres.FirstOrDefault(g => g.Name == name);
         }

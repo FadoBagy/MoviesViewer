@@ -30,7 +30,7 @@
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 movieQuery = movieQuery
-                    .Where(m => m.Title.Contains(query.SearchTerm))
+                    .Where(m => m.Title.Contains(query.SearchTerm) && m.IsPublic == true)
                     .OrderByDescending(m => m.DatePublished);
             }
 

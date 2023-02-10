@@ -42,6 +42,7 @@
         public List<CardMovieModel> GetLatestMovies()
         {
             return data.Movies
+                    .Where(m => m.IsPublic == true)
                     .OrderByDescending(m => m.Id)
                     .Select(m => new CardMovieModel
                     {
@@ -59,7 +60,7 @@
         public List<CardMovieModel> GetWatchlistMovies(string userId)
         {
             return data.UsersMovies
-                .Where(um => um.UserId == userId)
+                .Where(um => um.UserId == userId && um.Movie.IsPublic == true)
                 .OrderByDescending(um => um.Movie.Rating)
                 .Select(um => new CardMovieModel
                 {

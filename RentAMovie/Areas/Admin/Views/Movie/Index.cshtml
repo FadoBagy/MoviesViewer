@@ -19,6 +19,65 @@
     </div>
 }
 
+<h3>Waiting approval</h3>
+<div class="moives">
+	@if (Model.UnapprovedMovies != null && Model.UnapprovedMovies.Count() > 0)
+	{
+		@foreach (var movie in Model.UnapprovedMovies)
+		{
+			<div class="moive">
+				@if (movie.Poster != null)
+				{
+					if (movie.TmdbId != null)
+					{
+						<img src="@(WebConstants.PosterPathCard + movie.Poster)" alt="@movie.Title poster">
+					}
+					else
+					{
+						<img id="user-img" src="@movie.Poster" alt="@movie.Title poster">
+					}
+				}
+				else
+				{
+					<img src="~/images/default-poster1.png" />
+				}
+				<div class="movie-info">
+					<h4>@movie.Title</h4>
+					<p>@(movie.DatePublished != null ? movie.DatePublished.Value.ToString("MMM dd, yyyy") : "-")</p>
+					<div class="movie-controls">
+						<div class="general-controls">
+							<a asp-area=""
+							asp-controller="Movie"
+							asp-action="MovieUser"
+							asp-route-movieId="@movie.Id"
+							asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
+								<p>View</p>
+							</a>
+							<a asp-area="" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
+								<p>Edit</p>
+							</a>
+							<form asp-area="" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
+								<div>
+									<input type="submit" value="Delete"
+								   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
+								</div>
+							</form>
+						</div>
+						<a asp-area="Admin" asp-controller="Movie" asp-action="ChangeVisibility" asp-route-id="@movie.Id">
+							<p>Approve</p>
+						</a>
+					</div>
+				</div>
+			</div>
+		}
+	}
+	else
+	{
+		<p id="no-moives">No available movies</p>
+	}
+
+</div>
+
 <h3>User uploaded moives</h3>
 <div class="moives">
 	@if (Model.UsersMovies != null && Model.UsersMovies.Count() > 0)
@@ -38,23 +97,28 @@
 					<h4>@movie.Title</h4>
 					<p>@(movie.DatePublished != null ? movie.DatePublished.Value.ToString("MMM dd, yyyy") : "-")</p>
 					<div class="movie-controls">
-						<a 
-						asp-area="" 
-						asp-controller="Movie" 
-						asp-action="MovieUser" 
-						asp-route-movieId="@movie.Id"
-						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
-							<p>View</p>
+						<div class="general-controls">
+							<a 
+							asp-area="" 
+							asp-controller="Movie" 
+							asp-action="MovieUser" 
+							asp-route-movieId="@movie.Id"
+							asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
+								<p>View</p>
+							</a>
+							<a asp-area="" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
+								<p>Edit</p>
+							</a>
+							<form asp-area="" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
+								<div>
+									<input type="submit" value="Delete"
+								   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
+								</div>
+							</form>
+						</div>
+						<a asp-area="Admin" asp-controller="Movie" asp-action="ChangeVisibility" asp-route-id="@movie.Id">
+							<p>Hide</p>
 						</a>
-						<a asp-area="" asp-controller="Movie" asp-action="Edit" asp-route-id="@movie.Id">
-							<p>Edit</p>
-						</a>
-						<form asp-area="" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
-							<div>
-								<input type="submit" value="Delete"
-							   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>
@@ -86,23 +150,25 @@
 					<h4>@movie.Title</h4>
 					<p>@(movie.DatePublished != null ? movie.DatePublished.Value.ToString("MMM dd, yyyy") : "-")</p>
 					<div class="movie-controls">
-						<a 
-						asp-area="" 
-						asp-controller="Movie"
-						asp-action="MovieTmdb"
-						asp-route-id="@movie.TmdbId"
-						asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
-							<p>View</p>
-						</a>
-						<a class="d-none">
-							<p>Edit</p>
-						</a>
-						<form asp-area="" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
-							<div>
-								<input type="submit" value="Delete"
-							   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
-							</div>
-						</form>
+						<div class="general-controls">
+							<a 
+							asp-area="" 
+							asp-controller="Movie"
+							asp-action="MovieTmdb"
+							asp-route-id="@movie.TmdbId"
+							asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(movie.DatePublished))">
+								<p>View</p>
+							</a>
+							<a class="d-none">
+								<p>Edit</p>
+							</a>
+							<form asp-area="" asp-controller="Movie" asp-action="Delete" asp-route-id="@movie.Id">
+								<div>
+									<input type="submit" value="Delete"
+								   onclick="return confirm('Are you sure you want to DELETE this moive: @movie.Title')" />
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

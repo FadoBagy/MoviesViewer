@@ -93,6 +93,10 @@
                     @foreach (var movie in userMovies)
                     {
                         <div class="movie-item">
+                            @if (movie.IsPublic == false)
+                            {
+                                <span class="unapproved"></span>
+                            }
                             <a 
                             asp-controller="Movie" 
                             asp-action="MovieUser" 

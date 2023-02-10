@@ -23,6 +23,8 @@
 
         List<Movie> GetUserMoviesForProfile(string userId);
 
+        List<CardMovieModel> GetAllUnapprovedMovies();
+
         List<CardMovieModel> GetAllUsersMovies();
 
         List<CardMovieModel> GetAllTmdbMovies();
@@ -39,7 +41,9 @@
 
         bool IsWatchlisted(string userId, int movieId);
 
-        Genre GetGenreByName(string name);
+        void ChangeVisibility(int id);
+
+		Genre GetGenreByName(string name);
 
         Review GetLastReviewForMovie(int movieId);
 

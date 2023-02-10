@@ -16,9 +16,17 @@
         {
             return View(new MovieViewModel
             {
+                UnapprovedMovies = service.GetAllUnapprovedMovies(),
                 UsersMovies = service.GetAllUsersMovies(),
                 TmdbMovies = service.GetAllTmdbMovies()
             });
+        }
+
+        public IActionResult ChangeVisibility(int id)
+        {
+            service.ChangeVisibility(id);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -22,6 +22,24 @@
     background-color: inherit;
 }
 
+.user-controls p {
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+
+.unapproved {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #0f376358;
+    z-index: 1;
+    border-radius: .25rem;
+    filter: blur(3px);
+}
+
 .mt-2 {
     margin-top: 5px !important;
 }

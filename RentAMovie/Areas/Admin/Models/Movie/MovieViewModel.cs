@@ -2,7 +2,9 @@
 {
 	public class MovieViewModel
 	{
-		public List<CardMovieModel>? UsersMovies { get; set; }
+        public List<CardMovieModel>? UnapprovedMovies { get; set; }
+
+        public List<CardMovieModel>? UsersMovies { get; set; }
 
 		public List<CardMovieModel>? TmdbMovies { get; set; }
 	}

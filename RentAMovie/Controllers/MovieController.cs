@@ -71,7 +71,8 @@
                 Trailer = movie.Trailer,
                 UserId = GetCurrentUserId() ?? "1",
                 Genres = genres,
-                GenresCollection = genresCollection
+                GenresCollection = genresCollection,
+                IsPublic = false
             };
 
             service.AddMovie(newMovie);
@@ -179,10 +180,11 @@
                 }
                 movie.GenresCollection = genresCollection;
             }
+            movie.IsPublic = false;
 
             service.SaveChanges();
 
-			TempData["edit"] = "Movie information updated successfully!";
+			TempData["edit"] = "Movie information updated successfully, awaiting approval!";
 			if (User.IsAdmin())
             {
 				return RedirectToAction("Index", "Movie", new { area =  AdministratorAreaName});
@@ -232,6 +234,11 @@
             if (movie == null || movie.TmdbId != null)
             {
                 TempData["error"] = "Could not find!";
+                return RedirectToAction("Index", "Home");
+            }
+            if (movie.IsPublic == false && !User.IsAdmin())
+            {
+                TempData["error"] = "Not approved yet!";
                 return RedirectToAction("Index", "Home");
             }
 

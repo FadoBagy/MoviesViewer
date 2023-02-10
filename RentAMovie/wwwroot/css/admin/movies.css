@@ -38,7 +38,25 @@
 .movie-controls {
     margin-top: 15px;
     display: flex;
+    flex-direction: column;
     gap: 5px;
+}
+
+.movie-controls a:nth-child(2) p {
+    background-color: #0D4C92;
+    transition: 100ms;
+    width: 100%
+}
+
+.movie-controls a:nth-child(2) p:hover {
+    background-color: #0079FF;
+}
+
+
+.general-controls {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
 .movie-controls a {
@@ -46,22 +64,22 @@
     text-decoration: none;
 }
 
-.movie-controls a:nth-child(1) p,
-.movie-controls a:nth-child(2) p {
+.general-controls a:nth-child(1) p,
+.general-controls a:nth-child(2) p {
     background-color: #0D4C92;
     transition: 100ms;
 }
 
-.movie-controls a:nth-child(1) p:hover,
-.movie-controls a:nth-child(2) p:hover {
+.general-controls a:nth-child(1) p:hover,
+.general-controls a:nth-child(2) p:hover {
     background-color: #0079FF;
 }
 
-.movie-controls form {
+.general-controls form {
     margin: 0 !important;
 }
 
-.movie-controls form input {
+.general-controls form input {
     background-color: #d52522;
     transition: 100ms;
     color: #f2f2f2;
