@@ -13,6 +13,10 @@
 			previousPage = 1;
 		}
 		var nextPage = Model.CurrentPage + 1;
+		if (nextPage == 501)
+		{
+			nextPage = 500;
+		}
 	}
 	<nav>
 		<ul class="pagination">
@@ -24,8 +28,13 @@
 
 			@for (int i = 1; i <= 10; i++)
 			{
-				<li class="page-item"><a class="page-link" asp-controller="Movie" asp-action="Popular" asp-route-CurrentPage="@i">@i</a></li>
+				<li class="page-item">
+					<a class="page-link" asp-controller="Movie" asp-action="Popular" asp-route-CurrentPage="@i">@i</a>
+				</li>
 			}
+			<li class="page-item" style="display: none;" id="extra-page-btn">
+				<a class="page-link active-page-number" asp-controller="Movie" asp-action="Popular" asp-route-CurrentPage="@Model.CurrentPage">@Model.CurrentPage</a>
+			</li>
 
 			<li class="page-item">
 				<a class="page-link" asp-controller="Movie" asp-action="Popular" asp-route-CurrentPage="@nextPage">
@@ -40,6 +49,5 @@
 	<link rel="stylesheet" href="~/css/movies.css" />
 }
 @section Scripts {
-	<script src="~/js/renderMovieInfo.js"></script>
-	<script src="~/js/movie/movieNavStyles.js"></script>
+	<script src="~/js/movie/moviePaging.js"></script>
 }

@@ -31,14 +31,16 @@
 			{
                 <div class="card">
                     <span class="unapproved"></span>
-                    @if (movie.PosterPath != null)
-                    {
-                        <img src="@movie.PosterPath" class="card-img-top" alt="@movie.Title poster">
-                    }
-                    else
-                    {
-                        <img src="~/images/default-poster1.png" />
-                    }
+                    <a>
+                        @if (movie.PosterPath != null)
+                        {
+                            <img src="@movie.PosterPath" alt="@movie.Title poster">
+                        }
+                        else
+                        {
+                            <img src="~/images/default-poster1.png" />
+                        }
+                    </a>
                     <div class="card-body">
                         <div class="rating @WebUtilities.GetRatingColor(movie.Rating)">
                             <p>@(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")</p>

@@ -388,6 +388,10 @@
             {
                 model.CurrentPage = 1;
             }
+			else if (model.CurrentPage > 500)
+			{
+				model.CurrentPage = 500;
+			}
 
 			string mostPopularRequest
 				= ControllerConstants.BaseUrl + $"/discover/movie?sort_by=popularity.desc&page={model.CurrentPage}&" + ControllerConstants.ApiKey;
@@ -409,6 +413,10 @@
 			{
 				model.CurrentPage = 1;
 			}
+            else if (model.CurrentPage > 15)
+            {
+                model.CurrentPage = 15;
+            }
 
 			string topRatedRequest 
                 = ControllerConstants.BaseUrl + $"/discover/movie?sort_by=vote_average.desc&vote_count.gte=9200&page={model.CurrentPage}&" + ControllerConstants.ApiKey;
