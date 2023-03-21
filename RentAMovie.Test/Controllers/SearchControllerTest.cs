@@ -94,14 +94,16 @@
             {
                 Id = 1,
                 Title = "test",
-                Description = "test"
-            });
+                Description = "test",
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 2,
                 Title = "movie",
-                Description = "movie"
-            });
+                Description = "movie",
+				IsPublic = true
+			});
             data.SaveChanges();
 
             return data;

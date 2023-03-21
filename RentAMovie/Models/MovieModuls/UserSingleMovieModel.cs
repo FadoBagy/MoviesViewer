@@ -42,5 +42,11 @@
         public bool IsWatchlistedByUser { get; set; }
 
         public int ReviewCount { get; set; }
+
+        public int UserRating { get; set; }
+
+        public bool IsRatedByUser { get; set; }
+
+        public float CurrentUserRating { get; set; }
     }
 }

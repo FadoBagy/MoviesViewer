@@ -74,5 +74,28 @@
 
             return trendingMovies;
         }
+
+        public static List<RecommendationsMovieResultModel> RecommendationsMoviesRequest(int movieId)
+        {
+            var recommendationsRequest
+                = ControllerConstants.BaseUrl + $"/movie/{movieId}/recommendations?" + ControllerConstants.ApiKey;
+            var recommendationsMovies = new List<RecommendationsMovieResultModel>();
+
+            using var httpClient = new HttpClient();
+            var endpoint = new Uri(recommendationsRequest);
+            var result = httpClient.GetAsync(endpoint).Result;
+            var json = result.Content.ReadAsStringAsync().Result;
+
+            var movieDto = JsonConvert.DeserializeObject<RecommendationsMovieModel>(json);
+            if (movieDto != null && movieDto.Results != null)
+            {
+                foreach (var movie in movieDto.Results)
+                {
+                    recommendationsMovies.Add(movie);
+                }
+            }
+
+            return recommendationsMovies;
+        }
     }
 }

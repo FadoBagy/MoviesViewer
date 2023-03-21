@@ -1,14 +1,14 @@
 ﻿@inject SignInManager<User> SignInManager
 
-@if (Model.IsWatchlistedByUser == false)
+@if (Model.Movie.IsWatchlistedByUser == false)
 {
     @if (SignInManager.IsSignedIn(User))
     {
         <form class="bookmark-form"
         asp-controller="Movie"
         asp-action="AddToWatchlist"
-        asp-route-movieId="@Model.Id"
-        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+        asp-route-movieId="@Model.Movie.Id"
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
             <input type="submit" />
             <img class="bookmark" src="~/images/bookmark/bookmark.png" />
         </form>
@@ -26,8 +26,8 @@ else
     <form class="bookmark-form"
     asp-controller="Movie"
     asp-action="RemoveFromWatchlist"
-    asp-route-movieId="@Model.Id"
-    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+    asp-route-movieId="@Model.Movie.Id"
+    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
         <input type="submit" />
         <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
     </form>

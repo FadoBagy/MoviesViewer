@@ -260,7 +260,11 @@
                 Review = lastReview,
                 ReviewOwner = lastReview != null ? service.GetUserById(lastReview.UserId) : null,
                 IsWatchlistedByUser = service.IsWatchlisted(userId, movie.Id),
-                ReviewCount = reviewService.GetReviews(movie.Id).Count()
+                ReviewCount = reviewService.GetReviews(movie.Id).Count(),
+                VoteCount = movie.VoteCount,
+                Rating = (movie.Rating).ToString(),
+                IsRatedByUser = service.IsRatedByUser(userId, movie.Id),
+                CurrentUserRating = service.GetCurrentUserMovieRating(userId, movie.Id)
             };
 
             int? publishYear;
@@ -377,7 +381,11 @@
             }
             service.SaveChanges();
 
-            return View(movie);
+            return View(new TmdbMoviePageModel
+            {
+                Movie = movie,
+                RecommendedMovies = TmdbApiCalls.RecommendationsMoviesRequest(movie.TmdbId)
+            });
         }
 
         [ActionName("Popular")]
@@ -488,6 +496,38 @@
                 {
                     return RedirectToActionPermanent("MovieTmdb", "Movie", new { id = movie.TmdbId, movieInfo = movieInfo });
                 }
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult AddUserRating(UserSingleMovieModel model, int movieId, string movieInfo)
+        {
+            var movie = service.GetMovie(movieId);
+            var userId = GetCurrentUserId();
+
+            if (movie != null)
+            {
+                service.RateMovie(userId, movieId, model.UserRating);
+                return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId, movieInfo = movieInfo });
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult RemoveUserRating(UserSingleMovieModel model, int movieId, string movieInfo)
+        {
+            var movie = service.GetMovie(movieId);
+            var userId = GetCurrentUserId();
+
+            if (movie != null)
+            {
+                service.RemoveMovieRating(userId, movieId);
+                return RedirectToActionPermanent("MovieUser", "Movie", new { movieId = movieId, movieInfo = movieInfo });
             }
 
             return NotFound();

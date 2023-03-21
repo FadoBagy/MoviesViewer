@@ -26,6 +26,8 @@
 
         public DbSet<UserMovie> UsersMovies { get; set; }
 
+        public DbSet<UserMovieRating> UsersMoviesRatings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.SeedGenres();
@@ -40,6 +42,12 @@
                  .Entity<UserMovie>(e =>
                  {
                      e.HasKey(um => new { um.UserId, um.MovieId });
+                 });
+
+            modelBuilder
+                 .Entity<UserMovieRating>(e =>
+                 {
+                     e.HasKey(umr => new { umr.UserId, umr.MovieId });
                  });
 
             base.OnModelCreating(modelBuilder);

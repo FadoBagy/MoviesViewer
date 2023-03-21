@@ -41,7 +41,15 @@
 
         bool IsWatchlisted(string userId, int movieId);
 
+        bool IsRatedByUser(string userId, int movieId);
+
         void ChangeVisibility(int id);
+
+        void RateMovie(string userId, int movieId, float rating);
+
+        void RemoveMovieRating(string userId, int movieId);
+
+        float GetCurrentUserMovieRating(string userId, int movieId);
 
 		Genre GetGenreByName(string name);
 

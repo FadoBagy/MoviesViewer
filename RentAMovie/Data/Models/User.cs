@@ -16,5 +16,8 @@
 
         public ICollection<UserMovie> WatchlistedMovies { get; set; }
             = new List<UserMovie>();
+
+        public ICollection<UserMovieRating> RatedMovies { get; set; }
+            = new List<UserMovieRating>();
     }
 }

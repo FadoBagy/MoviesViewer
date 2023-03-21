@@ -407,14 +407,16 @@
                         UserId = "1"
                     }
                 },
-                UserId = "1"
-            });
+                UserId = "1",
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 2,
                 Title = "test2",
-                Description = "test2"
-            });
+                Description = "test2",
+				IsPublic = true
+			});
 
             data.Movies.Add(new Movie
             {
@@ -424,15 +426,17 @@
                 Description = "test3",
                 GenresCollection = new List<Genre> { new Genre { Name = "test" } },
                 Directors = new List<Director> { new Director { Name = "test" } },
-                Actors = new List<Actor> { new Actor { Name = "test" } }
-            });
+                Actors = new List<Actor> { new Actor { Name = "test" } },
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 4,
                 TmdbId = 2,
                 Title = "test4",
-                Description = "test4"
-            });
+                Description = "test4",
+				IsPublic = true
+			});
             data.SaveChanges();
 
             return data;

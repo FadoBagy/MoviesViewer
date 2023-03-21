@@ -4,19 +4,30 @@
     {
         public static string SimplifyMovieUrlInformation(string movieTitle, int? movieYear)
         {
-            movieTitle = movieTitle.ToLower();
-            if (movieTitle.Contains(" "))
+            if (movieTitle != null)
             {
-                movieTitle = movieTitle.Replace(" ", "-");
-            }
-            if (movieTitle.Contains(":"))
-            {
-                movieTitle = movieTitle.Replace(":", "");
-            }
-            if (movieTitle.Contains("&"))
-            {
-                movieTitle = movieTitle.Replace("&", "and");
-            }
+				movieTitle = movieTitle.ToLower();
+				if (movieTitle.Contains(" - "))
+				{
+					movieTitle = movieTitle.Replace(" - ", "-");
+				}
+				if (movieTitle.Contains(" "))
+				{
+					movieTitle = movieTitle.Replace(" ", "-");
+				}
+				if (movieTitle.Contains(":"))
+				{
+					movieTitle = movieTitle.Replace(":", "");
+				}
+				if (movieTitle.Contains("&"))
+				{
+					movieTitle = movieTitle.Replace("&", "and");
+				}
+				if (movieTitle.Contains("/"))
+				{
+					movieTitle = movieTitle.Replace("/", "-");
+				}
+			}
 
             if (movieYear != null)
             {

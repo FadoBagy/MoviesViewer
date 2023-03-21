@@ -1,24 +1,24 @@
 ﻿@inject SignInManager<User> SignInManager
-@model TmdbSingleMovieModel
+@model TmdbMoviePageModel
 @{
-    ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
+    ViewData["Title"] = Model.Movie.Title + (Model.Movie.ReleaseDate != null ? $" ({Model.Movie.ReleaseDate.Value.Year})" : "");
 
-    int hours = Convert.ToInt32(Model.Runtime / 60);
-    double minutes = Math.Round(Convert.ToDouble(Model.Runtime / 60.0 - hours) * 60);
+    int hours = Convert.ToInt32(Model.Movie.Runtime / 60);
+    double minutes = Math.Round(Convert.ToDouble(Model.Movie.Runtime / 60.0 - hours) * 60);
 
     int index = 0;
 
     User reviewUserOwner = null;
-    if (Model.Review != null)
+    if (Model.Movie.Review != null)
     {
-        reviewUserOwner = Model.ReviewOwner;
+        reviewUserOwner = Model.Movie.ReviewOwner;
     }
 }
 
 <div class="main-container">
-    @if (Model.BackdropPath != null)
+    @if (Model.Movie.BackdropPath != null)
     {
-        <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + @Model.BackdropPath));"></span>
+        <span class="backdrop" style="background-image: url(@(WebConstants.BackdropPath + @Model.Movie.BackdropPath));"></span>
     }
     else
     {
@@ -27,9 +27,9 @@
     <span class="blur-color"></span>
     <section class="information-container">
         <div class="info-img">
-            @if (Model.PosterPath != null)
+            @if (Model.Movie.PosterPath != null)
             {
-                <img src="@(WebConstants.PosterPathCard + Model.PosterPath)" />
+                <img src="@(WebConstants.PosterPathCard + Model.Movie.PosterPath)" />
             }
             else
             {
@@ -40,21 +40,21 @@
         <div class="info-main">
             <div class="header-info">
                 <div>
-                    <h1>@Model.Title</h1>
+                    <h1>@Model.Movie.Title</h1>
                 </div>
                 <div>
                     <ul>
-                        @if (Model.ReleaseDate != null)
+                        @if (Model.Movie.ReleaseDate != null)
                         {
-                            <li>@Model.ReleaseDate.Value.Year</li>
+                            <li>@Model.Movie.ReleaseDate.Value.Year</li>
                         }
                         @if (minutes != 0 && hours != 0)
                         {
                             <li>@($" • {hours}h {minutes}m • ")</li>
                         }
-                        @if (Model.Genres?.Count() > 0)
+                        @if (Model.Movie.Genres?.Count() > 0)
                         {
-                            foreach (var genre in Model.Genres)
+                            foreach (var genre in Model.Movie.Genres)
                             {
                                 <li>@($"{genre.Name} ")</li>
                             }
@@ -63,37 +63,57 @@
                 </div>
             </div>
             <div class="user-score">
-                <p class="rating-small">User Score</p>
-                @if (Model.VoteCount != null && Model.VoteCount > 0)
-                {
-                    <div>
-                        <img src="~/images/star.png" />
-                        <b>@float.Parse(Model.Rating).ToString("0.0")</b>
-                        <span class="rating-small">/10</span>
-                    </div>
-                    <span class="rating-small">@Model.VoteCount.Value.ToString("#,##0") Ratings</span>
-                }
-                else
-                {
-                    <div>
-                        <img src="~/images/star.png" />
-                        <b>NR</b>
-                    </div>
-                }
+                <section>
+                    <p class="rating-small">User Score</p>
+                    @if (Model.Movie.VoteCount != null && Model.Movie.VoteCount > 0)
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>@float.Parse(Model.Movie.Rating).ToString("0.0")</b>
+                            <span class="rating-small">/10</span>
+                        </div>
+                        <span class="rating-small">@Model.Movie.VoteCount.Value.ToString("#,##0") Ratings</span>
+                    }
+                    else
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>NR</b>
+                        </div>
+                    }
+                </section>
+                <section>
+                    <p class="rating-small">Your Score</p>
+                    @if (false)
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            @*<b>@Model.Movie.CurrentUserRating.ToString("0.0")</b>*@
+                            <span class="rating-small">/10</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>NR</b>
+                        </div>
+                    }
+                </section>
             </div>
             <div class="overview-info">
-                @if (Model.Tagline != null)
+                @if (Model.Movie.Tagline != null)
                 {
-                    <div id="tagline">@Model.Tagline</div>
+                    <div id="tagline">@Model.Movie.Tagline</div>
                 }
                 <h4>Overview</h4>
-                <div id="description">@(Model.Description != "" ? Model.Description : "No description available")</div>
+                <div id="description">@(Model.Movie.Description != "" ? Model.Movie.Description : "No description available")</div>
             </div>
             <div class="crew-info">
                 @{
-                    var director = Model.Crew?.FirstOrDefault(c => c.Job == "Director");
-                    var screenplay = Model.Crew?.FirstOrDefault(c => c.Job == "Screenplay");
-                    var producer = Model.Crew?.FirstOrDefault(c => c.Job == "Producer");
+                    var director = Model.Movie.Crew?.FirstOrDefault(c => c.Job == "Director");
+                    var screenplay = Model.Movie.Crew?.FirstOrDefault(c => c.Job == "Screenplay");
+                    var producer = Model.Movie.Crew?.FirstOrDefault(c => c.Job == "Producer");
                 }
                 @if (director != null)
                 {
@@ -136,9 +156,9 @@
     <div class="main-details">
         <h3>Top Cast</h3>
         <div class="actors media-scroller">
-            @if (Model.Actors != null && Model.Actors.Count > 0)
+            @if (Model.Movie.Actors != null && Model.Movie.Actors.Count > 0)
             {
-                @foreach (var actor in Model.Actors)
+                @foreach (var actor in Model.Movie.Actors)
                 {
                     <div class="card">
                         <a asp-controller="Person" asp-action="PersonTmdb" asp-route-id="@actor.Id">
@@ -162,7 +182,7 @@
                     if (index == 10)
                     {
                         <div class="more-actors">
-                            <a asp-controller="Person" asp-action="List" asp-route-movieId="@Model.TmdbId">View more</a>
+                            <a asp-controller="Person" asp-action="List" asp-route-movieId="@Model.Movie.TmdbId">View more</a>
                         </div>
                         break;
                     }
@@ -178,16 +198,16 @@
         <hr />
         <div class="reviews">
             <div class="header-controls">
-                @if (Model.ReviewCount > 0)
+                @if (Model.Movie.ReviewCount > 0)
                 {
-                    <span id="review-count">(@Model.ReviewCount)</span>
+                    <span id="review-count">(@Model.Movie.ReviewCount)</span>
                 }
                 <h3>User reviews</h3>
                 <div class="controls">
-                    <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Id">
+                    <a asp-controller="Review" asp-action="All" asp-route-movieId="@Model.Movie.Id">
                         <p>View all reviews</p>
                     </a>
-                    <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Id">
+                    <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.Movie.Id">
                         <p>Review this movie</p>
                     </a>
                 </div>
@@ -212,11 +232,11 @@
                     <div class="review-content">
                         <span id="latest-review">LATEST REVIEW</span>
                         <h5>@reviewUserOwner.UserName</h5>
-                        <p class="review-date">Written on @Model.Review.CreationDate.ToString("MMM d, yyyy")</p>
-                        @if (!Model.Review.IsSpoiler)
+                        <p class="review-date">Written on @Model.Movie.Review.CreationDate.ToString("MMM d, yyyy")</p>
+                        @if (!Model.Movie.Review.IsSpoiler)
                         {
                             <p class="review-text">
-                                @Model.Review.Content
+                                @Model.Movie.Review.Content
                             </p>
                         }
                         else
@@ -227,12 +247,12 @@
                                     <p>Show it</p>
                                 </div>
                                 <p class="review-text">
-                                    @Model.Review.Content
+                                    @Model.Movie.Review.Content
                                 </p>
                             </div>
                         }
                         <div class="buttons">
-                            <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@Model.Review.Id">
+                            <a asp-controller="Review" asp-action="SingleReview" asp-route-reviewId="@Model.Movie.Review.Id">
                                 <p>Open review</p>
                             </a>
                         </div>
@@ -240,26 +260,78 @@
                 </div>
             }
         </div>
+        @if (Model.RecommendedMovies.Count() >= 4)
+        {
+            <hr />
+            <div class="recommendations">
+                <h3>More like this</h3>
+                <div class="featured-cards">
+                    @foreach (var movie in Model.RecommendedMovies)
+                    {
+                        DateTime? releaseDate = movie.ReleaseDate != "" ? DateTime.Parse(movie.ReleaseDate) : null;
+                        <div class="card">
+                            <a asp-controller="Movie"
+                       asp-action="MovieTmdb"
+                       asp-route-id="@movie.TmdbId"
+                       asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(releaseDate))">
+                                @if (movie.PosterPath != null)
+                                {
+                                    <img src="@(movie.TmdbId != null ? WebConstants.PosterPathCard + movie.PosterPath : movie.PosterPath)" class="card-img-top" alt="@movie.Title poster">
+                                }
+                                else
+                                {
+                                    <img src="~/images/default-poster1.png" />
+                                }
+                            </a>
+                            <div class="card-body">
+                                <div class="rating @WebUtilities.GetRatingColor(movie.Rating)">
+                                    <p>
+                                        @(movie.Rating != null && float.Parse(movie.Rating) != 0 ? float.Parse(movie.Rating).ToString("0.0") : "NR")
+                                    </p>
+                                </div>
+                                <h5 class="card-title">
+                                    <a asp-controller="Movie"
+                               asp-action="MovieTmdb"
+                               asp-route-id="@movie.TmdbId"
+                               asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(movie.Title, WebUtilities.GetReleaseDateYear(releaseDate))">
+                                        @movie.Title
+                                    </a>
+                                </h5>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
     <div class="aside-details">
         <div class="aside-member">
             <h5>Budget</h5>
             <p>
                 @(
-                Model.Budget == 0 || Model.Budget == null ?
+                Model.Movie.Budget == 0 || Model.Movie.Budget == null ?
                 "-" :
-                $"${((long)@Model.Budget).ToString("#,##0.00")}")
+                $"${((long)@Model.Movie.Budget).ToString("#,##0.00")}")
             </p>
         </div>
         <div class="aside-member">
             <h5>Revenue</h5>
             <p>
                 @(
-                Model.Revenue == 0 || Model.Revenue == null ?
+                Model.Movie.Revenue == 0 || Model.Movie.Revenue == null ?
                 "-" :
-                $"${((long)@Model.Revenue).ToString("#,##0.00")}")
+                $"${((long)@Model.Movie.Revenue).ToString("#,##0.00")}")
             </p>
         </div>
+    </div>
+</div>
+<div class="rating-panel">
+    <div class="panel">
+        <p>Rate this movie on the TMDB website</p>
+        @{
+            var link = $"https://www.themoviedb.org/movie/{Model.Movie.TmdbId}";
+        }
+        <a href="@link">Rate</a>
     </div>
 </div>
 
@@ -269,4 +341,5 @@
 @section Scripts {
     <script src="~/js/reviews/spoilers.js"></script>
     <script src="~/js/reviews/reviewShortener.js"></script>
+    <script src="~/js/movie/movieRatingPanel.js"></script>
 }

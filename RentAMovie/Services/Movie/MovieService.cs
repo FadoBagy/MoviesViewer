@@ -189,7 +189,19 @@
             }
         }
 
-		public void ChangeVisibility(int id)
+        public bool IsRatedByUser(string userId, int movieId)
+        {
+            if (data.UsersMoviesRatings.Any(umr => umr.UserId == userId && umr.MovieId == movieId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void ChangeVisibility(int id)
         {
             var movie = data.Movies.FirstOrDefault(m => m.Id == id);
             if (movie != null)
@@ -206,7 +218,87 @@
             data.SaveChanges();
         }
 
-		public Genre GetGenreByName(string name)
+        public void RateMovie(string userId, int movieId, float rating)
+        {
+            var movie = GetMovieWithGenresCollection(movieId);
+            bool alreadyRated = false;
+            if (data.UsersMoviesRatings.Any(umr => umr.UserId == userId && umr.MovieId == movieId))
+            {
+                alreadyRated = true;
+            }
+
+            if (alreadyRated)
+            {
+                RemoveMovieRating(userId, movieId);
+            }
+
+            data.UsersMoviesRatings.Add(new UserMovieRating
+            {
+                UserId = userId,
+                MovieId = movieId,
+                Rating = rating
+            });
+            if (movie.VoteCount == null)
+            {
+                movie.VoteCount = 1;
+            }
+            else
+            {
+                movie.VoteCount++;
+            }
+            if (movie.VoteCount <= 1)
+            {
+                movie.Rating = rating;
+            }
+            else
+            {
+                movie.Rating = (movie.Rating * (movie.VoteCount - 1) + rating) / movie.VoteCount;
+            }
+
+            data.SaveChanges();
+        }
+
+        public void RemoveMovieRating(string userId, int movieId)
+        {
+            var movie = GetMovieWithGenresCollection(movieId);
+            bool alreadyRated = false;
+            if (data.UsersMoviesRatings.Any(umr => umr.UserId == userId && umr.MovieId == movieId))
+            {
+                alreadyRated = true;
+            }
+
+            if (alreadyRated)
+            {
+                data.UsersMoviesRatings.Remove(data.UsersMoviesRatings.FirstOrDefault(umr => umr.UserId == userId && umr.MovieId == movieId));
+                data.SaveChanges();
+                movie.VoteCount--;
+
+                float[] newRatings = data.UsersMoviesRatings
+                                        .Where(umr => umr.MovieId == movieId)
+                                        .Select(umr => umr.Rating)
+                                        .ToArray();
+                var asd = newRatings.Average();
+                movie.Rating = newRatings.Average();
+
+                data.SaveChanges();
+            }
+        }
+
+        public float GetCurrentUserMovieRating(string userId, int movieId)
+        {
+            if (IsRatedByUser(userId, movieId))
+            {
+                return data.UsersMoviesRatings
+                        .FirstOrDefault(umr => umr.UserId == userId && umr.MovieId == movieId)
+                        .Rating;
+            }
+            else
+            {
+                return 0.0f;
+            }
+        }
+
+        public Genre GetGenreByName(string name)
         {
             return data.Genres.FirstOrDefault(g => g.Name == name);
         }

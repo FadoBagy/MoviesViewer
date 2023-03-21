@@ -64,8 +64,10 @@
             var service = new MovieService(data);
             var reviewService = new ReviewService(data);
             var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
-            var result = movieController.Create(new FormMovieModule 
+			var result = movieController.Create(new FormMovieModule 
             {
                 Title = "test2",
                 Description = "test2",
@@ -90,6 +92,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Create(new FormMovieModule
             {
@@ -185,6 +189,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Edit(1, new FormMovieModule
             {
@@ -203,6 +209,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Edit(1, new FormMovieModule
             {
@@ -245,6 +253,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Edit(3, new FormMovieModule
             {
@@ -265,6 +275,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Delete(1);
 
@@ -278,6 +290,8 @@
 			var service = new MovieService(data);
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
+			var mockTempData = new Mock<ITempDataDictionary>();
+			movieController.TempData = mockTempData.Object;
 
 			var result = movieController.Delete(1);
 
@@ -379,7 +393,7 @@
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
 
-			var result = movieController.MovieUser(1, "");
+			var result = movieController.MovieUser(1, "test");
 
             Assert.IsType<ViewResult>(result);
         }
@@ -392,7 +406,7 @@
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
 
-			var result = movieController.MovieUser(1, "");
+			var result = movieController.MovieUser(1, "test");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<UserSingleMovieModel>(viewResult.Model);
@@ -419,7 +433,7 @@
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
 
-			var result = movieController.MovieTmdb(validMovieTmdbId, "");
+			var result = movieController.MovieTmdb(validMovieTmdbId, "the-dark-knight-2008");
 
             Assert.IsType<ViewResult>(result);
         }
@@ -432,7 +446,7 @@
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
 
-			var result = movieController.MovieTmdb(validMovieTmdbId, "");
+			var result = movieController.MovieTmdb(validMovieTmdbId, "the-dark-knight-2008");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<TmdbSingleMovieModel>(viewResult.Model);
@@ -446,7 +460,7 @@
 			var reviewService = new ReviewService(data);
 			var movieController = new MovieController(service, reviewService);
 
-			var result = movieController.MovieTmdb(120, "");
+			var result = movieController.MovieTmdb(120, "the-lord-of-the-rings-the-fellowship-of-the-ring-2001");
 
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<TmdbSingleMovieModel>(viewResult.Model);
@@ -464,9 +478,7 @@
 
             var result = movieController.MovieTmdb(invalidId, "");
 
-            var viewResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.True(viewResult.ActionName == "Error");
-            Assert.True(viewResult.ControllerName == "Home");
+            var viewResult = Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]
@@ -588,30 +600,34 @@
                         UserId = "1",
                         MovieId = 1
                     }
-                }
-            });
+                },
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 2,
                 Title = "test2",
                 Description = "test2",
-                UserId = "2"
-            });
+                UserId = "2",
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 3,
                 Title = "test3",
                 Description = "test3",
-                UserId = "1"
-            });
+                UserId = "1",
+				IsPublic = true
+			});
             data.Movies.Add(new Movie
             {
                 Id = 4,
                 TmdbId = 120,
                 Title = "test4",
                 Description = "test4",
-                UserId = "1"
-            });
+                UserId = "1",
+				IsPublic = true
+			});
             data.SaveChanges();
 
             return data;

@@ -1,4 +1,5 @@
 ﻿@model UserSingleMovieModel
+@inject SignInManager<User> SignInManager
 @{
     ViewData["Title"] = Model.Title + (Model.ReleaseDate != null ? $" ({Model.ReleaseDate.Value.Year})" : "");
 
@@ -63,23 +64,43 @@
                 </div>
             </div>
             <div class="user-score">
-                <p class="rating-small">User Score</p>
-                @if (Model.VoteCount != null && Model.VoteCount > 0)
-                {
-                    <div>
-                        <img src="~/images/star.png" />
-                        <b>@float.Parse(Model.Rating).ToString("0.0")</b>
-                        <span class="rating-small">/10</span>
-                    </div>
-                    <span class="rating-small">@Model.VoteCount.Value.ToString("#,##0") Ratings</span>
-                }
-                else
-                {
-                    <div>
-                        <img src="~/images/star.png" />
-                        <b>NR</b>
-                    </div>
-                }
+                <section>
+                    <p class="rating-small">User Score</p>
+                    @if (Model.VoteCount != null && Model.VoteCount > 0)
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>@float.Parse(Model.Rating).ToString("0.0")</b>
+                            <span class="rating-small">/10</span>
+                        </div>
+                        <span class="rating-small">@Model.VoteCount.Value.ToString("#,##0") Ratings</span>
+                    }
+                    else
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>NR</b>
+                        </div>
+                    }
+                </section>
+                <section>
+                    <p class="rating-small">Your Score</p>
+                    @if (Model.IsRatedByUser)
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>@Model.CurrentUserRating.ToString("0.0")</b>
+                            <span class="rating-small">/10</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <img src="~/images/star.png" />
+                            <b>NR</b>
+                        </div>
+                    }
+                </section>
             </div>
             <div class="overview-info">
                 @if (Model.Tagline != null)
@@ -217,16 +238,55 @@
                 @(
                     Model.Revenue == 0 || Model.Revenue == null ?
                     "-" :
-                    $"${((long)@Model.Revenue).ToString("#,##0.00")}")
+                    $"${((long)@Model.Revenue).ToString("#,##0.00")}"
+                )
             </p>
         </div>
+    </div>
+</div>
+<div class="rating-panel">
+    <div class="panel">
+        <p>Rate this movie</p>
+        <h3>@Model.Title</h3>
+        <h5>0/10</h5>
+        <form 
+        method="post"
+        asp-controller="Movie"
+        asp-action="AddUserRating"
+        asp-route-movieId="@Model.Id"
+        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+            <div class="stars">
+                @for (int i = 10; i >= 1; i--)
+                {
+                    <label>
+                        <input asp-for="UserRating" type="radio" value="@i" />
+                        <span class="fa-solid fa-star"></span>
+                    </label>
+                }
+            </div>
+            <button type="submit">Rate</button>
+            @if (Model.IsRatedByUser)
+            {
+                <button type="submit"
+                    asp-controller="Movie"
+                    asp-action="RemoveUserRating"
+                    asp-route-movieId="@Model.Id"
+                    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+                    Remove rating
+                </button>
+            }
+        </form>
     </div>
 </div>
 
 @section Styles {
     <link rel="stylesheet" href="~/css/moviesSingle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" 
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 }
 @section Scripts {
     <script src="~/js/reviews/spoilers.js"></script>
     <script src="~/js/reviews/reviewShortener.js"></script>
+    <script src="~/js/movie/movieRatingPanel.js"></script>
 }

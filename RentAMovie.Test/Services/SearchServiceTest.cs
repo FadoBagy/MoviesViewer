@@ -33,7 +33,8 @@
             data.Movies.Add(new Movie
             {
                 Title = "test",
-                Description = "test"
+                Description = "test",
+                IsPublic = true
             });
             data.SaveChanges();
             var searchService = new SearchService(data);
@@ -55,13 +56,15 @@
             data.Movies.Add(new Movie
             {
                 Title = "test",
-                Description = "test"
+                Description = "test",
+                IsPublic = true
             });
             data.Movies.Add(new Movie
             {
                 Title = "rest",
-                Description = "rest"
-            });
+                Description = "rest",
+				IsPublic = true
+			});
             data.SaveChanges();
             var searchService = new SearchService(data);
 

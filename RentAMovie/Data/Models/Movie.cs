@@ -79,6 +79,9 @@
         public ICollection<UserMovie> WatchlistedByUsers { get; set; }
             = new List<UserMovie>();
 
+        public ICollection<UserMovieRating> RatedByUsers { get; set; }
+            = new List<UserMovieRating>();
+
         //public ICollection<string> Images { get; set; } = new List<string>();
     }
 }
