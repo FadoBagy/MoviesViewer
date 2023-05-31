@@ -1,34 +1,75 @@
 ﻿@inject SignInManager<User> SignInManager
+@{
+    bool hasMovieProp = Model != null && Model.GetType().GetProperty("Movie") != null && Model.Movie != null;
+}
 
-@if (Model.Movie.IsWatchlistedByUser == false)
+@if (hasMovieProp)
 {
-    @if (SignInManager.IsSignedIn(User))
+    @if (Model.Movie.IsWatchlistedByUser == false)
     {
-        <form class="bookmark-form"
-        asp-controller="Movie"
-        asp-action="AddToWatchlist"
-        asp-route-movieId="@Model.Movie.Id"
-        asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
-            <input type="submit" />
-            <img class="bookmark" src="~/images/bookmark/bookmark.png" />
-        </form>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form class="bookmark-form"
+              asp-controller="Movie"
+              asp-action="AddToWatchlist"
+              asp-route-movieId="@Model.Movie.Id"
+              asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
+                <input type="submit" />
+                <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+            </form>
+        }
+        else
+        {
+            <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
+                <input type="submit" />
+                <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+            </form>
+        }
     }
     else
     {
-        <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
+        <form class="bookmark-form"
+          asp-controller="Movie"
+          asp-action="RemoveFromWatchlist"
+          asp-route-movieId="@Model.Movie.Id"
+          asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
             <input type="submit" />
-            <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+            <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
         </form>
     }
 }
 else
 {
-    <form class="bookmark-form"
-    asp-controller="Movie"
-    asp-action="RemoveFromWatchlist"
-    asp-route-movieId="@Model.Movie.Id"
-    asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Movie.Title, WebUtilities.GetReleaseDateYear(Model.Movie.ReleaseDate))">
-        <input type="submit" />
-        <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
-    </form>
+    @if (Model.IsWatchlistedByUser == false)
+    {
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form class="bookmark-form"
+              asp-controller="Movie"
+              asp-action="AddToWatchlist"
+              asp-route-movieId="@Model.Id"
+              asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+                <input type="submit" />
+                <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+            </form>
+        }
+        else
+        {
+            <form class="bookmark-form" asp-area="Identity" asp-page="/Account/Login">
+                <input type="submit" />
+                <img class="bookmark" src="~/images/bookmark/bookmark.png" />
+            </form>
+        }
+    }
+    else
+    {
+        <form class="bookmark-form"
+          asp-controller="Movie"
+          asp-action="RemoveFromWatchlist"
+          asp-route-movieId="@Model.Id"
+          asp-route-movieInfo="@WebUtilities.SimplifyMovieUrlInformation(Model.Title, WebUtilities.GetReleaseDateYear(Model.ReleaseDate))">
+            <input type="submit" />
+            <img class="bookmark" src="~/images/bookmark/bookmark-added.png" />
+        </form>
+    }
 }
